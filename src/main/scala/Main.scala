@@ -1,8 +1,8 @@
-import StringMultiplication.{Addition, Multiplication}
+import StringOperations.{Add, Addition, Multiplication, OperationFactory}
 
 /**
   * Created by Robert-PC on 9/21/2017.
   */
 object Main extends App{
-  println(Addition("4", "59"))
+  println(OperationFactory("54", "43", Add))
 }
