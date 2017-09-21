@@ -4,5 +4,5 @@ import StringMultiplication.{Addition, Multiplication}
   * Created by Robert-PC on 9/21/2017.
   */
 object Main extends App{
-  println(Addition("49", "51"))
+  println(Addition("4999", "51"))
 }
