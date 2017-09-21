@@ -7,13 +7,15 @@ case class Total(sum: String = "", carry: Int = 0)
 
 object Addition {
   def apply(x: String, y: String): String = {
-    val resultWithoutCarry = equalizeLength(x, y).zip(equalizeLength(y, x))
-      .foldRight(Total())((curr, acc) =>
-        Total(
-          updateSum(curr, acc),
-          updateCarry(curr, acc)
+    val resultWithoutCarry =
+      equalizeLength(x, y)
+        .zip(equalizeLength(y, x))
+        .foldRight(Total())((curr, acc) =>
+          Total(
+            updateSum(curr, acc),
+            updateCarry(curr, acc)
+          )
         )
-      )
 
     if (resultWithoutCarry.carry > 0)
       resultWithoutCarry.carry.toString ++ resultWithoutCarry.sum
