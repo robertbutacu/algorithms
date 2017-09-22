@@ -9,12 +9,27 @@ object Multiplication {
     x.map(digit =>
       multiplyByDigit(y, digit)
     )
-      .foldRight("0")((curr, acc ) =>
+      .foldRight("0")((curr, acc) =>
         Addition(curr, acc)
       )
   }
 
   private def multiplyByDigit(x: String, y: Char): String = {
-    "0"
+    val productWithoutCarry =
+      x.foldRight(Total())((curr, acc) =>
+        Total(
+          updateDigit(curr, y, acc.carry) ++ acc.total,
+          updateCarry(curr, y, acc.carry)
+        )
+      )
+
+    if(productWithoutCarry.carry > 0)
+      productWithoutCarry.carry.toString ++ productWithoutCarry.total
+    else
+      productWithoutCarry.total
   }
+
+  private def updateDigit(x: Char, y: Char, previousCarry: Int): String = ((x.asDigit * y.asDigit + previousCarry) % 10).toString
+
+  private def updateCarry(x: Char, y: Char, previousCarry: Int): Int = ((x.asDigit * y.asDigit) + previousCarry) / 10
 }
