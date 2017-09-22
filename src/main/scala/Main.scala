@@ -1,8 +1,8 @@
-import StringOperations.{Add, Addition, Multiplication, OperationFactory}
+import StringOperations._
 
 /**
   * Created by Robert-PC on 9/21/2017.
   */
 object Main extends App{
-  println(Multiplication("10000","10000000"))
+  println(Subtraction("1234","23"))
 }
