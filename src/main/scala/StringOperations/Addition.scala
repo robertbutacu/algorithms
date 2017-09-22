@@ -5,7 +5,6 @@ package StringOperations
   */
 object Addition {
   def apply(x: String, y: String): String = {
-    println(x)
     val resultWithoutCarry: Total =
       equalizeLength(x, y)
         .zip(equalizeLength(y, x))
