@@ -3,11 +3,9 @@ package StringOperations
 /**
   * Created by Robert-PC on 9/21/2017.
   */
-case class Total(sum: String = "", carry: Int = 0)
-
 object Addition {
   def apply(x: String, y: String): String = {
-    val resultWithoutCarry =
+    val resultWithoutCarry: Total =
       equalizeLength(x, y)
         .zip(equalizeLength(y, x))
         .foldRight(Total())((curr, acc) =>
@@ -18,13 +16,13 @@ object Addition {
         )
 
     if (resultWithoutCarry.carry > 0)
-      resultWithoutCarry.carry.toString ++ resultWithoutCarry.sum
+      resultWithoutCarry.carry.toString ++ resultWithoutCarry.total
     else
-      resultWithoutCarry.sum
+      resultWithoutCarry.total
   }
 
   // % 10 so it doesn't overflow - only need 1 digit
-  private def updateSum(curr: (Char, Char), acc: Total): String = ((getCurrent(curr) + acc.carry) % 10).toString ++ acc.sum
+  private def updateSum(curr: (Char, Char), acc: Total): String = ((getCurrent(curr) + acc.carry) % 10).toString ++ acc.total
 
   // division by 10 so it only keep the carry
   private def updateCarry(curr: (Char, Char), acc: Total): Int = (getCarry(curr) + acc.carry) / 10 + getCarry(curr)
