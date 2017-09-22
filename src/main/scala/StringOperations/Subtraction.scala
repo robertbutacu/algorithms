@@ -20,7 +20,7 @@ object Subtraction {
   }
 
   private def carry(x: Char, y: Char, carry: Int): Int = {
-    println( s"""Carry $x and $y with carry $carry Result """ + Math.max((x.asDigit - y.asDigit + 10 + carry) / 10, 0))
-    Math.max((x.asDigit - y.asDigit + carry + 10) / 9, 0)
+    println( s"""Carry $x and $y with carry $carry Result """ + Math.max((x.asDigit - y.asDigit - carry) / 10, 0))
+    Math.max((x.asDigit - y.asDigit - carry) / 10, 1)
   }
 }
