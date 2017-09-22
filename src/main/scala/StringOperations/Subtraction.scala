@@ -21,8 +21,15 @@ package StringOperations
       Result : 11.
  */
 object Subtraction {
-  def apply(x: String, y: String): String = {
-    Utils.equalizeLength(x, y).zip(Utils.equalizeLength(y, x))
+  def apply(x: String, y: String): Either[String, InputException] = {
+    if(isValid(x, y))
+      Left(compute(Utils.equalizeLength(x, y), Utils.equalizeLength(y, x)))
+    else
+      Right(InvalidInputException)
+  }
+
+  private def compute(x: String, y: String): String = {
+    x.zip(y)
       .foldRight(Total())((curr, acc) =>
         Total(
           subtract(curr._1, curr._2, acc.carry) ++ acc.total,
@@ -40,5 +47,19 @@ object Subtraction {
       (x.asDigit - y.asDigit - carry) / 10
     else
       1
+  }
+
+  private def isValid(x: String, y: String): Boolean = {
+    (x.length >= y.length
+      && Utils.equalizeLength(x, y)
+      .zip {
+        Utils.equalizeLength(y, x)
+      }.
+      foldLeft(true)((acc, cur) =>
+        if (cur._1 < cur._2 && acc)
+          false
+        else
+          acc
+      ))
   }
 }
