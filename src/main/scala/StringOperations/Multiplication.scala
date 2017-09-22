@@ -10,7 +10,7 @@ object Multiplication {
       multiplyByDigit(y, digit)
     )
       .foldRight("0")((curr, acc) =>
-        Addition(curr, acc)
+        Addition(if (acc == "0") curr else curr ++ "0", acc)
       )
   }
 
@@ -22,8 +22,7 @@ object Multiplication {
           updateCarry(curr, y, acc.carry)
         )
       )
-
-    if(productWithoutCarry.carry > 0)
+    if (productWithoutCarry.carry > 0)
       productWithoutCarry.carry.toString ++ productWithoutCarry.total
     else
       productWithoutCarry.total
