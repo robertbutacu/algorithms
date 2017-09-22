@@ -12,8 +12,8 @@ package StringOperations
       20 - 9 => we zip it and get (2, 0), (0, 9).
       Proceeding to subtract the 2 members of each tuple, from right to left.
 
-      0 becomes 10 => 10 - 9 => 1 -> thats the last unit of the subtraction, we keep it.
-      0 - 9 = -9, which is negative -> we know we needed to borrow, so we keep that in mind for the next subtraction.
+      Subtraction result: 0 becomes 10 => 10 - 9 => 1 -> thats the last unit of the subtraction, we keep it.
+      Carry result : 0 - 9 = -9, which is negative -> we know we needed to borrow, so we keep that in mind for the next subtraction.
 
       2 we check for carry, we did indeed had a carry => 2 - 1 => 1
       1 - 0 = 1
