@@ -6,18 +6,27 @@ package StringOperations
 case class ProductTotal(product: String = "0", traillingZeroes: Int = 0)
 
 object Multiplication {
-  def apply(x: String, y: String): String = {
+  def apply(x: String, y: String): Option[String] = {
+    if (isValid(x, y))
+      Some(compute(x, y))
+    else
+      None
+  }
+
+  private def compute(x: String, y: String): String = {
     x.map(digit =>
       multiplyByDigit(y, digit)
     )
       .foldRight(ProductTotal())((curr, acc) =>
         ProductTotal(
-          Addition(curr ++ ("0" * acc.traillingZeroes), acc.product),
+          Addition(curr ++ ("0" * acc.traillingZeroes), acc.product).getOrElse("0"),
           acc.traillingZeroes + 1
         )
       )
       .product
   }
+
+  private def isValid(x: String, y: String): Boolean = x.forall(_.isDigit) && y.forall(_.isDigit)
 
   private def multiplyByDigit(x: String, y: Char): String = {
     val productWithoutCarry =

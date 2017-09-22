@@ -4,10 +4,16 @@ package StringOperations
   * Created by Robert-PC on 9/21/2017.
   */
 object Addition {
-  def apply(x: String, y: String): String = {
+  def apply(x: String, y: String): Option[String] = {
+    if (isValid(x, y))
+      Some(compute(Utils.equalizeLength(x, y), Utils.equalizeLength(y, x)))
+    else
+      None
+  }
+
+  private def compute(x: String, y: String): String = {
     val resultWithoutCarry: Total =
-      Utils.equalizeLength(x, y)
-        .zip(Utils.equalizeLength(y, x))
+      x.zip(y)
         .foldRight(Total())((curr, acc) =>
           Total(
             updateSum(curr, acc),
@@ -36,4 +42,6 @@ object Addition {
   private def getCarry(x: (Char, Char)): Int = {
     (x._1.asDigit + x._2.asDigit) / 10
   }
+
+  private def isValid(x: String, y: String): Boolean = x.forall(_.isDigit) && y.forall(_.isDigit)
 }

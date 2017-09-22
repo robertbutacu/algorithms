@@ -21,11 +21,11 @@ package StringOperations
       Result : 11.
  */
 object Subtraction {
-  def apply(x: String, y: String): Either[String, InputException] = {
-    if(isValid(x, y))
-      Left(compute(Utils.equalizeLength(x, y), Utils.equalizeLength(y, x)))
+  def apply(x: String, y: String): Option[String] = {
+    if (isValid(x, y))
+      Some(compute(Utils.equalizeLength(x, y), Utils.equalizeLength(y, x)))
     else
-      Right(InvalidInputException)
+      None
   }
 
   private def compute(x: String, y: String): String = {

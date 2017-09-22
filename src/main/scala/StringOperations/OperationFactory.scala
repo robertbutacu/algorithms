@@ -4,12 +4,12 @@ package StringOperations
   * Created by Robert-PC on 9/21/2017.
   */
 object OperationFactory {
-  def apply(x: String, y: String, operation: Operation): Either[String, InputException] = {
+  def apply(x: String, y: String, operation: Operation): Option[String] = {
     operation match {
-      case Add      => Left(Addition(x, y))
-      case Multiply => Left(Multiplication(x, y))
+      case Add      => Addition(x, y)
+      case Multiply => Multiplication(x, y)
       case Subtract => Subtraction(x, y)
-      case _        => Left("Unknown")
+      case _        => None
     }
   }
 }
