@@ -6,8 +6,8 @@ package StringOperations
 object Addition {
   def apply(x: String, y: String): String = {
     val resultWithoutCarry: Total =
-      equalizeLength(x, y)
-        .zip(equalizeLength(y, x))
+      Utils.equalizeLength(x, y)
+        .zip(Utils.equalizeLength(y, x))
         .foldRight(Total())((curr, acc) =>
           Total(
             updateSum(curr, acc),
@@ -35,12 +35,5 @@ object Addition {
   //carry only
   private def getCarry(x: (Char, Char)): Int = {
     (x._1.asDigit + x._2.asDigit) / 10
-  }
-
-  private def equalizeLength(first: String, second: String): String = {
-    if (first.length >= second.length)
-      first
-    else
-      "0" * (second.length - first.length) ++ first
   }
 }
