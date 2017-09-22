@@ -6,8 +6,10 @@ package StringOperations
 object OperationFactory {
   def apply(x: String, y: String, operation: Operation): String = {
     operation match {
-      case Add => Addition(x, y)
-      case _   => "Unknown operation!"
+      case Add      => Addition(x, y)
+      case Multiply => Multiplication(x, y)
+      case Subtract => Subtraction(x, y)
+      case _        => "Unknown"
     }
   }
 }
