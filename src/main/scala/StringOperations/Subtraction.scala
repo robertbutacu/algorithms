@@ -15,12 +15,13 @@ object Subtraction {
   }
 
   private def subtract(x: Char, y: Char, carry: Int): String = {
-    println( s"""Sub $x and $y with carry $carry Result """ + ((x.asDigit - y.asDigit - carry + 10) % 10).toString)
     ((x.asDigit - y.asDigit - carry + 10) % 10).toString
   }
 
   private def carry(x: Char, y: Char, carry: Int): Int = {
-    println( s"""Carry $x and $y with carry $carry Result """ + Math.max((x.asDigit - y.asDigit - carry) / 10, 0))
-    Math.max((x.asDigit - y.asDigit - carry) / 10, 1)
+    if (x.asDigit - y.asDigit - carry >= 0)
+      (x.asDigit - y.asDigit - carry) / 10
+    else
+      1
   }
 }
