@@ -3,15 +3,20 @@ package StringOperations
 /**
   * Created by Robert-PC on 9/21/2017.
   */
+case class ProductTotal(product: String = "0", traillingZeroes: Int = 0)
 
 object Multiplication {
   def apply(x: String, y: String): String = {
     x.map(digit =>
       multiplyByDigit(y, digit)
     )
-      .foldRight("0")((curr, acc) =>
-        Addition(if (acc == "0") curr else curr ++ "0", acc)
+      .foldRight(ProductTotal())((curr, acc) =>
+        ProductTotal(
+          Addition(curr ++ ("0" * acc.traillingZeroes), acc.product),
+          acc.traillingZeroes + 1
+        )
       )
+      .product
   }
 
   private def multiplyByDigit(x: String, y: Char): String = {
