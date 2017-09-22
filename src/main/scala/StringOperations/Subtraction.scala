@@ -22,7 +22,7 @@ package StringOperations
  */
 object Subtraction {
   def apply(x: String, y: String): Either[String, InputException] = {
-    if(x.length >= y.length)
+    if(isValid(x, y))
       Left(compute(Utils.equalizeLength(x, y), Utils.equalizeLength(y, x)))
     else
       Right(InvalidInputException)
@@ -47,5 +47,9 @@ object Subtraction {
       (x.asDigit - y.asDigit - carry) / 10
     else
       1
+  }
+
+  private def isValid(x: String, y: String): Boolean = {
+    x.length >= y.length && x.forall(_.isDigit) && y.forall(_.isDigit)
   }
 }
