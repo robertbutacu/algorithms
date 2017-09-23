@@ -5,7 +5,7 @@ package StringOperations
   */
 trait OperationFactory {
   def compute(x: String, y: String, operation: Operation): Option[String] = {
-     def executeComputation(x: String, y: String, operation: Operation): Option[String] = {
+    def executeComputation(x: String, y: String, operation: Operation): Option[String] = {
       operation match {
         case Add      => Addition(x, y)
         case Multiply => Multiplication(x, y)
@@ -15,15 +15,24 @@ trait OperationFactory {
       }
     }
 
-    if(isDigitsOnly(x, y) && isSignumCorrect(x) && isSignumCorrect(y))
-      executeComputation(x, y, operation)
+    if (isDigitsOnly(x, y) && isSignumCorrect(x) && isSignumCorrect(y))
+      getSignum(x, y) match {
+        case NoNegativeOperands      => executeComputation(x, y, operation)
+        case LeftOperandIsNegative   => executeComputation(x, y, operation)
+        case RightOperandIsNegative  => executeComputation(x, y, operation)
+        case BothOperandsAreNegative => executeComputation(x, y, operation)
+      }
+
     else
       None
   }
 
   private def getSignum(x: String, y: String): Signum = {
     (x.charAt(0), y.charAt(0)) match {
-      case _ => BothOperandsAreNegative
+      case ('-', '-') => BothOperandsAreNegative
+      case ('-', _) => LeftOperandIsNegative
+      case (_, '-') => RightOperandIsNegative
+      case _ => NoNegativeOperands
     }
   }
 
@@ -32,6 +41,6 @@ trait OperationFactory {
   }
 
   private def isSignumCorrect(x: String): Boolean = {
-    x.forall(_.isDigit) || (x.startsWith("-") && ( x.count(_.equals('-')) == 1))
+    x.forall(_.isDigit) || (x.startsWith("-") && (x.count(_.equals('-')) == 1))
   }
 }
