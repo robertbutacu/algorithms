@@ -23,7 +23,7 @@ package StringOperations
 object Subtraction {
   def apply(x: String, y: String): Option[String] = {
     if (isValid(x, y))
-      Some(compute(Utils.equalizeLength(x, y), Utils.equalizeLength(y, x)))
+      Some(compute(Utils.equalizeLength(x, y), Utils.equalizeLength(y, x)).dropWhile( _ == '0'))
     else
       None
   }

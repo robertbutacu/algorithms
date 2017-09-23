@@ -5,7 +5,7 @@ import scala.annotation.tailrec
 /**
   * Created by Robert-PC on 9/22/2017.
   */
-object Exponentiation {
+object Exponentiation extends OperationFactory{
   def apply(x: String, y: String): Option[String] = {
     if(isValid(x, y))
       compute(x, Some(y), Some("1"))
@@ -16,14 +16,15 @@ object Exponentiation {
   private def compute(x: String, y: Option[String], product: Option[String]): Option[String] = {
     @tailrec
     def computeForCurrent(x: String, y: Option[String], product: Option[String]): Option[String] = {
+      println(product)
       y match {
         case None => None
         case Some("0") => Some("1")
-        case Some("1") => OperationFactory(x, product.get, Multiply)
+        case Some("1") => compute(x, product.get, Multiply)
         case _ => computeForCurrent(
           x,
-          OperationFactory(y.get, "1", Subtract),
-          OperationFactory(x, product.get, Multiply)
+          compute(y.get, "1", Subtract),
+          compute(x, product.get, Multiply)
         )
       }
     }
