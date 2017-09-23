@@ -16,20 +16,20 @@ trait OperationFactory {
     }
 
     if (isValid(x, y, operation))
-      getSignum(x, y) match {
+      getSignums(x, y) match {
         case NoNegativeOperands      =>
           Some(executeComputation(x, y, operation))
 
         case LeftOperandIsNegative   =>
-          if (operation == Subtract) Some("-" ++ executeComputation(x.drop(1), y, Add))
+          if (operation == Subtract) Some(executeComputation(x.drop(1), y, Add))
           else Some("-" ++ executeComputation(x.drop(1), y, operation))
 
         case RightOperandIsNegative  =>
-          if (operation == Subtract) Some("-" ++ executeComputation(x, y, Add))
+          if (operation == Subtract) Some(executeComputation(x, y, Add))
           else Some("-" ++ executeComputation(x, y.drop(1), operation))
 
         case BothOperandsAreNegative =>
-          if (operation == Subtract) Some("-" ++ executeComputation(y.drop(1), x.drop(1), Subtract))
+          if (operation == Subtract) Some(executeComputation(y.drop(1), x.drop(1), Subtract))
           else Some(executeComputation(x.drop(1), y.drop(1), operation))
       }
 
@@ -37,7 +37,7 @@ trait OperationFactory {
       None
   }
 
-  private def getSignum(x: String, y: String): Signum = {
+  private def getSignums(x: String, y: String): Signum = {
     (x.charAt(0), y.charAt(0)) match {
       case ('-', '-') => BothOperandsAreNegative
       case ('-', _)   => LeftOperandIsNegative
