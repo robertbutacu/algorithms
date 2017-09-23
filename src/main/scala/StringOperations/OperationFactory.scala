@@ -30,7 +30,7 @@ trait OperationFactory {
 
         case BothOperandsAreNegative =>
           if (operation == Subtract) Some("-" ++ executeComputation(y.drop(1), x.drop(1), Subtract))
-          else Some("-" ++ executeComputation(x.drop(1), y.drop(1), operation))
+          else Some(executeComputation(x.drop(1), y.drop(1), operation))
       }
 
     else
