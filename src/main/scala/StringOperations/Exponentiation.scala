@@ -16,7 +16,6 @@ object Exponentiation extends OperationFactory{
   private def compute(x: String, y: Option[String], product: Option[String]): Option[String] = {
     @tailrec
     def computeForCurrent(x: String, y: Option[String], product: Option[String]): Option[String] = {
-      println(product)
       y match {
         case None => None
         case Some("0") => Some("1")
