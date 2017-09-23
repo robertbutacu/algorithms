@@ -21,7 +21,7 @@ trait OperationFactory {
           Some(executeComputation(x, y, operation))
 
         case LeftOperandIsNegative   =>
-          if (operation == Subtract) Some(executeComputation(x.drop(1), y, Add))
+          if (operation == Subtract) Some("-" ++ executeComputation(x.drop(1), y, Add))
           else Some("-" ++ executeComputation(x.drop(1), y, operation))
 
         case RightOperandIsNegative  =>
