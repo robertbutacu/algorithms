@@ -7,16 +7,12 @@ import scala.annotation.tailrec
   */
 object Exponentiation extends OperationFactory{
   private[StringOperations] def apply(x: String, y: String): String = {
-      computeExponentiation(x, y, "1")
-  }
-
-  private def computeExponentiation(x: String, y: String, product: String): String = {
     @tailrec
-    def computeForCurrent(x: String, y: String, product: String): String = {
+    def computeExponentiation(x: String, y: String, product: String): String = {
       y match {
         case "0" => "1"
         case "1" => Multiplication(x, product)
-        case _ => computeForCurrent(
+        case _ => computeExponentiation(
           x,
           Subtraction(y, "1"),
           Multiplication(x, product)
@@ -24,8 +20,6 @@ object Exponentiation extends OperationFactory{
       }
     }
 
-    computeForCurrent(x, y, product)
+    computeExponentiation(x, y, "1")
   }
-
-  private def isValid(x: String, y: String): Boolean = x.forall(_.isDigit) && y.forall(_.isDigit)
 }

@@ -37,7 +37,9 @@ object Multiplication {
       productWithoutCarry.total
   }
 
-  private def updateDigit(x: Char, y: Char, previousCarry: Int): String = ((x.asDigit * y.asDigit + previousCarry) % 10).toString
+  private def updateDigit(x: Char, y: Char, previousCarry: Int): String =
+    ((x.asDigit * y.asDigit + previousCarry) % 10).toString
 
-  private def updateCarry(x: Char, y: Char, previousCarry: Int): Int = ((x.asDigit * y.asDigit) + previousCarry) / 10
+  private def updateCarry(x: Char, y: Char, previousCarry: Int): Int =
+    ((x.asDigit * y.asDigit) + previousCarry) / 10
 }

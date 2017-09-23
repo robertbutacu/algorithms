@@ -22,17 +22,17 @@ package StringOperations
  */
 object Subtraction {
   private[StringOperations] def apply(x: String, y: String): String = {
-    compute(Utils.equalizeLength(x, y), Utils.equalizeLength(y, x)).dropWhile(_ == '0')
-  }
+    def compute(x: String, y: String): String = {
+      x.zip(y)
+        .foldRight(Total())((curr, acc) =>
+          Total(
+            subtract(curr._1, curr._2, acc.carry) ++ acc.total,
+            carry(curr._1, curr._2, acc.carry)
+          )
+        ).total
+    }
 
-  private def compute(x: String, y: String): String = {
-    x.zip(y)
-      .foldRight(Total())((curr, acc) =>
-        Total(
-          subtract(curr._1, curr._2, acc.carry) ++ acc.total,
-          carry(curr._1, curr._2, acc.carry)
-        )
-      ).total
+    compute(Utils.equalizeLength(x, y), Utils.equalizeLength(y, x)).dropWhile(_ == '0')
   }
 
   private def subtract(x: Char, y: Char, carry: Int): String = {
@@ -44,9 +44,5 @@ object Subtraction {
       (x.asDigit - y.asDigit - carry) / 10
     else
       1
-  }
-
-  private def isValid(x: String, y: String): Boolean = {
-    x.length >= y.length && x.forall(_.isDigit) && y.forall(_.isDigit)
   }
 }
