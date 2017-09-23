@@ -9,3 +9,4 @@ case object Add      extends Operation
 case object Subtract extends Operation
 case object Multiply extends Operation
 case object Divide   extends Operation
+case object Pow      extends Operation

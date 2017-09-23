@@ -9,6 +9,7 @@ object OperationFactory {
       case Add      => Addition(x, y)
       case Multiply => Multiplication(x, y)
       case Subtract => Subtraction(x, y)
+      case Pow      => Exponentiation(x, y)
       case _        => None
     }
   }
