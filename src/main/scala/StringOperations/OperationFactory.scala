@@ -15,10 +15,23 @@ trait OperationFactory {
       }
     }
 
-    executeComputation(x, y, operation)
+    if(isDigitsOnly(x, y) && isSignumCorrect(x) && isSignumCorrect(y))
+      executeComputation(x, y, operation)
+    else
+      None
   }
 
-  private def isValid(x: String, y: String): Boolean = {
+  private def getSignum(x: String, y: String): Signum = {
+    (x.charAt(0), y.charAt(0)) match {
+      case _ => BothOperandsAreNegative
+    }
+  }
+
+  private def isDigitsOnly(x: String, y: String): Boolean = {
     x.forall(_.isDigit) && y.forall(_.isDigit)
+  }
+
+  private def isSignumCorrect(x: String): Boolean = {
+    x.forall(_.isDigit) || (x.startsWith("-") && ( x.count(_.equals('-')) == 1))
   }
 }
