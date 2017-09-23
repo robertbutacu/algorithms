@@ -5,28 +5,32 @@ package StringOperations
   */
 trait OperationFactory {
   def compute(x: String, y: String, operation: Operation): Option[String] = {
-    def executeComputation(x: String, y: String, operation: Operation): Option[String] = {
+    def executeComputation(x: String, y: String, operation: Operation): String = {
       operation match {
-        case Add => Some(Addition(x, y))
-        case Multiply => Some(Multiplication(x, y))
-        case Subtract => Some(Subtraction(x, y))
-        case Pow => Some(Exponentiation(x, y))
-        case _ => None
+        case Add => Addition(x, y)
+        case Multiply => Multiplication(x, y)
+        case Subtract => Subtraction(x, y)
+        case Pow => Exponentiation(x, y)
+        case _ => "Unknown"
       }
     }
 
-    if (
-      isDigitsOnly(x.filter(_.equals('-')), y.filter(_.equals('-'))) &&
-        isSignumCorrect(x) &&
-        isSignumCorrect(y)
-    )
+    if (isValid(x, y, operation))
       getSignum(x, y) match {
-        case NoNegativeOperands => executeComputation(x, y, operation)
-        case LeftOperandIsNegative =>
-          if (operation == Subtract) Some("-" :: executeComputation(x, y, Add))
-          else executeComputation(x, y, operation)
-        case RightOperandIsNegative => executeComputation(x, y, operation)
-        case BothOperandsAreNegative => executeComputation(x, y, operation)
+        case NoNegativeOperands      =>
+          Some(executeComputation(x, y, operation))
+
+        case LeftOperandIsNegative   =>
+          if (operation == Subtract) Some("-" ++ executeComputation(x.drop(1), y, Add))
+          else Some("-" ++ executeComputation(x.drop(1), y, operation))
+
+        case RightOperandIsNegative  =>
+          if (operation == Subtract) Some("-" ++ executeComputation(x, y, Add))
+          else Some("-" ++ executeComputation(x, y.drop(1), operation))
+
+        case BothOperandsAreNegative =>
+          if (operation == Subtract) Some("-" ++ executeComputation(y.drop(1), x.drop(1), Subtract))
+          else Some("-" ++ executeComputation(x.drop(1), y.drop(1), operation))
       }
 
     else
@@ -36,9 +40,9 @@ trait OperationFactory {
   private def getSignum(x: String, y: String): Signum = {
     (x.charAt(0), y.charAt(0)) match {
       case ('-', '-') => BothOperandsAreNegative
-      case ('-', _) => LeftOperandIsNegative
-      case (_, '-') => RightOperandIsNegative
-      case _ => NoNegativeOperands
+      case ('-', _)   => LeftOperandIsNegative
+      case (_, '-')   => RightOperandIsNegative
+      case _          => NoNegativeOperands
     }
   }
 
@@ -46,7 +50,13 @@ trait OperationFactory {
     x.forall(_.isDigit) && y.forall(_.isDigit)
   }
 
-  private def isSignumCorrect(x: String): Boolean = {
-    x.forall(_.isDigit) || (x.startsWith("-") && (x.count(_.equals('-')) == 1))
+  private def isSignumCorrect(x: String, operation: Operation): Boolean = {
+    x.forall(_.isDigit) || (x.startsWith("-") && (x.count(_.equals('-')) == 1) && operation != Pow)
+  }
+
+  private def isValid(x: String, y: String, op: Operation) = {
+    isDigitsOnly(x.filter(!_.equals('-')), y.filter(!_.equals('-'))) &&
+      isSignumCorrect(x, op) &&
+      isSignumCorrect(y, op)
   }
 }
