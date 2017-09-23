@@ -4,11 +4,8 @@ package StringOperations
   * Created by Robert-PC on 9/21/2017.
   */
 object Addition {
-  def apply(x: String, y: String): Option[String] = {
-    if (isValid(x, y))
-      Some(compute(Utils.equalizeLength(x, y), Utils.equalizeLength(y, x)))
-    else
-      None
+  def apply(x: String, y: String): String = {
+    compute(Utils.equalizeLength(x, y), Utils.equalizeLength(y, x))
   }
 
   private def compute(x: String, y: String): String = {
@@ -42,6 +39,4 @@ object Addition {
   private def getCarry(x: (Char, Char)): Int = {
     (x._1.asDigit + x._2.asDigit) / 10
   }
-
-  private def isValid(x: String, y: String): Boolean = x.forall(_.isDigit) && y.forall(_.isDigit)
 }

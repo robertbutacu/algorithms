@@ -7,19 +7,25 @@ trait OperationFactory {
   def compute(x: String, y: String, operation: Operation): Option[String] = {
     def executeComputation(x: String, y: String, operation: Operation): Option[String] = {
       operation match {
-        case Add      => Addition(x, y)
-        case Multiply => Multiplication(x, y)
-        case Subtract => Subtraction(x, y)
-        case Pow      => Exponentiation(x, y)
-        case _        => None
+        case Add => Some(Addition(x, y))
+        case Multiply => Some(Multiplication(x, y))
+        case Subtract => Some(Subtraction(x, y))
+        case Pow => Some(Exponentiation(x, y))
+        case _ => None
       }
     }
 
-    if (isDigitsOnly(x, y) && isSignumCorrect(x) && isSignumCorrect(y))
+    if (
+      isDigitsOnly(x.filter(_.equals('-')), y.filter(_.equals('-'))) &&
+        isSignumCorrect(x) &&
+        isSignumCorrect(y)
+    )
       getSignum(x, y) match {
-        case NoNegativeOperands      => executeComputation(x, y, operation)
-        case LeftOperandIsNegative   => executeComputation(x, y, operation)
-        case RightOperandIsNegative  => executeComputation(x, y, operation)
+        case NoNegativeOperands => executeComputation(x, y, operation)
+        case LeftOperandIsNegative =>
+          if (operation == Subtract) Some("-" :: executeComputation(x, y, Add))
+          else executeComputation(x, y, operation)
+        case RightOperandIsNegative => executeComputation(x, y, operation)
         case BothOperandsAreNegative => executeComputation(x, y, operation)
       }
 

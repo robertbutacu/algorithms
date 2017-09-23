@@ -6,11 +6,8 @@ package StringOperations
 case class ProductTotal(product: String = "0", traillingZeroes: Int = 0)
 
 object Multiplication {
-  def apply(x: String, y: String): Option[String] = {
-    if (isValid(x, y))
-      Some(compute(x, y))
-    else
-      None
+  def apply(x: String, y: String): String = {
+    compute(x, y)
   }
 
   private def compute(x: String, y: String): String = {
@@ -19,7 +16,7 @@ object Multiplication {
     )
       .foldRight(ProductTotal())((curr, acc) =>
         ProductTotal(
-          Addition(curr ++ ("0" * acc.traillingZeroes), acc.product).getOrElse("0"),
+          Addition(curr ++ ("0" * acc.traillingZeroes), acc.product),
           acc.traillingZeroes + 1
         )
       )

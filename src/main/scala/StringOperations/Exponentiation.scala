@@ -6,24 +6,20 @@ import scala.annotation.tailrec
   * Created by Robert-PC on 9/22/2017.
   */
 object Exponentiation extends OperationFactory{
-  def apply(x: String, y: String): Option[String] = {
-    if(isValid(x, y))
-      compute(x, Some(y), Some("1"))
-    else
-      None
+  def apply(x: String, y: String): String = {
+      computeExponentiation(x, y, "1")
   }
 
-  private def compute(x: String, y: Option[String], product: Option[String]): Option[String] = {
+  private def computeExponentiation(x: String, y: String, product: String): String = {
     @tailrec
-    def computeForCurrent(x: String, y: Option[String], product: Option[String]): Option[String] = {
+    def computeForCurrent(x: String, y: String, product: String): String = {
       y match {
-        case None => None
-        case Some("0") => Some("1")
-        case Some("1") => compute(x, product.get, Multiply)
+        case "0" => "1"
+        case "1" => Multiplication(x, product)
         case _ => computeForCurrent(
           x,
-          compute(y.get, "1", Subtract),
-          compute(x, product.get, Multiply)
+          Subtraction(y, "1"),
+          Multiplication(x, product)
         )
       }
     }
