@@ -13,7 +13,7 @@ case object Pow      extends Operation
 
 trait Signum
 
-case object LeftOperandIsNegative   extends Signum
-case object RightOperandIsNegative  extends Signum
-case object BothOperandsAreNegative extends Signum
+case object NegativeLeftOperand     extends Signum
+case object NegativeRightOperand    extends Signum
+case object BothOperandsNegative    extends Signum
 case object NoNegativeOperands      extends Signum
