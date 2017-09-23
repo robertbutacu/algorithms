@@ -21,7 +21,7 @@ package StringOperations
       Result : 11.
  */
 object Subtraction {
-  def apply(x: String, y: String): String = {
+  private[StringOperations] def apply(x: String, y: String): String = {
     compute(Utils.equalizeLength(x, y), Utils.equalizeLength(y, x)).dropWhile(_ == '0')
   }
 

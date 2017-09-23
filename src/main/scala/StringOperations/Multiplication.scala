@@ -6,7 +6,7 @@ package StringOperations
 case class ProductTotal(product: String = "0", traillingZeroes: Int = 0)
 
 object Multiplication {
-  def apply(x: String, y: String): String = {
+  private[StringOperations] def apply(x: String, y: String): String = {
     compute(x, y)
   }
 
@@ -22,8 +22,6 @@ object Multiplication {
       )
       .product
   }
-
-  private def isValid(x: String, y: String): Boolean = x.forall(_.isDigit) && y.forall(_.isDigit)
 
   private def multiplyByDigit(x: String, y: Char): String = {
     val productWithoutCarry =

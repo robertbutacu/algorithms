@@ -6,7 +6,7 @@ import scala.annotation.tailrec
   * Created by Robert-PC on 9/22/2017.
   */
 object Exponentiation extends OperationFactory{
-  def apply(x: String, y: String): String = {
+  private[StringOperations] def apply(x: String, y: String): String = {
       computeExponentiation(x, y, "1")
   }
 

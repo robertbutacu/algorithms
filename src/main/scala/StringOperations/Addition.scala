@@ -4,7 +4,7 @@ package StringOperations
   * Created by Robert-PC on 9/21/2017.
   */
 object Addition {
-  def apply(x: String, y: String): String = {
+  private[StringOperations] def apply(x: String, y: String): String = {
     compute(Utils.equalizeLength(x, y), Utils.equalizeLength(y, x))
   }
 
