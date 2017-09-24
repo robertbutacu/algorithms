@@ -5,10 +5,10 @@ package StringOperations
   */
 trait OperationFactory {
   def compute(x: Option[String], operation: Operation, y: Option[String]): Option[String] = {
-    isValid(x, y, operation) match {
-      case Valid                 => handleComputation(x.get, y.get, operation)
-      case InvalidInputException => None
-    }
+    if (isValid(x, y, operation))
+      handleComputation(x.get, y.get, operation)
+    else
+      None
   }
 
   private def handleComputation(x: String, y: String, operation: Operation): Option[String] = {
@@ -49,7 +49,7 @@ trait OperationFactory {
       case Multiply =>
         Some(Multiplication(x, y))
       case Divide   =>
-        if ( y.drop(1).dropWhile(_.equals('0')).isEmpty)
+        if ( isDivisorZero(y))
           None
         else
           Some(Division(x, y))
@@ -57,6 +57,8 @@ trait OperationFactory {
         None
     }
   }
+
+  private def isDivisorZero(x: String): Boolean = x.drop(1).dropWhile(_.equals('0')).isEmpty
 
   private def handleNegativeLeftOperand(x: String, y: String, operation: Operation): Option[String] = {
     operation match {
@@ -95,9 +97,9 @@ trait OperationFactory {
     }
   }
 
-  private def isDigitsOnly(x: Option[String], y: Option[String]): Boolean = {
-    x.get.filter(!_.equals('-')).forall(_.isDigit) &&
-      y.get.filter(!_.equals('-')).forall(_.isDigit)
+  private def isDigitsOnly(x: String, y: String): Boolean = {
+    x.filter(!_.equals('-')).forall(_.isDigit) &&
+      y.filter(!_.equals('-')).forall(_.isDigit)
   }
 
   private def isSignumCorrect(x: String, operation: Operation): Boolean = {
@@ -113,14 +115,26 @@ trait OperationFactory {
     x.isDefined && y.isDefined
   }
 
-  private def isValid(x: Option[String], y: Option[String], op: Operation): InputException = {
-    if(areDefined(x, y) && isDigitsOnly(x, y)) {
-      if (isSignumCorrect(x.get, op) && isSignumCorrect(y.get, op))
-        Valid
-      else
-        InvalidInputException
+  /*
+    There are 3 levels of validation:
+      1. both operands are defined
+      2. both operands contain digits only, disregarding "-"
+      3. the "-" operand is currently placed ( first position )
+   */
+  private def isValid(x: Option[String], y: Option[String], op: Operation): Boolean = {
+    (x, y) match {
+      case (None, None)       => false
+      case (None, _)          => false
+      case (_, None)          => false
+      case (Some(a), Some(b)) =>
+        if(isDigitsOnly(a, b)) {
+          if (isSignumCorrect(a, op) && isSignumCorrect(b, op))
+            true
+          else
+            false
+        }
+        else
+          false
     }
-    else
-      InvalidInputException
   }
 }
