@@ -119,12 +119,17 @@ trait OperationFactory {
     x.isDefined && y.isDefined
   }
 
+  /*
+   x is bigger than y in 2 cases:
+      1. longer size
+      2. same size, but, character for character, x is the first one to contain a bigger one.
+   */
 
   private def isBigger(x: String, y: String): Boolean = {
-    if(x.length > y.length)
+    if (x.length > y.length || (x.length == y.length && x > y))
       true
-    else if(x > y) true
-    else false
+    else
+      false
   }
 
   /*
@@ -139,12 +144,8 @@ trait OperationFactory {
       case (None, _)          => false
       case (_, None)          => false
       case (Some(a), Some(b)) =>
-        if(isDigitsOnly(a, b)) {
-          if (isSignumCorrect(a, op) && isSignumCorrect(b, op))
-            true
-          else
-            false
-        }
+        if(isDigitsOnly(a, b) && isSignumCorrect(a, op) && isSignumCorrect(b, op))
+          true
         else
           false
     }
