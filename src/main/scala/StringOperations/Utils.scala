@@ -7,7 +7,7 @@ case class Total(total: String = "", carry: Int = 0)
 
 trait InputException
 
-case object InvalidInputException extends InputException
+case class InvalidInputException(msg: String) extends InputException
 
 object Utils {
   def equalizeLength(first: String, second: String): String = {
