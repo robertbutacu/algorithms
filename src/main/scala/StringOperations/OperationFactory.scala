@@ -11,16 +11,6 @@ trait OperationFactory {
     }
   }
 
-  private def executeComputation(x: String, y: String, operation: Operation): String = {
-    operation match {
-      case Add      => Addition(x, y)
-      case Multiply => Multiplication(x, y)
-      case Subtract => Subtraction(x, y)
-      case Pow      => Exponentiation(x, y)
-      case Divide   => "Unknown"
-    }
-  }
-
   private def handleComputation(x: String, y: String, operation: Operation): Either[String, InputException] = {
     getSignums(x, y) match {
       case NoNegativeOperands    =>
@@ -38,17 +28,31 @@ trait OperationFactory {
     }
   }
 
-  private def handleBothOperandsNegative(x: String, y: String, operation: Operation): Either[String, InputException] = {
+  private def executeComputation(x: String, y: String, operation: Operation): String = {
     operation match {
-      case Add      => Left("")
-      case Subtract => Left("")
-      case Multiply => Left("")
-      case Divide   => Left("")
-      case Pow      => Left("")
+      case Add      => Addition(x, y)
+      case Multiply => Multiplication(x, y)
+      case Subtract => Subtraction(x, y)
+      case Pow      => Exponentiation(x, y)
+      case Divide   => "Unknown"
     }
   }
 
-
+  private def handleBothOperandsNegative(x: String, y: String, operation: Operation): Either[String, InputException] = {
+    operation match {
+      case Add      =>
+        Left("-" ++ executeComputation(x, y, Add))
+      case Subtract =>
+        if(x > y) Left("-" ++ executeComputation(x, y, Subtract))
+        else      Left(executeComputation(y, x, Subtract))
+      case Multiply =>
+        Left(executeComputation(x, y, Multiply))
+      case Divide   =>
+        Right(InvalidInputException("Not implemented"))
+      case Pow      =>
+        Right(InvalidInputException(""))
+    }
+  }
 
   private def handleNegativeLeftOperand(x: String, y: String, operation: Operation): Either[String, InputException] = {
     operation match {
