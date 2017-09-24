@@ -105,6 +105,5 @@ trait OperationFactory {
     }
     else
       InvalidInputException(s"""Please provide numbers with digits only -> $x, $y !""")
-
   }
 }
