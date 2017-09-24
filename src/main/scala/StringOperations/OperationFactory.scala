@@ -14,7 +14,7 @@ trait OperationFactory {
   private def handleComputation(x: String, y: String, operation: Operation): Option[String] = {
     getSignums(x, y) match {
       case NoNegativeOperands    =>
-        if(y > x && operation == Subtract)
+        if(isBigger(y, x) && operation == Subtract)
           Some("-" ++ Subtraction(y, x))
         else Some(executeComputation(x, y, operation))
 
@@ -44,7 +44,7 @@ trait OperationFactory {
       case Add      =>
         Some("-" ++ Addition(x, y))
       case Subtract =>
-        if(x > y) Some("-" ++ Subtraction(x, y))
+        if(isBigger(x, y)) Some("-" ++ Subtraction(x, y))
         else      Some(Subtraction(y, x))
       case Multiply =>
         Some(Multiplication(x, y))
@@ -58,12 +58,12 @@ trait OperationFactory {
     }
   }
 
-  private def isDivisorZero(x: String): Boolean = x.drop(1).dropWhile(_.equals('0')).isEmpty
+  private def isDivisorZero(x: String): Boolean = x.dropWhile(_.equals('0')).isEmpty
 
   private def handleNegativeLeftOperand(x: String, y: String, operation: Operation): Option[String] = {
     operation match {
       case Add      =>
-        if (x > y) Some("-" ++ Subtraction(x, y))
+        if (isBigger(x, y)) Some("-" ++ Subtraction(x, y))
         else Some(Subtraction(y, x))
       case Subtract => Some("-" ++ Addition(x, y))
       case Multiply => Some("-" ++ Multiplication(x, y))
@@ -79,7 +79,7 @@ trait OperationFactory {
   private def handleNegativeRightOperand(x: String, y: String, operation: Operation): Option[String] = {
     operation match {
       case Add      =>
-        if(x > y) Some(Subtraction(x, y))
+        if(isBigger(x, y)) Some(Subtraction(x, y))
         else      Some("-" ++ Subtraction(y, x))
       case Subtract => Some(Addition(x, y))
       case Multiply => Some("-" ++ Multiplication(x, y))
@@ -117,6 +117,14 @@ trait OperationFactory {
 
   private def areDefined(x: Option[String], y: Option[String]): Boolean = {
     x.isDefined && y.isDefined
+  }
+
+
+  private def isBigger(x: String, y: String): Boolean = {
+    if(x.length > y.length)
+      true
+    else if(x > y) true
+    else false
   }
 
   /*
