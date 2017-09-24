@@ -4,19 +4,19 @@ package StringOperations
   * Created by Robert-PC on 9/21/2017.
   */
 trait OperationFactory {
-  def compute(x: String, operation: Operation, y: String): Either[String, InputException] = {
+  def compute(x: Option[String], operation: Operation, y: Option[String]): Option[String] = {
     isValid(x, y, operation) match {
-      case Valid                          => handleComputation(x, y, operation)
-      case InvalidInputException(msg)     => Right(InvalidInputException(msg))
+      case Valid                 => handleComputation(x.get, y.get, operation)
+      case InvalidInputException => None
     }
   }
 
-  private def handleComputation(x: String, y: String, operation: Operation): Either[String, InputException] = {
+  private def handleComputation(x: String, y: String, operation: Operation): Option[String] = {
     getSignums(x, y) match {
       case NoNegativeOperands    =>
         if(y > x && operation == Subtract)
-          Left("-" ++ Subtraction(y, x))
-        else Left(executeComputation(x, y, operation))
+          Some("-" ++ Subtraction(y, x))
+        else Some(executeComputation(x, y, operation))
 
       case NegativeLeftOperand   =>
         handleNegativeLeftOperand(x.drop(1), y, operation)
@@ -39,50 +39,50 @@ trait OperationFactory {
     }
   }
 
-  private def handleBothOperandsNegative(x: String, y: String, operation: Operation): Either[String, InputException] = {
+  private def handleBothOperandsNegative(x: String, y: String, operation: Operation): Option[String] = {
     operation match {
       case Add      =>
-        Left("-" ++ Addition(x, y))
+        Some("-" ++ Addition(x, y))
       case Subtract =>
-        if(x > y) Left("-" ++ Subtraction(x, y))
-        else      Left(Subtraction(y, x))
+        if(x > y) Some("-" ++ Subtraction(x, y))
+        else      Some(Subtraction(y, x))
       case Multiply =>
-        Left(Multiplication(x, y))
+        Some(Multiplication(x, y))
       case Divide   =>
-        if ( y.drop(1).dropWhile(_.eq('0')).isEmpty)
-          Right(InvalidInputException("Divisor is 0!"))
+        if ( y.drop(1).dropWhile(_.equals('0')).isEmpty)
+          None
         else
-          Left(Division(x, y))
+          Some(Division(x, y))
       case Pow      =>
-        Right(InvalidInputException(""))
+        None
     }
   }
 
-  private def handleNegativeLeftOperand(x: String, y: String, operation: Operation): Either[String, InputException] = {
+  private def handleNegativeLeftOperand(x: String, y: String, operation: Operation): Option[String] = {
     operation match {
       case Add      =>
-        if (x > y) Left("-" ++ Subtraction(x, y))
-        else Left(Subtraction(y, x))
-      case Subtract => Left("-" ++ Addition(x, y))
-      case Multiply => Left("-" ++ Multiplication(x, y))
+        if (x > y) Some("-" ++ Subtraction(x, y))
+        else Some(Subtraction(y, x))
+      case Subtract => Some("-" ++ Addition(x, y))
+      case Multiply => Some("-" ++ Multiplication(x, y))
       case Divide   =>
-        if ( y.dropWhile(_.eq('0')).isEmpty )
-          Right(InvalidInputException("Divisor is 0!"))
+        if ( y.dropWhile(_.equals('0')).isEmpty )
+          None
         else
-          Left("-" ++ Division(x, y))
-      case Pow      => Right(InvalidInputException("Not implemented!"))
+          Some("-" ++ Division(x, y))
+      case Pow      => None
     }
   }
 
-  private def handleNegativeRightOperand(x: String, y: String, operation: Operation): Either[String, InputException] = {
+  private def handleNegativeRightOperand(x: String, y: String, operation: Operation): Option[String] = {
     operation match {
       case Add      =>
-        if(x > y) Left(Subtraction(x, y))
-        else      Left("-" ++ Subtraction(y, x))
-      case Subtract => Left(Addition(x, y))
-      case Multiply => Left("-" ++ Multiplication(x, y))
-      case Divide   => Right(InvalidInputException("Not implemented!"))
-      case Pow      => Right(InvalidInputException("Not implemented!"))
+        if(x > y) Some(Subtraction(x, y))
+        else      Some("-" ++ Subtraction(y, x))
+      case Subtract => Some(Addition(x, y))
+      case Multiply => Some("-" ++ Multiplication(x, y))
+      case Divide   => None
+      case Pow      => None
     }
   }
 
@@ -95,22 +95,32 @@ trait OperationFactory {
     }
   }
 
-  private def isDigitsOnly(x: String, y: String): Boolean = {
-    x.forall(_.isDigit) && y.forall(_.isDigit)
+  private def isDigitsOnly(x: Option[String], y: Option[String]): Boolean = {
+    x.get.filter(!_.equals('-')).forall(_.isDigit) &&
+      y.get.filter(!_.equals('-')).forall(_.isDigit)
   }
 
   private def isSignumCorrect(x: String, operation: Operation): Boolean = {
-    x.forall(_.isDigit) || (x.startsWith("-") && (x.count(_.equals('-')) == 1) && operation != Pow)
+    x.forall(_.isDigit) ||
+      (
+        x.startsWith("-") &&
+        (x.count(_.equals('-')) == 1) &&
+          operation != Pow
+        )
   }
 
-  private def isValid(x: String, y: String, op: Operation): InputException = {
-    if(isDigitsOnly(x.filter(!_.equals('-')), y.filter(!_.equals('-')))) {
-      if (isSignumCorrect(x, op) && isSignumCorrect(y, op))
+  private def areDefined(x: Option[String], y: Option[String]): Boolean = {
+    x.isDefined && y.isDefined
+  }
+
+  private def isValid(x: Option[String], y: Option[String], op: Operation): InputException = {
+    if(areDefined(x, y) && isDigitsOnly(x, y)) {
+      if (isSignumCorrect(x.get, op) && isSignumCorrect(y.get, op))
         Valid
       else
-        InvalidInputException(s"""Signum position is incorrect -> $x, $y !""")
+        InvalidInputException
     }
     else
-      InvalidInputException(s"""Please provide numbers with digits only -> $x, $y !""")
+      InvalidInputException
   }
 }
