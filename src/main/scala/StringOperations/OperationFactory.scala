@@ -6,8 +6,8 @@ package StringOperations
 trait OperationFactory {
   def compute(x: String, operation: Operation, y: String): Either[String, InputException] = {
     isValid(x, y, operation) match {
-      case true  => handleComputation(x, y, operation)
-      case false => Right(InvalidInputException("Invalid input!"))
+      case Valid                          => handleComputation(x, y, operation)
+      case InvalidInputException(msg)     => Right(InvalidInputException(msg))
     }
   }
 
@@ -96,9 +96,15 @@ trait OperationFactory {
     x.forall(_.isDigit) || (x.startsWith("-") && (x.count(_.equals('-')) == 1) && operation != Pow)
   }
 
-  private def isValid(x: String, y: String, op: Operation): Boolean = {
-    isDigitsOnly(x.filter(!_.equals('-')), y.filter(!_.equals('-'))) &&
-      isSignumCorrect(x, op) &&
-      isSignumCorrect(y, op)
+  private def isValid(x: String, y: String, op: Operation): InputException = {
+    if(isDigitsOnly(x.filter(!_.equals('-')), y.filter(!_.equals('-')))) {
+      if (isSignumCorrect(x, op) && isSignumCorrect(y, op))
+        Valid
+      else
+        InvalidInputException(s"""Signum position is incorrect -> $x, $y !""")
+    }
+    else
+      InvalidInputException(s"""Please provide numbers with digits only -> $x, $y !""")
+
   }
 }
