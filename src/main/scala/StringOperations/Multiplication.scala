@@ -7,10 +7,6 @@ case class ProductTotal(product: String = "0", traillingZeroes: Int = 0)
 
 object Multiplication {
   private[StringOperations] def apply(x: String, y: String): String = {
-    compute(x, y)
-  }
-
-  private def compute(x: String, y: String): String = {
     x.map(digit =>
       multiplyByDigit(y, digit)
     )
@@ -24,6 +20,12 @@ object Multiplication {
   }
 
   private def multiplyByDigit(x: String, y: Char): String = {
+    def updateDigit(x: Char, y: Char, previousCarry: Int): String =
+      ((x.asDigit * y.asDigit + previousCarry) % 10).toString
+
+    def updateCarry(x: Char, y: Char, previousCarry: Int): Int =
+      ((x.asDigit * y.asDigit) + previousCarry) / 10
+
     val productWithoutCarry =
       x.foldRight(Total())((curr, acc) =>
         Total(
@@ -36,10 +38,4 @@ object Multiplication {
     else
       productWithoutCarry.total
   }
-
-  private def updateDigit(x: Char, y: Char, previousCarry: Int): String =
-    ((x.asDigit * y.asDigit + previousCarry) % 10).toString
-
-  private def updateCarry(x: Char, y: Char, previousCarry: Int): Int =
-    ((x.asDigit * y.asDigit) + previousCarry) / 10
 }
