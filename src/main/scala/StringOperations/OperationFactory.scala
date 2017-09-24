@@ -35,7 +35,7 @@ trait OperationFactory {
       case Multiply => Multiplication(x, y)
       case Subtract => Subtraction(x, y)
       case Pow      => Exponentiation(x, y)
-      case Divide   => "Unknown"
+      case Divide   => Division(x, y)
     }
   }
 
@@ -68,7 +68,7 @@ trait OperationFactory {
       case Subtract => Some("-" ++ Addition(x, y))
       case Multiply => Some("-" ++ Multiplication(x, y))
       case Divide   =>
-        if ( y.dropWhile(_.equals('0')).isEmpty )
+        if (isDivisorZero(y))
           None
         else
           Some("-" ++ Division(x, y))
@@ -83,7 +83,11 @@ trait OperationFactory {
         else      Some("-" ++ Subtraction(y, x))
       case Subtract => Some(Addition(x, y))
       case Multiply => Some("-" ++ Multiplication(x, y))
-      case Divide   => None
+      case Divide   =>
+        if(isDivisorZero(y))
+          None
+        else
+          Some("-" ++ Division(x, y))
       case Pow      => None
     }
   }
