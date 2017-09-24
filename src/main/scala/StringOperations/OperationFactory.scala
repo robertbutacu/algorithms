@@ -6,7 +6,7 @@ package StringOperations
 trait OperationFactory {
   def compute(x: String, y: String, operation: Operation): Either[String, InputException] = {
     isValid(x, y, operation) match {
-      case true  => Left(handleComputation(x, y, operation))
+      case true  => handleComputation(x, y, operation)
       case false => Right(InvalidInputException)
     }
   }
@@ -21,22 +21,46 @@ trait OperationFactory {
     }
   }
 
-  private def handleComputation(x: String, y: String, operation: Operation): String = {
+  private def handleComputation(x: String, y: String, operation: Operation): Either[String, InputException] = {
     getSignums(x, y) match {
       case NoNegativeOperands    =>
-        executeComputation(x, y, operation)
+        Left(executeComputation(x, y, operation))
 
       case NegativeLeftOperand   =>
-        if (operation == Subtract) "-" ++ executeComputation(x.drop(1), y, Add)
-        else "-" ++ executeComputation(x.drop(1), y, operation)
+        handleNegativeLeftOperand(x.drop(1), y, operation)
 
       case NegativeRightOperand  =>
-        if (operation == Subtract) executeComputation(x, y, Add)
-        else "-" ++ executeComputation(x, y.drop(1), operation)
+        handleNegativeRightOperand(x, y.drop(1), operation)
 
       case BothOperandsNegative  =>
-        if (operation == Subtract) executeComputation(y.drop(1), x.drop(1), Subtract)
-        else executeComputation(x.drop(1), y.drop(1), operation)
+        if (operation == Subtract) Left(executeComputation(y.drop(1), x.drop(1), Subtract))
+        else Left(executeComputation(x.drop(1), y.drop(1), operation))
+    }
+  }
+
+
+
+  private def handleNegativeLeftOperand(x: String, y: String, operation: Operation): Either[String, InputException] = {
+    operation match {
+      case Add      =>
+        if (x > y) Left("-" ++ executeComputation(x, y, Subtract))
+        else Left(executeComputation(y, x, Subtract))
+      case Subtract => Left("-" ++ executeComputation(x, y, Add))
+      case Multiply => Left("-" ++ executeComputation(x, y, Multiply))
+      case Divide   => Right(InvalidInputException)
+      case Pow      => Right(InvalidInputException)
+    }
+  }
+
+  private def handleNegativeRightOperand(x: String, y: String, operation: Operation): Either[String, InputException] = {
+    operation match {
+      case Add      =>
+        if(x > y) Left(executeComputation(x, y, Subtract))
+        else      Left("-" ++ executeComputation(y, x, Subtract))
+      case Subtract => Left(executeComputation(x, y, Add))
+      case Multiply => Left("-" ++ executeComputation(x, y, Multiply))
+      case Divide   => Right(InvalidInputException)
+      case Pow      => Right(InvalidInputException)
     }
   }
 
