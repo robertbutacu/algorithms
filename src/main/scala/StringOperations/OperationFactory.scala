@@ -15,7 +15,7 @@ trait OperationFactory {
     getSignums(x, y) match {
       case NoNegativeOperands    =>
         if(y > x && operation == Subtract)
-          Left("-" ++ executeComputation(y, x, operation))
+          Left("-" ++ Subtraction(y, x))
         else Left(executeComputation(x, y, operation))
 
       case NegativeLeftOperand   =>
@@ -42,14 +42,17 @@ trait OperationFactory {
   private def handleBothOperandsNegative(x: String, y: String, operation: Operation): Either[String, InputException] = {
     operation match {
       case Add      =>
-        Left("-" ++ executeComputation(x, y, Add))
+        Left("-" ++ Addition(x, y))
       case Subtract =>
-        if(x > y) Left("-" ++ executeComputation(x, y, Subtract))
-        else      Left(executeComputation(y, x, Subtract))
+        if(x > y) Left("-" ++ Subtraction(x, y))
+        else      Left(Subtraction(y, x))
       case Multiply =>
-        Left(executeComputation(x, y, Multiply))
+        Left(Multiplication(x, y))
       case Divide   =>
-        Right(InvalidInputException("Not implemented"))
+        if ( y.drop(1).dropWhile(_.eq('0')).isEmpty)
+          Right(InvalidInputException("Divisor is 0!"))
+        else
+          Left(Division(x, y))
       case Pow      =>
         Right(InvalidInputException(""))
     }
@@ -58,11 +61,15 @@ trait OperationFactory {
   private def handleNegativeLeftOperand(x: String, y: String, operation: Operation): Either[String, InputException] = {
     operation match {
       case Add      =>
-        if (x > y) Left("-" ++ executeComputation(x, y, Subtract))
-        else Left(executeComputation(y, x, Subtract))
-      case Subtract => Left("-" ++ executeComputation(x, y, Add))
-      case Multiply => Left("-" ++ executeComputation(x, y, Multiply))
-      case Divide   => Right(InvalidInputException("Not implemented!"))
+        if (x > y) Left("-" ++ Subtraction(x, y))
+        else Left(Subtraction(y, x))
+      case Subtract => Left("-" ++ Addition(x, y))
+      case Multiply => Left("-" ++ Multiplication(x, y))
+      case Divide   =>
+        if ( y.dropWhile(_.eq('0')).isEmpty )
+          Right(InvalidInputException("Divisor is 0!"))
+        else
+          Left("-" ++ Division(x, y))
       case Pow      => Right(InvalidInputException("Not implemented!"))
     }
   }
@@ -70,10 +77,10 @@ trait OperationFactory {
   private def handleNegativeRightOperand(x: String, y: String, operation: Operation): Either[String, InputException] = {
     operation match {
       case Add      =>
-        if(x > y) Left(executeComputation(x, y, Subtract))
-        else      Left("-" ++ executeComputation(y, x, Subtract))
-      case Subtract => Left(executeComputation(x, y, Add))
-      case Multiply => Left("-" ++ executeComputation(x, y, Multiply))
+        if(x > y) Left(Subtraction(x, y))
+        else      Left("-" ++ Subtraction(y, x))
+      case Subtract => Left(Addition(x, y))
+      case Multiply => Left("-" ++ Multiplication(x, y))
       case Divide   => Right(InvalidInputException("Not implemented!"))
       case Pow      => Right(InvalidInputException("Not implemented!"))
     }
