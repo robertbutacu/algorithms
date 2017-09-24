@@ -4,7 +4,7 @@ package StringOperations
   * Created by Robert-PC on 9/21/2017.
   */
 trait OperationFactory {
-  def compute(x: String, y: String, operation: Operation): Either[String, InputException] = {
+  def compute(x: String, operation: Operation, y: String): Either[String, InputException] = {
     isValid(x, y, operation) match {
       case true  => handleComputation(x, y, operation)
       case false => Right(InvalidInputException("Invalid input!"))
@@ -14,7 +14,9 @@ trait OperationFactory {
   private def handleComputation(x: String, y: String, operation: Operation): Either[String, InputException] = {
     getSignums(x, y) match {
       case NoNegativeOperands    =>
-        Left(executeComputation(x, y, operation))
+        if(y > x && operation == Subtract)
+          Left("-" ++ executeComputation(y, x, operation))
+        else Left(executeComputation(x, y, operation))
 
       case NegativeLeftOperand   =>
         handleNegativeLeftOperand(x.drop(1), y, operation)
@@ -23,8 +25,7 @@ trait OperationFactory {
         handleNegativeRightOperand(x, y.drop(1), operation)
 
       case BothOperandsNegative  =>
-        if (operation == Subtract) Left(executeComputation(y.drop(1), x.drop(1), Subtract))
-        else Left(executeComputation(x.drop(1), y.drop(1), operation))
+        handleBothOperandsNegative(x.drop(1), y.drop(1), operation)
     }
   }
 
