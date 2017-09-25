@@ -6,50 +6,57 @@ package StringOperations
 trait Handler {
   private[StringOperations] def handleComputation(x: Number, y: Number, operation: Operation): Option[Number] = {
     operation match {
-      case Add      => Some(handleAddition(x, y))
-      case Subtract => Some(handleSubtraction(x, y))
-      case Multiply => Some(handleMultiplication(x, y))
+      case Add      => handleAddition(x, y)
+      case Subtract => handleSubtraction(x, y)
+      case Multiply => handleMultiplication(x, y)
       case Divide   => handleDivision(x, y)
-      case Modulus  => Some(handleModulus(x, y))
+      case Modulus  => handleModulus(x, y)
       case Pow      => handlePow(x, y)
       case _        => None
     }
   }
 
-  private def handleAddition(x: Number, y: Number): Number = {
-    getSignums(x, y) match {
+  private def handleAddition(x: Number, y: Number): Option[Number] = {
+    getSigns(x, y) match {
       case NoNegativeOperands   =>
-        Pos(Addi(x(), y()))
+        Some(Pos(Addi(x(), y())))
       case NegativeLeftOperand  =>
-        if (isBigger(x, y)) Neg(Sub(x(), y()))
-        else Pos(Sub(y(), x()))
+        if (isBigger(x, y)) Some(Neg(Sub(x(), y())))
+        else                Some(Pos(Sub(y(), x())))
       case NegativeRightOperand =>
-        if(isBigger(x, y)) Pos(Sub(x(), y()))
-        else               Neg(Sub(y(), x()))
+        if(isBigger(x, y)) Some(Pos(Sub(x(), y())))
+        else               Some(Neg(Sub(y(), x())))
       case BothOperandsNegative =>
-        Neg(Addi(x(), y()))
+        Some(Neg(Addi(x(), y())))
+      case InvalidOperation     =>
+        None
     }
   }
 
-  private def handleMultiplication(x: Number, y: Number): Number = {
-    getSignums(x, y) match {
-      case NoNegativeOperands   => Pos(Mul(x(), y()))
-      case NegativeRightOperand => Neg(Mul(x(), y()))
-      case NegativeLeftOperand  => Neg(Mul(x(), y()))
-      case BothOperandsNegative => Pos(Mul(x(), y()))
+  private def handleMultiplication(x: Number, y: Number): Option[Number] = {
+    getSigns(x, y) match {
+      case NoNegativeOperands   => Some(Pos(Mul(x(), y())))
+      case NegativeRightOperand => Some(Neg(Mul(x(), y())))
+      case NegativeLeftOperand  => Some(Neg(Mul(x(), y())))
+      case BothOperandsNegative => Some(Pos(Mul(x(), y())))
+      case InvalidOperation     => None
     }
   }
 
-  private def handleSubtraction(x: Number, y: Number): Number = {
-    getSignums(x, y) match {
+  private def handleSubtraction(x: Number, y: Number): Option[Number] = {
+    getSigns(x, y) match {
       case NoNegativeOperands   =>
-        if(isBigger(y, x)) Neg(Sub(y(), x()))
-        else               Pos(Sub(x(), y()))
-      case NegativeLeftOperand  => Neg(Addi(x(), y()))
-      case NegativeRightOperand => Pos(Addi(x(), y()))
+        if(isBigger(y, x)) Some(Neg(Sub(y(), x())))
+        else               Some(Pos(Sub(x(), y())))
+      case NegativeLeftOperand  =>
+        Some(Neg(Addi(x(), y())))
+      case NegativeRightOperand =>
+        Some(Pos(Addi(x(), y())))
       case BothOperandsNegative =>
-        if(isBigger(x, y)) Neg(Sub(x(), y()))
-        else               Pos(Sub(y(), x()))
+        if(isBigger(x, y)) Some(Neg(Sub(x(), y())))
+        else               Some(Pos(Sub(y(), x())))
+      case InvalidOperation     =>
+        None
     }
   }
 
@@ -57,32 +64,35 @@ trait Handler {
     if(isDivisorZero(y))
       None
     else
-      getSignums(x, y) match {
+      getSigns(x, y) match {
         case NegativeLeftOperand  => Some(Neg(Div(x(), y())))
         case NegativeRightOperand => Some(Neg(Div(x(), y())))
+        case InvalidOperation     => None
         case _                    => Some(Pos(Div(x(), y())))
       }
   }
 
-  private def handleModulus(x: Number, y: Number): Number = {
-    Pos("0")
+  private def handleModulus(x: Number, y: Number): Option[Number] = {
+    Some(Pos("0"))
   }
 
   private def handlePow(x: Number, y: Number): Option[Number] = {
-    getSignums(x, y) match {
+    getSigns(x, y) match {
       case NoNegativeOperands   => Some(Pos(Exp(x(), y())))
       case NegativeLeftOperand  => None
       case NegativeRightOperand => None
       case BothOperandsNegative => None
+      case InvalidOperation     => None
     }
   }
 
-  private def getSignums(x: Number, y: Number): Signum = {
+  private def getSigns(x: Number, y: Number): Sign = {
     (x, y) match {
       case (Neg(_), Neg(_)) => BothOperandsNegative
       case (Neg(_), Pos(_)) => NegativeLeftOperand
       case (Pos(_), Neg(_)) => NegativeRightOperand
       case (Pos(_), Pos(_)) => NoNegativeOperands
+      case (_, _)           => InvalidOperation
     }
   }
 

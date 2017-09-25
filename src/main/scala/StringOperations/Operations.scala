@@ -5,21 +5,22 @@ package StringOperations
   */
 trait Operation
 
-case object Add      extends Operation
-case object Subtract extends Operation
-case object Multiply extends Operation
-case object Divide   extends Operation
-case object Pow      extends Operation
-case object Square   extends Operation
-case object Root     extends Operation
-case object Modulus  extends Operation
+case object Add       extends Operation
+case object Subtract  extends Operation
+case object Multiply  extends Operation
+case object Divide    extends Operation
+case object Pow       extends Operation
+case object Squared   extends Operation
+case object Root      extends Operation
+case object Modulus   extends Operation
 
-trait Signum
+trait Sign
 
-case object NegativeLeftOperand     extends Signum
-case object NegativeRightOperand    extends Signum
-case object BothOperandsNegative    extends Signum
-case object NoNegativeOperands      extends Signum
+case object NegativeLeftOperand     extends Sign
+case object NegativeRightOperand    extends Sign
+case object BothOperandsNegative    extends Sign
+case object NoNegativeOperands      extends Sign
+case object InvalidOperation        extends Sign
 
 trait Number{
   def number: String
