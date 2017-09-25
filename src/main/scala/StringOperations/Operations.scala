@@ -10,6 +10,8 @@ case object Subtract extends Operation
 case object Multiply extends Operation
 case object Divide   extends Operation
 case object Pow      extends Operation
+case object Square   extends Operation
+case object Root     extends Operation
 
 trait Signum
 

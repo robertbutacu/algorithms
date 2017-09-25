@@ -11,7 +11,7 @@ trait OperationFactory {
     }
   }
 
-  def compute(x: Option[Number], operation: Operation): Option[Number] = {
+  def compute(operation: Operation, x: Option[Number]): Option[Number] = {
     operation match {
       case _ => None
     }
