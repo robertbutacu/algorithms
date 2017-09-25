@@ -1,4 +1,4 @@
-package StringOperations
+package stringOperations.utils
 
 /**
   * Created by Robert-PC on 9/21/2017.

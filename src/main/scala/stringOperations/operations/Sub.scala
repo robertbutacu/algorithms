@@ -1,4 +1,6 @@
-package StringOperations
+package stringOperations.operations
+
+import stringOperations.utils.{Total, Utils}
 
 /**
   * Created by Robert-PC on 9/21/2017.
@@ -22,7 +24,7 @@ package StringOperations
  */
 
 object Sub {
-  private[StringOperations] def apply(x: String, y: String): String = {
+  private[stringOperations] def apply(x: String, y: String): String = {
     def compute(x: String, y: String): String = {
       x.zip(y)
         .foldRight(Total())((curr, acc) =>

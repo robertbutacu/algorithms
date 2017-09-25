@@ -1,4 +1,6 @@
-package StringOperations
+package stringOperations.operations
+
+import stringOperations.OperationFactory
 
 import scala.annotation.tailrec
 
@@ -7,7 +9,7 @@ import scala.annotation.tailrec
   */
 
 object Exp extends OperationFactory{
-  private[StringOperations] def apply(x: String, y: String): String = {
+  private[stringOperations] def apply(x: String, y: String): String = {
     @tailrec
     def computeExponentiation(x: String, y: String, product: String): String = {
       y match {
