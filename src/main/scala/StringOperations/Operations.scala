@@ -17,3 +17,10 @@ case object NegativeLeftOperand     extends Signum
 case object NegativeRightOperand    extends Signum
 case object BothOperandsNegative    extends Signum
 case object NoNegativeOperands      extends Signum
+
+trait Number{
+  def number: String
+}
+
+case class Positive(number: String) extends Number
+case class Negative(number: String) extends Number

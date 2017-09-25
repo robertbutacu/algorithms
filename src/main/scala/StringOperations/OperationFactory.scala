@@ -4,28 +4,29 @@ package StringOperations
   * Created by Robert-PC on 9/21/2017.
   */
 trait OperationFactory {
-  def compute(x: Option[String], operation: Operation, y: Option[String]): Option[String] = {
-    if (isValid(x, y, operation))
-      handleComputation(x.get, y.get, operation)
-    else
-      None
+  def compute(x: Option[Number], operation: Operation, y: Option[Number]): Option[Number] = {
+    isValid(x, y, operation) match {
+      case Some((a, b)) => handleComputation(a, b, operation)
+      case _            => None
+    }
+
   }
 
-  private def handleComputation(x: String, y: String, operation: Operation): Option[String] = {
+  private def handleComputation(x: Number, y: Number, operation: Operation): Option[Number] = {
     getSignums(x, y) match {
       case NoNegativeOperands    =>
         if(isBigger(y, x) && operation == Subtract)
-          Some("-" ++ Subtraction(y, x))
-        else Some(executeComputation(x, y, operation))
+          Some(Negative(Subtraction(y.number, x.number)))
+        else Some(Positive(executeComputation(x.number, y.number, operation)))
 
       case NegativeLeftOperand   =>
-        handleNegativeLeftOperand(x.drop(1), y, operation)
+        handleNegativeLeftOperand(x, y, operation)
 
       case NegativeRightOperand  =>
-        handleNegativeRightOperand(x, y.drop(1), operation)
+        handleNegativeRightOperand(x, y, operation)
 
       case BothOperandsNegative  =>
-        handleBothOperandsNegative(x.drop(1), y.drop(1), operation)
+        handleBothOperandsNegative(x, y, operation)
     }
   }
 
@@ -39,84 +40,71 @@ trait OperationFactory {
     }
   }
 
-  private def handleBothOperandsNegative(x: String, y: String, operation: Operation): Option[String] = {
+  private def handleBothOperandsNegative(x: Number, y: Number, operation: Operation): Option[Number] = {
     operation match {
       case Add      =>
-        Some("-" ++ Addition(x, y))
+        Some(Negative(Addition(x.number, y.number)))
       case Subtract =>
-        if(isBigger(x, y)) Some("-" ++ Subtraction(x, y))
-        else      Some(Subtraction(y, x))
+        if(isBigger(x, y)) Some(Negative(Subtraction(x.number, y.number)))
+        else               Some(Positive(Subtraction(y.number, x.number)))
       case Multiply =>
-        Some(Multiplication(x, y))
+        Some(Positive(Multiplication(x.number, y.number)))
       case Divide   =>
         if ( isDivisorZero(y))
           None
         else
-          Some(Division(x, y))
+          Some(Positive(Division(x.number, y.number)))
       case Pow      =>
         None
     }
   }
 
-  private def isDivisorZero(x: String): Boolean = x.dropWhile(_.equals('0')).isEmpty
+  private def isDivisorZero(x: Number): Boolean = x.number.dropWhile(_.equals('0')).isEmpty
 
-  private def handleNegativeLeftOperand(x: String, y: String, operation: Operation): Option[String] = {
+  private def handleNegativeLeftOperand(x: Number, y: Number, operation: Operation): Option[Number] = {
     operation match {
       case Add      =>
-        if (isBigger(x, y)) Some("-" ++ Subtraction(x, y))
-        else Some(Subtraction(y, x))
-      case Subtract => Some("-" ++ Addition(x, y))
-      case Multiply => Some("-" ++ Multiplication(x, y))
+        if (isBigger(x, y)) Some(Negative(Subtraction(x.number, y.number)))
+        else Some(Positive(Subtraction(y.number, x.number)))
+      case Subtract => Some(Negative(Addition(x.number, y.number)))
+      case Multiply => Some(Negative(Multiplication(x.number, y.number)))
       case Divide   =>
         if (isDivisorZero(y))
           None
         else
-          Some("-" ++ Division(x, y))
+          Some(Negative(Division(x.number, y.number)))
       case Pow      => None
     }
   }
 
-  private def handleNegativeRightOperand(x: String, y: String, operation: Operation): Option[String] = {
+  private def handleNegativeRightOperand(x: Number, y: Number, operation: Operation): Option[Number] = {
     operation match {
       case Add      =>
-        if(isBigger(x, y)) Some(Subtraction(x, y))
-        else      Some("-" ++ Subtraction(y, x))
-      case Subtract => Some(Addition(x, y))
-      case Multiply => Some("-" ++ Multiplication(x, y))
+        if(isBigger(x, y)) Some(Positive(Subtraction(x.number, y.number)))
+        else      Some(Negative(Subtraction(y.number, x.number)))
+      case Subtract => Some(Positive(Addition(x.number, y.number)))
+      case Multiply => Some(Negative(Multiplication(x.number, y.number)))
       case Divide   =>
         if(isDivisorZero(y))
           None
         else
-          Some("-" ++ Division(x, y))
+          Some(Negative(Division(x.number, y.number)))
       case Pow      => None
     }
   }
 
-  private def getSignums(x: String, y: String): Signum = {
-    (x.charAt(0), y.charAt(0)) match {
-      case ('-', '-') => BothOperandsNegative
-      case ('-', _)   => NegativeLeftOperand
-      case (_, '-')   => NegativeRightOperand
-      case _          => NoNegativeOperands
+  private def getSignums(x: Number, y: Number): Signum = {
+    (x, y) match {
+      case (Negative(_), Negative(_)) => BothOperandsNegative
+      case (Negative(_), Positive(_)) => NegativeLeftOperand
+      case (Positive(_), Negative(_)) => NegativeRightOperand
+      case (Positive(_), Positive(_)) => NoNegativeOperands
     }
   }
 
-  private def isDigitsOnly(x: String, y: String): Boolean = {
-    x.filter(!_.equals('-')).forall(_.isDigit) &&
-      y.filter(!_.equals('-')).forall(_.isDigit)
-  }
-
-  private def isSignumCorrect(x: String, operation: Operation): Boolean = {
-    x.forall(_.isDigit) ||
-      (
-        x.startsWith("-") &&
-        (x.count(_.equals('-')) == 1) &&
-          operation != Pow
-        )
-  }
-
-  private def areDefined(x: Option[String], y: Option[String]): Boolean = {
-    x.isDefined && y.isDefined
+  private def isDigitsOnly(x: Number, y: Number): Boolean = {
+    x.number.filter(!_.equals('-')).forall(_.isDigit) &&
+      y.number.filter(!_.equals('-')).forall(_.isDigit)
   }
 
   /*
@@ -125,8 +113,8 @@ trait OperationFactory {
       2. same size, but, character for character, x is the first one to contain a bigger one.
    */
 
-  private def isBigger(x: String, y: String): Boolean = {
-    if (x.length > y.length || (x.length == y.length && x > y))
+  private def isBigger(x: Number, y: Number): Boolean = {
+    if (x.number.length > y.number.length || (x.number.length == y.number.length && x.number > y.number))
       true
     else
       false
@@ -138,16 +126,15 @@ trait OperationFactory {
       2. both operands contain digits only, disregarding "-"
       3. the "-" operand is currently placed ( first position )
    */
-  private def isValid(x: Option[String], y: Option[String], op: Operation): Boolean = {
+  private def isValid(x: Option[Number], y: Option[Number], op: Operation): Option[(Number, Number)] = {
     (x, y) match {
-      case (None, None)       => false
-      case (None, _)          => false
-      case (_, None)          => false
       case (Some(a), Some(b)) =>
-        if(isDigitsOnly(a, b) && isSignumCorrect(a, op) && isSignumCorrect(b, op))
-          true
+        if(isDigitsOnly(a, b))
+          Some((a, b))
         else
-          false
+          None
+      case (_, _)             =>
+        None
     }
   }
 }
