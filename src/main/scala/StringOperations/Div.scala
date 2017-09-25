@@ -5,6 +5,7 @@ import scala.annotation.tailrec
 /**
   * Created by Robert-PC on 9/21/2017.
   */
+
 object Div {
   private[StringOperations] def apply(x: String, y: String) = {
     @tailrec

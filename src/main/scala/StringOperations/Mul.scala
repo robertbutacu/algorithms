@@ -3,6 +3,7 @@ package StringOperations
 /**
   * Created by Robert-PC on 9/21/2017.
   */
+
 case class ProductTotal(product: String = "0", traillingZeroes: Int = 0)
 
 object Mul {

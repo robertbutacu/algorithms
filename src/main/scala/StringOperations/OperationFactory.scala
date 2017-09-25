@@ -9,7 +9,6 @@ trait OperationFactory {
       case Some((a, b)) => handleComputation(a, b, operation)
       case _            => None
     }
-
   }
 
   private def handleComputation(x: Number, y: Number, operation: Operation): Option[Number] = {
@@ -130,6 +129,7 @@ trait OperationFactory {
       2. both operands contain digits only, disregarding "-"
       3. the "-" operand is currently placed ( first position )
    */
+
   private def isValid(x: Option[Number], y: Option[Number], op: Operation): Option[(Number, Number)] = {
     (x, y) match {
       case (Some(a), Some(b)) =>

@@ -20,6 +20,7 @@ package StringOperations
 
       Result : 11.
  */
+
 object Sub {
   private[StringOperations] def apply(x: String, y: String): String = {
     def compute(x: String, y: String): String = {
