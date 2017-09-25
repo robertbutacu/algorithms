@@ -1,4 +1,4 @@
-package StringOperations
+package stringOperations.operations
 
 import scala.annotation.tailrec
 
@@ -7,7 +7,7 @@ import scala.annotation.tailrec
   */
 
 object Div {
-  private[StringOperations] def apply(x: String, y: String) = {
+  private[stringOperations] def apply(x: String, y: String) = {
     @tailrec
     def divide(x: String, y: String, quotient: String ): String = {
       val x1 = Sub(x, y)

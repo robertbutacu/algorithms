@@ -1,4 +1,6 @@
-package StringOperations
+package stringOperations.operations
+
+import stringOperations.utils.Total
 
 /**
   * Created by Robert-PC on 9/21/2017.
@@ -7,7 +9,7 @@ package StringOperations
 case class ProductTotal(product: String = "0", traillingZeroes: Int = 0)
 
 object Mul {
-  private[StringOperations] def apply(x: String, y: String): String = {
+  private[stringOperations] def apply(x: String, y: String): String = {
     x.map(digit =>
       multiplyByDigit(y, digit)
     )
