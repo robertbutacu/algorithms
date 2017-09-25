@@ -11,6 +11,12 @@ trait OperationFactory {
     }
   }
 
+  def compute(x: Option[Number], operation: Operation): Option[Number] = {
+    operation match {
+      case _ => None
+    }
+  }
+
   private def handleComputation(x: Number, y: Number, operation: Operation): Option[Number] = {
     getSignums(x, y) match {
       case NoNegativeOperands   =>
