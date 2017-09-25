@@ -29,24 +29,24 @@ trait OperationFactory {
 
   private def handleNoNegativeOp(x: Number, y: Number, op: Operation): Option[Number] = {
     if(isBigger(y, x) && op == Subtract)
-      Some(Neg(Sub(y.number, x.number)))
-    else Some(Pos(executeComputation(x.number, y.number, op)))
+      Some(Neg(Sub(y(), x())))
+    else Some(Pos(executeComputation(x(), y(), op)))
   }
 
   private def handleBothOperandsNegative(x: Number, y: Number, operation: Operation): Option[Number] = {
     operation match {
       case Add      =>
-        Some(Neg(Addi(x.number, y.number)))
+        Some(Neg(Addi(x(), y())))
       case Subtract =>
-        if(isBigger(x, y)) Some(Neg(Sub(x.number, y.number)))
-        else               Some(Pos(Sub(y.number, x.number)))
+        if(isBigger(x, y)) Some(Neg(Sub(x(), y())))
+        else               Some(Pos(Sub(y(), x())))
       case Multiply =>
-        Some(Pos(Mul(x.number, y.number)))
+        Some(Pos(Mul(x(), y())))
       case Divide   =>
         if ( isDivisorZero(y))
           None
         else
-          Some(Pos(Div(x.number, y.number)))
+          Some(Pos(Div(x(), y())))
       case Pow      =>
         None
     }
@@ -55,15 +55,15 @@ trait OperationFactory {
   private def handleNegativeLeftOperand(x: Number, y: Number, operation: Operation): Option[Number] = {
     operation match {
       case Add      =>
-        if (isBigger(x, y)) Some(Neg(Sub(x.number, y.number)))
-        else Some(Pos(Sub(y.number, x.number)))
-      case Subtract => Some(Neg(Addi(x.number, y.number)))
-      case Multiply => Some(Neg(Mul(x.number, y.number)))
+        if (isBigger(x, y)) Some(Neg(Sub(x(), y())))
+        else Some(Pos(Sub(y(), x())))
+      case Subtract => Some(Neg(Addi(x(), y())))
+      case Multiply => Some(Neg(Mul(x(), y())))
       case Divide   =>
         if (isDivisorZero(y))
           None
         else
-          Some(Neg(Div(x.number, y.number)))
+          Some(Neg(Div(x(), y())))
       case Pow      => None
     }
   }
@@ -71,15 +71,15 @@ trait OperationFactory {
   private def handleNegativeRightOperand(x: Number, y: Number, operation: Operation): Option[Number] = {
     operation match {
       case Add      =>
-        if(isBigger(x, y)) Some(Pos(Sub(x.number, y.number)))
-        else      Some(Neg(Sub(y.number, x.number)))
-      case Subtract => Some(Pos(Addi(x.number, y.number)))
-      case Multiply => Some(Neg(Mul(x.number, y.number)))
+        if(isBigger(x, y)) Some(Pos(Sub(x(), y())))
+        else      Some(Neg(Sub(y(), x())))
+      case Subtract => Some(Pos(Addi(x(), y())))
+      case Multiply => Some(Neg(Mul(x(), y())))
       case Divide   =>
         if(isDivisorZero(y))
           None
         else
-          Some(Neg(Div(x.number, y.number)))
+          Some(Neg(Div(x(), y())))
       case Pow      => None
     }
   }
@@ -103,11 +103,11 @@ trait OperationFactory {
     }
   }
 
-  private def isDivisorZero(x: Number): Boolean = x.number.dropWhile(_.equals('0')).isEmpty
+  private def isDivisorZero(x: Number): Boolean = x().dropWhile(_.equals('0')).isEmpty
 
   private def isDigitsOnly(x: Number, y: Number): Boolean = {
-    x.number.filter(!_.equals('-')).forall(_.isDigit) &&
-      y.number.filter(!_.equals('-')).forall(_.isDigit)
+    x().filter(!_.equals('-')).forall(_.isDigit) &&
+      y().filter(!_.equals('-')).forall(_.isDigit)
   }
 
   /*
@@ -117,7 +117,7 @@ trait OperationFactory {
    */
 
   private def isBigger(x: Number, y: Number): Boolean = {
-    if (x.number.length > y.number.length || (x.number.length == y.number.length && x.number > y.number))
+    if (x().length > y().length || (x().length == y().length && x() > y()))
       true
     else
       false

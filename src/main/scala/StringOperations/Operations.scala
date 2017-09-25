@@ -20,6 +20,8 @@ case object NoNegativeOperands      extends Signum
 
 trait Number{
   def number: String
+
+  def apply() = number
 }
 
 case class Pos(number: String) extends Number
