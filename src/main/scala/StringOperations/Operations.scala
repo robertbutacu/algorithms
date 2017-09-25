@@ -12,6 +12,7 @@ case object Divide   extends Operation
 case object Pow      extends Operation
 case object Square   extends Operation
 case object Root     extends Operation
+case object Modulus  extends Operation
 
 trait Signum
 
@@ -23,7 +24,7 @@ case object NoNegativeOperands      extends Signum
 trait Number{
   def number: String
 
-  def apply() = number
+  def apply(): String = number
 }
 
 case class Pos(number: String) extends Number

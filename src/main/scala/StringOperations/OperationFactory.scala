@@ -18,85 +18,75 @@ trait OperationFactory {
   }
 
   private def handleComputation(x: Number, y: Number, operation: Operation): Option[Number] = {
+    operation match {
+      case Add      => Some(handleAddition(x, y))
+      case Subtract => Some(handleSubtraction(x, y))
+      case Multiply => Some(handleMultiplication(x, y))
+      case Divide   => handleDivision(x, y)
+      case Modulus  => Some(handleModulus(x, y))
+      case Pow      => handlePow(x, y)
+      case _        => None
+    }
+  }
+
+  private def handleAddition(x: Number, y: Number): Number = {
     getSignums(x, y) match {
       case NoNegativeOperands   =>
-        handleNoNegativeOp(x, y, operation)
-
+        Pos(Addi(x(), y()))
       case NegativeLeftOperand  =>
-        handleNegativeLeftOperand(x, y, operation)
-
+        if (isBigger(x, y)) Neg(Sub(x(), y()))
+        else Pos(Sub(y(), x()))
       case NegativeRightOperand =>
-        handleNegativeRightOperand(x, y, operation)
-
+        if(isBigger(x, y)) Pos(Sub(x(), y()))
+        else               Neg(Sub(y(), x()))
       case BothOperandsNegative =>
-        handleBothOperandsNegative(x, y, operation)
+        Neg(Addi(x(), y()))
     }
   }
 
-  private def handleNoNegativeOp(x: Number, y: Number, op: Operation): Option[Number] = {
-    if(isBigger(y, x) && op == Subtract)
-      Some(Neg(Sub(y(), x())))
-    else Some(Pos(executeComputation(x(), y(), op)))
-  }
-
-  private def handleBothOperandsNegative(x: Number, y: Number, operation: Operation): Option[Number] = {
-    operation match {
-      case Add      =>
-        Some(Neg(Addi(x(), y())))
-      case Subtract =>
-        if(isBigger(x, y)) Some(Neg(Sub(x(), y())))
-        else               Some(Pos(Sub(y(), x())))
-      case Multiply =>
-        Some(Pos(Mul(x(), y())))
-      case Divide   =>
-        if ( isDivisorZero(y))
-          None
-        else
-          Some(Pos(Div(x(), y())))
-      case Pow      =>
-        None
+  private def handleMultiplication(x: Number, y: Number): Number = {
+    getSignums(x, y) match {
+      case NoNegativeOperands   => Pos(Mul(x(), y()))
+      case NegativeRightOperand => Neg(Mul(x(), y()))
+      case NegativeLeftOperand  => Neg(Mul(x(), y()))
+      case BothOperandsNegative => Pos(Mul(x(), y()))
     }
   }
 
-  private def handleNegativeLeftOperand(x: Number, y: Number, operation: Operation): Option[Number] = {
-    operation match {
-      case Add      =>
-        if (isBigger(x, y)) Some(Neg(Sub(x(), y())))
-        else Some(Pos(Sub(y(), x())))
-      case Subtract => Some(Neg(Addi(x(), y())))
-      case Multiply => Some(Neg(Mul(x(), y())))
-      case Divide   =>
-        if (isDivisorZero(y))
-          None
-        else
-          Some(Neg(Div(x(), y())))
-      case Pow      => None
+  private def handleSubtraction(x: Number, y: Number): Number = {
+    getSignums(x, y) match {
+      case NoNegativeOperands   =>
+        if(isBigger(y, x)) Neg(Sub(y(), x()))
+        else               Pos(Sub(x(), y()))
+      case NegativeLeftOperand  => Neg(Addi(x(), y()))
+      case NegativeRightOperand => Pos(Addi(x(), y()))
+      case BothOperandsNegative =>
+        if(isBigger(x, y)) Neg(Sub(x(), y()))
+        else               Pos(Sub(y(), x()))
     }
   }
 
-  private def handleNegativeRightOperand(x: Number, y: Number, operation: Operation): Option[Number] = {
-    operation match {
-      case Add      =>
-        if(isBigger(x, y)) Some(Pos(Sub(x(), y())))
-        else      Some(Neg(Sub(y(), x())))
-      case Subtract => Some(Pos(Addi(x(), y())))
-      case Multiply => Some(Neg(Mul(x(), y())))
-      case Divide   =>
-        if(isDivisorZero(y))
-          None
-        else
-          Some(Neg(Div(x(), y())))
-      case Pow      => None
+  private def handleDivision(x: Number, y: Number): Option[Number] = {
+    if(isDivisorZero(y))
+      None
+    else
+      getSignums(x, y) match {
+        case NegativeLeftOperand  => Some(Neg(Div(x(), y())))
+        case NegativeRightOperand => Some(Neg(Div(x(), y())))
+        case _                    => Some(Pos(Div(x(), y())))
     }
   }
 
-  private def executeComputation(x: String, y: String, operation: Operation): String = {
-    operation match {
-      case Add      => Addi(x, y)
-      case Multiply => Mul(x, y)
-      case Subtract => Sub(x, y)
-      case Pow      => Exp(x, y)
-      case Divide   => Div(x, y)
+  private def handleModulus(x: Number, y: Number): Number = {
+    Pos("0")
+  }
+
+  private def handlePow(x: Number, y: Number): Option[Number] = {
+    getSignums(x, y) match {
+      case NoNegativeOperands   => Some(Pos(Exp(x(), y())))
+      case NegativeLeftOperand  => None
+      case NegativeRightOperand => None
+      case BothOperandsNegative => None
     }
   }
 
