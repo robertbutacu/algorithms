@@ -14,30 +14,24 @@ trait OperationFactory {
 
   private def handleComputation(x: Number, y: Number, operation: Operation): Option[Number] = {
     getSignums(x, y) match {
-      case NoNegativeOperands    =>
-        if(isBigger(y, x) && operation == Subtract)
-          Some(Neg(Sub(y.number, x.number)))
-        else Some(Pos(executeComputation(x.number, y.number, operation)))
+      case NoNegativeOperands   =>
+        handleNoNegativeOp(x, y, operation)
 
-      case NegativeLeftOperand   =>
+      case NegativeLeftOperand  =>
         handleNegativeLeftOperand(x, y, operation)
 
-      case NegativeRightOperand  =>
+      case NegativeRightOperand =>
         handleNegativeRightOperand(x, y, operation)
 
-      case BothOperandsNegative  =>
+      case BothOperandsNegative =>
         handleBothOperandsNegative(x, y, operation)
     }
   }
 
-  private def executeComputation(x: String, y: String, operation: Operation): String = {
-    operation match {
-      case Add      => Addi(x, y)
-      case Multiply => Mul(x, y)
-      case Subtract => Sub(x, y)
-      case Pow      => Exp(x, y)
-      case Divide   => Div(x, y)
-    }
+  private def handleNoNegativeOp(x: Number, y: Number, op: Operation): Option[Number] = {
+    if(isBigger(y, x) && op == Subtract)
+      Some(Neg(Sub(y.number, x.number)))
+    else Some(Pos(executeComputation(x.number, y.number, op)))
   }
 
   private def handleBothOperandsNegative(x: Number, y: Number, operation: Operation): Option[Number] = {
@@ -58,8 +52,6 @@ trait OperationFactory {
         None
     }
   }
-
-  private def isDivisorZero(x: Number): Boolean = x.number.dropWhile(_.equals('0')).isEmpty
 
   private def handleNegativeLeftOperand(x: Number, y: Number, operation: Operation): Option[Number] = {
     operation match {
@@ -92,6 +84,18 @@ trait OperationFactory {
       case Pow      => None
     }
   }
+
+  private def executeComputation(x: String, y: String, operation: Operation): String = {
+    operation match {
+      case Add      => Addi(x, y)
+      case Multiply => Mul(x, y)
+      case Subtract => Sub(x, y)
+      case Pow      => Exp(x, y)
+      case Divide   => Div(x, y)
+    }
+  }
+
+  private def isDivisorZero(x: Number): Boolean = x.number.dropWhile(_.equals('0')).isEmpty
 
   private def getSignums(x: Number, y: Number): Signum = {
     (x, y) match {
