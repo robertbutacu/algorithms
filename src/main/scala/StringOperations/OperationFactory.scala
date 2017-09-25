@@ -16,8 +16,8 @@ trait OperationFactory {
     getSignums(x, y) match {
       case NoNegativeOperands    =>
         if(isBigger(y, x) && operation == Subtract)
-          Some(Negative(Subtraction(y.number, x.number)))
-        else Some(Positive(executeComputation(x.number, y.number, operation)))
+          Some(Neg(Sub(y.number, x.number)))
+        else Some(Pos(executeComputation(x.number, y.number, operation)))
 
       case NegativeLeftOperand   =>
         handleNegativeLeftOperand(x, y, operation)
@@ -32,28 +32,28 @@ trait OperationFactory {
 
   private def executeComputation(x: String, y: String, operation: Operation): String = {
     operation match {
-      case Add      => Addition(x, y)
-      case Multiply => Multiplication(x, y)
-      case Subtract => Subtraction(x, y)
-      case Pow      => Exponentiation(x, y)
-      case Divide   => Division(x, y)
+      case Add      => Addi(x, y)
+      case Multiply => Mul(x, y)
+      case Subtract => Sub(x, y)
+      case Pow      => Exp(x, y)
+      case Divide   => Div(x, y)
     }
   }
 
   private def handleBothOperandsNegative(x: Number, y: Number, operation: Operation): Option[Number] = {
     operation match {
       case Add      =>
-        Some(Negative(Addition(x.number, y.number)))
+        Some(Neg(Addi(x.number, y.number)))
       case Subtract =>
-        if(isBigger(x, y)) Some(Negative(Subtraction(x.number, y.number)))
-        else               Some(Positive(Subtraction(y.number, x.number)))
+        if(isBigger(x, y)) Some(Neg(Sub(x.number, y.number)))
+        else               Some(Pos(Sub(y.number, x.number)))
       case Multiply =>
-        Some(Positive(Multiplication(x.number, y.number)))
+        Some(Pos(Mul(x.number, y.number)))
       case Divide   =>
         if ( isDivisorZero(y))
           None
         else
-          Some(Positive(Division(x.number, y.number)))
+          Some(Pos(Div(x.number, y.number)))
       case Pow      =>
         None
     }
@@ -64,15 +64,15 @@ trait OperationFactory {
   private def handleNegativeLeftOperand(x: Number, y: Number, operation: Operation): Option[Number] = {
     operation match {
       case Add      =>
-        if (isBigger(x, y)) Some(Negative(Subtraction(x.number, y.number)))
-        else Some(Positive(Subtraction(y.number, x.number)))
-      case Subtract => Some(Negative(Addition(x.number, y.number)))
-      case Multiply => Some(Negative(Multiplication(x.number, y.number)))
+        if (isBigger(x, y)) Some(Neg(Sub(x.number, y.number)))
+        else Some(Pos(Sub(y.number, x.number)))
+      case Subtract => Some(Neg(Addi(x.number, y.number)))
+      case Multiply => Some(Neg(Mul(x.number, y.number)))
       case Divide   =>
         if (isDivisorZero(y))
           None
         else
-          Some(Negative(Division(x.number, y.number)))
+          Some(Neg(Div(x.number, y.number)))
       case Pow      => None
     }
   }
@@ -80,25 +80,25 @@ trait OperationFactory {
   private def handleNegativeRightOperand(x: Number, y: Number, operation: Operation): Option[Number] = {
     operation match {
       case Add      =>
-        if(isBigger(x, y)) Some(Positive(Subtraction(x.number, y.number)))
-        else      Some(Negative(Subtraction(y.number, x.number)))
-      case Subtract => Some(Positive(Addition(x.number, y.number)))
-      case Multiply => Some(Negative(Multiplication(x.number, y.number)))
+        if(isBigger(x, y)) Some(Pos(Sub(x.number, y.number)))
+        else      Some(Neg(Sub(y.number, x.number)))
+      case Subtract => Some(Pos(Addi(x.number, y.number)))
+      case Multiply => Some(Neg(Mul(x.number, y.number)))
       case Divide   =>
         if(isDivisorZero(y))
           None
         else
-          Some(Negative(Division(x.number, y.number)))
+          Some(Neg(Div(x.number, y.number)))
       case Pow      => None
     }
   }
 
   private def getSignums(x: Number, y: Number): Signum = {
     (x, y) match {
-      case (Negative(_), Negative(_)) => BothOperandsNegative
-      case (Negative(_), Positive(_)) => NegativeLeftOperand
-      case (Positive(_), Negative(_)) => NegativeRightOperand
-      case (Positive(_), Positive(_)) => NoNegativeOperands
+      case (Neg(_), Neg(_)) => BothOperandsNegative
+      case (Neg(_), Pos(_)) => NegativeLeftOperand
+      case (Pos(_), Neg(_)) => NegativeRightOperand
+      case (Pos(_), Pos(_)) => NoNegativeOperands
     }
   }
 

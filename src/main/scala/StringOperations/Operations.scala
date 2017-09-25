@@ -22,5 +22,5 @@ trait Number{
   def number: String
 }
 
-case class Positive(number: String) extends Number
-case class Negative(number: String) extends Number
+case class Pos(number: String) extends Number
+case class Neg(number: String) extends Number

@@ -3,7 +3,7 @@ package StringOperations
 /**
   * Created by Robert-PC on 9/21/2017.
   */
-object Addition {
+object Addi {
   private[StringOperations] def apply(x: String, y: String): String = {
     def compute(x: String, y: String): String = {
       val resultWithoutCarry: Total =

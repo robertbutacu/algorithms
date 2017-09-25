@@ -5,14 +5,14 @@ package StringOperations
   */
 case class ProductTotal(product: String = "0", traillingZeroes: Int = 0)
 
-object Multiplication {
+object Mul {
   private[StringOperations] def apply(x: String, y: String): String = {
     x.map(digit =>
       multiplyByDigit(y, digit)
     )
       .foldRight(ProductTotal())((curr, acc) =>
         ProductTotal(
-          Addition(curr ++ ("0" * acc.traillingZeroes), acc.product),
+          Addi(curr ++ ("0" * acc.traillingZeroes), acc.product),
           acc.traillingZeroes + 1
         )
       )
