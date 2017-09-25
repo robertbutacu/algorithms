@@ -95,8 +95,6 @@ trait OperationFactory {
     }
   }
 
-  private def isDivisorZero(x: Number): Boolean = x.number.dropWhile(_.equals('0')).isEmpty
-
   private def getSignums(x: Number, y: Number): Signum = {
     (x, y) match {
       case (Neg(_), Neg(_)) => BothOperandsNegative
@@ -105,6 +103,8 @@ trait OperationFactory {
       case (Pos(_), Pos(_)) => NoNegativeOperands
     }
   }
+
+  private def isDivisorZero(x: Number): Boolean = x.number.dropWhile(_.equals('0')).isEmpty
 
   private def isDigitsOnly(x: Number, y: Number): Boolean = {
     x.number.filter(!_.equals('-')).forall(_.isDigit) &&
