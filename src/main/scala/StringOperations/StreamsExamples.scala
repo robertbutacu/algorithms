@@ -10,14 +10,14 @@ trait StreamsExamples extends OperationFactory{
       //compute(Some(squares.last._1), Add, Some(squares.last._1)),
     compute(
       compute(
-        Some(squares.last),
+        Some(squares.tail.last),
         Add,
-        Some(squares.last)),
+        Some(squares.tail.last)),
       Multiply,
       compute(
-        Some(squares.last),
+        Some(squares.tail.last),
         Add,
-        Some(squares.last)
+        Some(squares.tail.last)
       )
     ).get #:: Stream.empty
 
