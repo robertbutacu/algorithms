@@ -22,7 +22,7 @@ case object BothOperandsNegative    extends Sign
 case object NoNegativeOperands      extends Sign
 case object InvalidOperation        extends Sign
 
-trait Number{
+trait Number extends Serializable{
   def number: String
 
   def apply(): String = number
