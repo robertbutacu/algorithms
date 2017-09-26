@@ -1,15 +1,13 @@
-package stringOperations
+package stringOperations.examples
 
 import stringOperations.utils._
-
-import scala.collection.immutable.Stream.#::
+import stringOperations.{OperationFactory, utils}
 
 /**
   * Created by Robert-PC on 9/25/2017.
   */
 trait StreamsExamples extends OperationFactory{
   lazy val squares: Stream[utils.StringNumber] = Pos("1") #:: Pos("2") #::
-      //compute(Some(squares.last._1), Add, Some(squares.last._1)),
     compute(
       compute(
         Some(squares.tail.last),
@@ -38,8 +36,7 @@ trait StreamsExamples extends OperationFactory{
   def squaresBetween(start: StringNumber, end: StringNumber): Stream[StringNumber] = {
     if (start == end)
       Stream.empty
-    else{
-      println(start)
+    else
       Stream.cons(
         compute(Some(start), Multiply, Some(start)).get,
         squaresBetween(
@@ -47,8 +44,6 @@ trait StreamsExamples extends OperationFactory{
         )
       )
     }
-
-  }
 
   lazy val fibsString: Stream[StringNumber] = Pos("0") #::
     Pos("1") #::
@@ -59,6 +54,4 @@ trait StreamsExamples extends OperationFactory{
         Some(e._2)
       ).get
     }
-
-  val test: Stream[utils.StringNumber] = Pos("0") #:: Pos("1") #:: Pos("2") #:: Stream.empty
 }

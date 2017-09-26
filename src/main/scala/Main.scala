@@ -1,4 +1,5 @@
 import stringOperations._
+import stringOperations.examples.StreamsExamples
 import stringOperations.utils.{Add, Multiply, Neg, Pos}
 
 /**
@@ -7,6 +8,6 @@ import stringOperations.utils.{Add, Multiply, Neg, Pos}
 object Main extends App with OperationFactory with StreamsExamples{
   //println(compute(Some(Neg("2")), Multiply, Some(Pos("3"))))
   //println(squaresUpUntil(Pos("10")).toList)
-  //println(squaresBetween(Pos("124"), Pos("200")).toList)
-  println(compute(Some(Pos("101")), Add, Some(Pos("899"))))
+  println(squaresBetween(Pos("124"), Pos("200")).toList)
+  //println(compute(Some(Pos("101")), Add, Some(Pos("899"))))
 }
