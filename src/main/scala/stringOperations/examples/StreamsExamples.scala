@@ -45,7 +45,7 @@ trait StreamsExamples extends OperationFactory{
       )
     }
 
-  lazy val fibsString: Stream[StringNumber] = Pos("0") #::
+  lazy val fibsString: Stream[StringNumber] = Pos() #::
     Pos("1") #::
     fibsString.zip(fibsString.tail).map { e =>
       compute(
