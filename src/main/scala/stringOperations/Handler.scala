@@ -6,7 +6,7 @@ import stringOperations.utils._
 /**
   * Created by Robert-PC on 9/25/2017.
   */
-trait Handler extends {
+trait Handler{
   private[stringOperations] def handleComputation(x: StringNumber, y: StringNumber, operation: Operation): Option[StringNumber] = {
     operation match {
       case Add      => add(x, y)

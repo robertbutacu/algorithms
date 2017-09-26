@@ -32,9 +32,10 @@ object Addi {
   private def updateSum(curr: (Char, Char), acc: Total): String = {
     // no carry
     def getCurrent(x: (Char, Char)): Int = {
-      (x._1.asDigit + x._2.asDigit) % 10
+      x._1.asDigit + x._2.asDigit
     }
 
+    //println(("Curr " + (getCurrent(curr) + acc.carry) % 10) + " " + acc.carry)
     ((getCurrent(curr) + acc.carry) % 10).toString ++ acc.total
   }
 
@@ -42,9 +43,10 @@ object Addi {
   private def updateCarry(curr: (Char, Char), acc: Total): Int = {
     //carry only
     def getCarry(x: (Char, Char)): Int = {
-      (x._1.asDigit + x._2.asDigit) / 10
+      x._1.asDigit + x._2.asDigit
     }
 
-    (getCarry(curr) + acc.carry) / 10 + getCarry(curr)
+    //println("Carry " + (getCarry(curr) + acc.carry) + " for " + curr + " " + acc)
+    (getCarry(curr) + acc.carry) / 10
   }
 }

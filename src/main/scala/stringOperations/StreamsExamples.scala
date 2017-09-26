@@ -1,6 +1,6 @@
 package stringOperations
 
-import stringOperations.utils.{Add, Multiply, Pos, Subtract}
+import stringOperations.utils._
 
 import scala.collection.immutable.Stream.#::
 
@@ -23,7 +23,7 @@ trait StreamsExamples extends OperationFactory{
       )
     ).get #:: Stream.empty
 
-  def squaresUpUntil(i: utils.StringNumber): Stream[utils.StringNumber] = {
+  def squaresUpUntil(i: StringNumber): Stream[StringNumber] = {
     if (i == Pos())
       Stream.empty
     else
@@ -35,7 +35,22 @@ trait StreamsExamples extends OperationFactory{
       )
   }
 
-  lazy val fibsString: Stream[utils.StringNumber] = Pos("0") #::
+  def squaresBetween(start: StringNumber, end: StringNumber): Stream[StringNumber] = {
+    if (start == end)
+      Stream.empty
+    else{
+      println(start)
+      Stream.cons(
+        compute(Some(start), Multiply, Some(start)).get,
+        squaresBetween(
+          compute(Some(start), Add, Some(Pos("1"))).get, end
+        )
+      )
+    }
+
+  }
+
+  lazy val fibsString: Stream[StringNumber] = Pos("0") #::
     Pos("1") #::
     fibsString.zip(fibsString.tail).map { e =>
       compute(
