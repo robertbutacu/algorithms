@@ -12,7 +12,7 @@ object Div {
     def divide(x: String, y: String, quotient: String ): String = {
       val x1 = Sub(x, y)
 
-      if(x1 < y)
+      if(isSmaller(x1, y))
         Addi(quotient, "1")
       else
         divide(x1, y, Addi(quotient, "1"))
@@ -21,9 +21,10 @@ object Div {
     if(y.equals("1"))
       x
     else
-      if(x.length < y.length)
+      if(isSmaller(x, y))
         "0"
       else
         divide(x, y, "0")
   }
+  private def isSmaller(x: String,y : String): Boolean = x.length < y.length || (x.length == y.length && x < y)
 }

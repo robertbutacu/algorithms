@@ -12,6 +12,6 @@ object Main extends App with OperationFactory with StreamsExamples{
   //println(squaresBetween(Pos("124"), Pos("1000")).toList)
 
   //println("0")
-  println(Mod("10", "2"))
+  println(compute(Some(Pos("100")), Modulus, Some(Pos("2"))))
   //println(compute(Some(Pos("2")), Subtract, Some(Pos("2"))))
 }

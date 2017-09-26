@@ -76,7 +76,15 @@ trait Handler{
   }
 
   def mod(x: StringNumber, y: StringNumber): Option[StringNumber] = {
-    Some(Pos("0"))
+    if(isDivisorZero(y))
+      None
+    else
+      getSigns(x, y) match {
+        case NegativeLeftOperand  => Some(Neg(Mod(x(), y())))
+        case NegativeRightOperand => Some(Neg(Mod(x(), y())))
+        case InvalidOperation     => None
+        case _                    => Some(Pos(Mod(x(), y())))
+      }
   }
 
   def pow(x: StringNumber, y: StringNumber): Option[StringNumber] = {

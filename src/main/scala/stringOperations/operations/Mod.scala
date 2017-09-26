@@ -13,7 +13,7 @@ object Mod {
     def mod(x: String, y: String): String = {
       val x1 = Sub(x, y)
 
-      if(x1 < y)
+      if(isSmaller(x1, y))
         x1
       else
         mod(x1, y)
@@ -22,9 +22,11 @@ object Mod {
     if(y.equals("1"))
       x
     else
-    if(x.length < y.length)
+    if(isSmaller(x, y))
       "0"
     else
       mod(x, y)
   }
+
+  private def isSmaller(x: String, y: String): Boolean = x.length < y.length || (x.length == y.length && x < y)
 }
