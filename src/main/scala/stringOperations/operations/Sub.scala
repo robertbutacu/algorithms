@@ -35,7 +35,10 @@ object Sub {
         ).total
     }
 
-    compute(Utils.equalizeLength(x, y), Utils.equalizeLength(y, x)).dropWhile(_ == '0')
+    if(x == y)
+      "0"
+    else
+      compute(Utils.equalizeLength(x, y), Utils.equalizeLength(y, x)).dropWhile(_ == '0')
   }
 
   private def subtract(x: Char, y: Char, carry: Int): String = {

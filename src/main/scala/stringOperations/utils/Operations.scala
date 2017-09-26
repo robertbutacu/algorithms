@@ -28,5 +28,5 @@ trait StringNumber extends Serializable{
   def apply(): String = number
 }
 
-case class Pos(number: String = "") extends StringNumber
-case class Neg(number: String = "") extends StringNumber
+case class Pos(number: String = "0") extends StringNumber
+case class Neg(number: String = "0") extends StringNumber
