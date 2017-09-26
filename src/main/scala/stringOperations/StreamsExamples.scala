@@ -8,7 +8,7 @@ import scala.collection.immutable.Stream.#::
   * Created by Robert-PC on 9/25/2017.
   */
 trait StreamsExamples extends OperationFactory{
-  lazy val squares: Stream[utils.Number] = Pos("1") #:: Pos("2") #::
+  lazy val squares: Stream[utils.StringNumber] = Pos("1") #:: Pos("2") #::
       //compute(Some(squares.last._1), Add, Some(squares.last._1)),
     compute(
       compute(
@@ -23,7 +23,7 @@ trait StreamsExamples extends OperationFactory{
       )
     ).get #:: Stream.empty
 
-  def squaresUpUntil(i: utils.Number): Stream[utils.Number] = {
+  def squaresUpUntil(i: utils.StringNumber): Stream[utils.StringNumber] = {
     if (i == Pos())
       Stream.empty
     else
@@ -35,7 +35,7 @@ trait StreamsExamples extends OperationFactory{
       )
   }
 
-  lazy val fibsString: Stream[utils.Number] = Pos("0") #::
+  lazy val fibsString: Stream[utils.StringNumber] = Pos("0") #::
     Pos("1") #::
     fibsString.zip(fibsString.tail).map { e =>
       compute(
@@ -45,5 +45,5 @@ trait StreamsExamples extends OperationFactory{
       ).get
     }
 
-  val test: Stream[utils.Number] = Pos("0") #:: Pos("1") #:: Pos("2") #:: Stream.empty
+  val test: Stream[utils.StringNumber] = Pos("0") #:: Pos("1") #:: Pos("2") #:: Stream.empty
 }

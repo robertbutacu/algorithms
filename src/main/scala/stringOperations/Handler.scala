@@ -6,20 +6,20 @@ import stringOperations.utils._
 /**
   * Created by Robert-PC on 9/25/2017.
   */
-trait Handler {
-  private[stringOperations] def handleComputation(x: utils.Number, y: utils.Number, operation: Operation): Option[utils.Number] = {
+trait Handler extends {
+  private[stringOperations] def handleComputation(x: StringNumber, y: StringNumber, operation: Operation): Option[StringNumber] = {
     operation match {
-      case Add      => handleAddition(x, y)
-      case Subtract => handleSubtraction(x, y)
-      case Multiply => handleMultiplication(x, y)
-      case Divide   => handleDivision(x, y)
-      case Modulus  => handleModulus(x, y)
-      case Pow      => handlePow(x, y)
+      case Add      => add(x, y)
+      case Subtract => subtract(x, y)
+      case Multiply => multiply(x, y)
+      case Divide   => divide(x, y)
+      case Modulus  => mod(x, y)
+      case Pow      => pow(x, y)
       case _        => None
     }
   }
 
-  private def handleAddition(x: utils.Number, y: utils.Number): Option[utils.Number] = {
+  def add(x: StringNumber, y: StringNumber): Option[StringNumber] = {
     getSigns(x, y) match {
       case NoNegativeOperands   =>
         Some(Pos(Addi(x(), y())))
@@ -36,7 +36,7 @@ trait Handler {
     }
   }
 
-  private def handleMultiplication(x: utils.Number, y: utils.Number): Option[utils.Number] = {
+  def multiply(x: StringNumber, y: StringNumber): Option[StringNumber] = {
     getSigns(x, y) match {
       case NoNegativeOperands   => Some(Pos(Mul(x(), y())))
       case NegativeRightOperand => Some(Neg(Mul(x(), y())))
@@ -46,7 +46,7 @@ trait Handler {
     }
   }
 
-  private def handleSubtraction(x: utils.Number, y: utils.Number): Option[utils.Number] = {
+  def subtract(x: StringNumber, y: StringNumber): Option[StringNumber] = {
     getSigns(x, y) match {
       case NoNegativeOperands   =>
         if(isBigger(y, x)) Some(Neg(Sub(y(), x())))
@@ -63,7 +63,7 @@ trait Handler {
     }
   }
 
-  private def handleDivision(x: utils.Number, y: utils.Number): Option[utils.Number] = {
+  def divide(x: StringNumber, y: StringNumber): Option[StringNumber] = {
     if(isDivisorZero(y))
       None
     else
@@ -75,11 +75,11 @@ trait Handler {
       }
   }
 
-  private def handleModulus(x: utils.Number, y: utils.Number): Option[utils.Number] = {
+  def mod(x: StringNumber, y: StringNumber): Option[StringNumber] = {
     Some(Pos("0"))
   }
 
-  private def handlePow(x: utils.Number, y: utils.Number): Option[utils.Number] = {
+  def pow(x: StringNumber, y: StringNumber): Option[StringNumber] = {
     getSigns(x, y) match {
       case NoNegativeOperands   => Some(Pos(Exp(x(), y())))
       case NegativeLeftOperand  => None
@@ -89,7 +89,7 @@ trait Handler {
     }
   }
 
-  private def getSigns(x: utils.Number, y: utils.Number): Sign = {
+  private def getSigns(x: StringNumber, y: StringNumber): Sign = {
     (x, y) match {
       case (Neg(_), Neg(_)) => BothOperandsNegative
       case (Neg(_), Pos(_)) => NegativeLeftOperand
@@ -99,7 +99,7 @@ trait Handler {
     }
   }
 
-  private def isDivisorZero(x: utils.Number): Boolean = x().dropWhile(_.equals('0')).isEmpty
+  private def isDivisorZero(x: StringNumber): Boolean = x().dropWhile(_.equals('0')).isEmpty
 
   /*
   x is bigger than y in 2 cases:
@@ -107,7 +107,7 @@ trait Handler {
     2. same size, but, character for character, x is the first one to contain a bigger one.
  */
 
-  private def isBigger(x: utils.Number, y: utils.Number): Boolean = {
+  private def isBigger(x: StringNumber, y: StringNumber): Boolean = {
     if (x().length > y().length || (x().length == y().length && x() > y()))
       true
     else
