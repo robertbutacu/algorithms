@@ -18,4 +18,18 @@ object HuffmanCoding {
     frequency
   }
 
+  def getChars(input: Tree): List[Char] = {
+    input match {
+      case Fork(_, cs, _, _) => cs
+      case LeafNode(c, _)    => List(c)
+    }
+  }
+
+  def getWeight(input: Tree): Int ={
+    input match {
+      case Fork(_, _, ws, _) => ws
+      case LeafNode(_, w)    => w
+    }
+  }
+
 }
