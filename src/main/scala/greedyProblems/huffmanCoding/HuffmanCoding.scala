@@ -36,4 +36,7 @@ object HuffmanCoding {
     input.sortWith((f1, f2) => f1._2 < f2._2)
   }
 
+  def makeTree(left: Tree, right: Tree): Tree = {
+    Fork(left, getChars(left) ::: getChars(right), getWeight(left) + getWeight(right), right)
+  }
 }
