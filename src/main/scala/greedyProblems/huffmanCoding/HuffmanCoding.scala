@@ -5,7 +5,7 @@ package greedyProblems.huffmanCoding
   */
 object HuffmanCoding {
 
-  def getFrequency(input: String): scala.collection.mutable.Map[Char, Int] = {
+  def getFrequency(input: String): List[(Char, Int)] = {
     var frequency = scala.collection.mutable.Map[Char, Int]()
 
     input.foreach(c =>
@@ -15,7 +15,7 @@ object HuffmanCoding {
       frequency += (c -> 1)
     )
 
-    frequency
+    frequency.toList
   }
 
   def getChars(input: Tree): List[Char] = {
@@ -30,6 +30,10 @@ object HuffmanCoding {
       case Fork(_, _, ws, _) => ws
       case LeafNode(_, w)    => w
     }
+  }
+
+  def orderFrequencyList(input: List[(Char, Int)]): List[(Char, Int)] = {
+    input.sortWith((f1, f2) => f1._2 < f2._2)
   }
 
 }
