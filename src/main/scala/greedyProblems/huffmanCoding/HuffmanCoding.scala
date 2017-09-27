@@ -39,4 +39,9 @@ object HuffmanCoding {
   def makeTree(left: Tree, right: Tree): Tree = {
     Fork(left, getChars(left) ::: getChars(right), getWeight(left) + getWeight(right), right)
   }
+
+  def combine(trees: List[Tree]): List[Tree] = trees match {
+    case fst::snd::tail => (makeTree(fst, snd) :: tail).sortWith((t1, t2) => getWeight(t1) < getWeight(t2))
+    case _                 => trees
+  }
 }
