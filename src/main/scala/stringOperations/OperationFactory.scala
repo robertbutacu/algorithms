@@ -1,6 +1,7 @@
 package stringOperations
 
-import stringOperations.utils.{Operation, StringNumber}
+import stringOperations.operations.{Dec, Inc, Sq}
+import stringOperations.utils._
 
 /**
   * Created by Robert-PC on 9/21/2017.
@@ -13,9 +14,12 @@ trait OperationFactory extends Handler{
     }
   }
 
-  def compute(operation: Operation, x: Option[StringNumber]): Option[StringNumber] = {
+  def compute(operation: Operation, x: Option[StringNumber]): String = {
     operation match {
-      case _ => None
+      case Increment => Inc(x.getOrElse(Pos())())
+      case Decrement => Dec(x.getOrElse(Pos())())
+      case Square    => Sq(x.getOrElse(Pos())())
+      case _         => ""
     }
   }
 

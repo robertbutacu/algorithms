@@ -13,6 +13,9 @@ case object Pow       extends Operation
 case object Squared   extends Operation
 case object Root      extends Operation
 case object Modulus   extends Operation
+case object Increment extends Operation
+case object Decrement extends Operation
+case object Square    extends Operation
 
 trait Sign
 
