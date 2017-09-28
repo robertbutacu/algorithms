@@ -1,3 +1,4 @@
+package greedyProblems.huffmanCoding
 import scala.collection.immutable._
 
 /**
@@ -24,9 +25,15 @@ object Huffman {
 
   // Part 1: Basics
 
-  //def weight(tree: CodeTree): Int
+  def weight(tree: CodeTree): Int = tree match {
+    case Fork(_, _, _, ws) => ws
+    case Leaf(_, w)        => w
+  }
 
-  //def chars(tree: CodeTree): List[Char]
+  def chars(tree: CodeTree): List[Char] = tree match {
+    case Fork(_, _, cs, _) => cs
+    case Leaf(c, _)        => List(c)
+  }
 
   //def makeCodeTree(left: CodeTree, right: CodeTree)
 
