@@ -7,19 +7,8 @@ import stringOperations.{OperationFactory, utils}
   * Created by Robert-PC on 9/25/2017.
   */
 trait StreamsExamples extends OperationFactory{
-  lazy val squares: Stream[utils.StringNumber] = Pos("1") #:: Pos("2") #::
-    compute(
-      compute(
-        Some(squares.tail.last),
-        Add,
-        Some(squares.tail.last)),
-      Multiply,
-      compute(
-        Some(squares.tail.last),
-        Add,
-        Some(squares.tail.last)
-      )
-    ).get #:: Stream.empty
+  //TODO
+  lazy val squares: Stream[utils.StringNumber] = Stream.empty
 
   def squaresUpUntil(i: StringNumber): Stream[StringNumber] = {
     if (i == Pos())

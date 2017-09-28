@@ -22,5 +22,4 @@ object FastExponentiation {
       ._1
       .toList
   }
-
 }
