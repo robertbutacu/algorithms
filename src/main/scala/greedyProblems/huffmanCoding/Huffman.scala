@@ -141,7 +141,7 @@ object Huffman {
     */
   def until(p: List[CodeTree] => Boolean, f: List[CodeTree] => List[CodeTree])(trees: List[CodeTree]): List[CodeTree] = {
     if(p(trees)) trees
-    else until(p, f)(f(trees))
+    else         until(p, f)(f(trees))
   }
 
   /**
