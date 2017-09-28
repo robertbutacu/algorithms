@@ -22,4 +22,22 @@ object FastExponentiation {
       ._1
       .toList
   }
+
+  def computePowersRightToLeft(base: Int, power: List[Char]): List[Int] = {
+    power
+      .scanRight(0)((_, acc) =>
+        if (acc == 0) 1
+        else base * acc
+      )
+  }
+
+  def pow(base: Int, power: Int): Int = {
+    computePowersRightToLeft(base, toBits(power)).zip(toBits(power))
+      .foldRight(1)((curr, acc) => {
+        println(curr + " " + acc)
+
+        if (curr._2.asDigit == 1) curr._1 * acc
+        else acc
+      })
+  }
 }
