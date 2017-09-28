@@ -1,5 +1,5 @@
 package greedyProblems.huffmanCoding
-import scala.collection.immutable._
+import scala.collection.mutable.Map
 
 /**
   * Assignment 4: Huffman coding
@@ -35,7 +35,9 @@ object Huffman {
     case Leaf(c, _)        => List(c)
   }
 
-  //def makeCodeTree(left: CodeTree, right: CodeTree)
+  def makeCodeTree(left: CodeTree, right: CodeTree): CodeTree = {
+    Fork(left, right, chars(left) ::: chars(right), weight(left) + weight(right))
+  }
 
 
 
@@ -45,7 +47,7 @@ object Huffman {
     * In this assignment, we are working with lists of characters. This function allows
     * you to easily create a character list from a given string.
     */
-  //def string2Chars(str: String): List[Char]
+  def string2Chars(str: String): List[Char] = str.toList
 
   /**
     * This function computes for each unique character in the list `chars` the number of
@@ -75,9 +77,18 @@ object Huffman {
     *       println("integer is  : "+ theInt)
     *   }
     */
-  //def times(chars: List[Char]): List[(Char, Int)] = {
-    //def incr(acc:Map[Char, Int], c:Char)
-  //}
+  def times(chars: List[Char]): List[(Char, Int)] = {
+    val freq:Map[Char,Int] = Map()
+
+    chars.foreach(c =>
+      if(freq.contains(c))
+        freq(c) = freq.getOrElse(c, 0) + 1
+      else
+        freq += (c -> 1)
+    )
+
+    freq.toList
+  }
   /**
     * Returns a list of `Leaf` nodes for a given frequency table `freqs`.
     *
