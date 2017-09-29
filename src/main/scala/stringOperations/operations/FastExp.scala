@@ -11,13 +11,10 @@ object FastExp {
       )
   }
 
-
   @tailrec
   def generatePowersOf2(start: String, goal: String, result: List[String]): List[String] = {
-    println(result)
     if(isBigger(start, goal)) result
-    else if(Mul(result.last, "2") == start) generatePowersOf2(Inc(start), goal, result ::: List(start))
-         else generatePowersOf2(Inc(start), goal, result)
+    else generatePowersOf2(Mul(start, "2"), goal, result ::: List(start))
   }
 
   def toBits(input: String): List[Char] = {
@@ -33,8 +30,6 @@ object FastExp {
       else Mul(acc, acc)
     )
   }
-
-
 
   private def isBigger(x: String, y: String): Boolean = {
     if (x.length > y.length || (x.length == y.length && x > y)) true
