@@ -23,7 +23,7 @@ object FastExponentiation {
       .toList
   }
 
-  def computePowersRightToLeft(base: Int, power: List[Char]): List[Int] = {
+  def computePowers(base: Int, power: List[Char]): List[Int] = {
     power
       .scanRight(0)((_, acc) =>
         if (acc == 0) base
@@ -32,7 +32,7 @@ object FastExponentiation {
   }
 
   def pow(base: Int, power: Int): Int = {
-    computePowersRightToLeft(base, toBits(power)).zip(toBits(power))
+    computePowers(base, toBits(power)).zip(toBits(power))
       .foldRight(1)((curr, acc) => {
         if (curr._2.asDigit == 1) curr._1 * acc
         else acc

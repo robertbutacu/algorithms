@@ -1,19 +1,23 @@
 package stringOperations.operations
 
+import scala.annotation.tailrec
+
 object FastExp {
-
-  private[stringOperations] def apply(x: String, y: String): String = {
-    ""
+  def apply(x: String, y: String): String = {
+    computePowers(x, toBits(y)).zip(toBits(y))
+      .foldRight("1")((curr, acc) =>
+        if(curr._2 == '1') Mul(curr._1, acc)
+        else acc
+      )
   }
 
-  def increment(curr: String, goal: String, result: List[String]): List[String] = {
-    if(Mul(result.last, "2") == curr) generatePowersOf2(Inc(curr), goal, result ::: List(curr))
-    else generatePowersOf2(Inc(curr), goal, result)
-  }
 
+  @tailrec
   def generatePowersOf2(start: String, goal: String, result: List[String]): List[String] = {
+    println(result)
     if(isBigger(start, goal)) result
-    else increment(start, goal, result)
+    else if(Mul(result.last, "2") == start) generatePowersOf2(Inc(start), goal, result ::: List(start))
+         else generatePowersOf2(Inc(start), goal, result)
   }
 
   def toBits(input: String): List[Char] = {
@@ -23,8 +27,11 @@ object FastExp {
     )._1.toList
   }
 
-  def computePowersRightToLeft(base: String, power: List[Char]): List[Int] = {
-    List()
+  def computePowers(base: String, power: List[Char]): List[String] = {
+    power.scanRight("1")((_, acc) =>
+      if(acc == "1") base
+      else Mul(acc, acc)
+    )
   }
 
 
