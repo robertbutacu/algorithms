@@ -26,8 +26,8 @@ object FastExponentiation {
   def computePowersRightToLeft(base: Int, power: List[Char]): List[Int] = {
     power
       .scanRight(0)((_, acc) =>
-        if (acc == 0) 1
-        else base * acc
+        if (acc == 0) base
+        else acc * acc
       )
   }
 
