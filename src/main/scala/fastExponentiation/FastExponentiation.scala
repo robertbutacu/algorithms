@@ -34,8 +34,6 @@ object FastExponentiation {
   def pow(base: Int, power: Int): Int = {
     computePowersRightToLeft(base, toBits(power)).zip(toBits(power))
       .foldRight(1)((curr, acc) => {
-        println(curr + " " + acc)
-
         if (curr._2.asDigit == 1) curr._1 * acc
         else acc
       })
