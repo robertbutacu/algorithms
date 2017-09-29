@@ -16,11 +16,19 @@ object FastExp {
     else increment(start, goal, result)
   }
 
+  def toBits(input: String): List[Char] = {
+    generatePowersOf2("1", input, List("1")).foldRight("", input){(curr, acc) =>
+      println(curr + " " + acc._1 + " " + acc._2)
+      if(isBigger(Sub(acc._2, curr), acc._2)) (acc._1 ++ "0", acc._2)
+      else (acc._1 ++ "1", Sub(acc._2, curr))
+    }._1.toList
+  }
+
   def computePowersRightToLeft(base: String, power: List[Char]): List[Int] = {
     List()
   }
 
-  def toBits(input: String): List[Char] = List()
+
 
   private def isBigger(x: String, y: String): Boolean = {
     if (x.length > y.length || (x.length == y.length && x > y)) true
