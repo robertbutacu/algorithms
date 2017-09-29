@@ -9,6 +9,5 @@ import stringOperations.utils._
   * Created by Robert-PC on 9/21/2017.
   */
 object Main extends App with OperationFactory with StreamsExamples{
-  println(FastExponentiation.pow(2, 20))
-  println(Math.pow(2, 20))
+  println(squaresUpUntil(Pos("10")).toList)
 }
