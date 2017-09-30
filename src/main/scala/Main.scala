@@ -2,7 +2,7 @@ import fastExponentiation.FastExponentiation
 import stringOperations._
 import stringOperations.examples.StreamsExamples
 import stringOperations.operations.{FastExp, Sqrt}
-import stringOperations.utils.{Pos, Pow, Square, StringNumber}
+import stringOperations.utils._
 
 /**
   * Created by Robert-PC on 9/21/2017.
@@ -17,7 +17,7 @@ object Main extends App with OperationFactory with StreamsExamples{
     result
   }
 
-  println(Sqrt("50"))
+  println(compute(Root, Some(Pos("5"))))
   //println(FastExponentiation.computePowers(2, FastExponentiation.toBits(100)))
   //println(time(FastExp("2", "2000"), "Fast boiii"))
   //println(time(compute(Some(Pos("2")), Pow, Some(Pos("2000"))), " Fasttt"))

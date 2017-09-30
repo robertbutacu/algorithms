@@ -1,6 +1,6 @@
 package stringOperations
 
-import stringOperations.operations.{Dec, Inc, Sq}
+import stringOperations.operations.{Dec, Inc, Sq, Sqrt}
 import stringOperations.utils._
 
 /**
@@ -14,20 +14,24 @@ trait OperationFactory extends Handler{
     }
   }
 
-  def compute(operation: Operation, x: Option[StringNumber]): String = {
-    operation match {
-      case Increment => Inc(x.getOrElse(Pos())())
-      case Decrement => Dec(x.getOrElse(Pos())())
-      case Square    => Sq(x.getOrElse(Pos())())
-      case _         => ""
+  def compute(operation: Operation, x: Option[StringNumber]): Option[StringNumber] = {
+    isValid(x) match {
+      case Some(a) => handleComputation(a, operation)
+      case None    => None
+    }
+  }
+
+  private def isValid(x: Option[StringNumber]): Option[StringNumber] = {
+    x match{
+      case Some(a) =>
+        if(isDigitsOnly(a)) Some(a) else None
+      case None    =>
+        None
     }
   }
 
 
-  private def isDigitsOnly(x: StringNumber, y: StringNumber): Boolean = {
-    x().filter(!_.equals('-')).forall(_.isDigit) &&
-      y().filter(!_.equals('-')).forall(_.isDigit)
-  }
+  private def isDigitsOnly(x: StringNumber): Boolean = x().forall(_.isDigit)
 
   /*
     There are 3 levels of validation:
@@ -39,7 +43,7 @@ trait OperationFactory extends Handler{
   private def isValid(x: Option[StringNumber], y: Option[StringNumber], op: Operation): Option[(StringNumber, StringNumber)] = {
     (x, y) match {
       case (Some(a), Some(b)) =>
-        if(isDigitsOnly(a, b))
+        if(isDigitsOnly(a) && isDigitsOnly(b))
           Some((a, b))
         else
           None

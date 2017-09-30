@@ -19,6 +19,16 @@ trait Handler{
     }
   }
 
+  private[stringOperations] def handleComputation(x: StringNumber, op: Operation): Option[StringNumber] = {
+    op match {
+      case Increment  => None
+      case Decrement  => None
+      case Root       => None
+      case Square     => None
+      case _          => None
+    }
+  }
+
   def add(x: StringNumber, y: StringNumber): Option[StringNumber] = {
     getSigns(x, y) match {
       case NoNegativeOperands   =>
