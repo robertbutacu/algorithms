@@ -21,12 +21,36 @@ trait Handler{
 
   private[stringOperations] def handleComputation(x: StringNumber, op: Operation): Option[StringNumber] = {
     op match {
-      case Increment  => None
-      case Decrement  => None
-      case Root       => None
-      case Square     => None
+      case Increment  => incr(x)
+      case Decrement  => dec(x)
+      case Root       => root(x)
+      case Square     => square(x)
       case _          => None
     }
+  }
+
+  def incr(x: StringNumber): Option[StringNumber] = x match{
+    case Pos(number) => Some(Pos(Addi(number, "1")))
+    case Neg(number) => Some(Neg(Sub(number, "1")))
+    case _           => None
+  }
+
+  def dec(x: StringNumber): Option[StringNumber] = x match{
+    case Pos(number) => Some(Pos(Sub(number, "1")))
+    case Neg(number) => Some(Neg(Addi(number, "1")))
+    case _           => None
+  }
+
+  def root(x: StringNumber): Option[StringNumber] = x match{
+    case Pos(number) => Sqrt(number)
+    case _           => None
+
+  }
+
+  def square(x: StringNumber): Option[StringNumber] = x match{
+    case Pos(number) => Some(Pos(Sq(number)))
+    case Neg(number) => Some(Pos(Sq(number)))
+    case _           => None
   }
 
   def add(x: StringNumber, y: StringNumber): Option[StringNumber] = {

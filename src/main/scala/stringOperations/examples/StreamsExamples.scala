@@ -16,9 +16,9 @@ trait StreamsExamples extends OperationFactory{
       Stream.empty
     else
       Stream.cons(
-        Pos(compute(Square, Some(i))),
+        compute(Square, Some(i)).getOrElse(Pos()),
         squaresUpUntil(
-          Pos(compute(Decrement, Some(i)))
+          compute(Decrement, Some(i)).getOrElse(Pos())
         )
       )
   }
