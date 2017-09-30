@@ -123,8 +123,10 @@ trait Handler{
 
   def pow(x: StringNumber, y: StringNumber): Option[StringNumber] = {
     getSigns(x, y) match {
-      case NoNegativeOperands   => Some(Pos(Exp(x(), y())))
-      case NegativeLeftOperand  => None
+      case NoNegativeOperands   => Some(Pos(FastExp(x(), y())))
+      case NegativeLeftOperand  =>
+        if(Mod(y(), "2") == "0") Some(Pos(FastExp(x(), y())))
+        else                     Some(Neg(FastExp(x(), y())))
       case NegativeRightOperand => None
       case BothOperandsNegative => None
       case InvalidOperation     => None
