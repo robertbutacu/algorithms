@@ -1,8 +1,8 @@
 import fastExponentiation.FastExponentiation
 import stringOperations._
 import stringOperations.examples.StreamsExamples
-import stringOperations.operations.FastExp
-import stringOperations.utils.{Pos, Pow}
+import stringOperations.operations.{FastExp, Sqrt}
+import stringOperations.utils.{Pos, Pow, Square, StringNumber}
 
 /**
   * Created by Robert-PC on 9/21/2017.
@@ -16,8 +16,9 @@ object Main extends App with OperationFactory with StreamsExamples{
     println(s"Elapsed time on $sortingMethod: " + (t1 - t0) + "ms")
     result
   }
+
+  println(Sqrt("50"))
   //println(FastExponentiation.computePowers(2, FastExponentiation.toBits(100)))
   //println(time(FastExp("2", "2000"), "Fast boiii"))
   //println(time(compute(Some(Pos("2")), Pow, Some(Pos("2000"))), " Fasttt"))
-  println(squares.take(10).toList)
 }
