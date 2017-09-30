@@ -1,14 +1,15 @@
 package stringOperations.examples
 
+import stringOperations.OperationFactory
 import stringOperations.utils._
-import stringOperations.{OperationFactory, utils}
 
 /**
   * Created by Robert-PC on 9/25/2017.
   */
+
 trait StreamsExamples extends OperationFactory{
   //TODO
-  lazy val squares: Stream[utils.StringNumber] = Stream.empty
+  lazy val squares: Stream[StringNumber] = Stream.empty
 
   def squaresUpUntil(i: StringNumber): Stream[StringNumber] = {
     if (i == Pos())

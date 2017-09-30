@@ -1,7 +1,5 @@
 package stringOperations.operations
 
-import stringOperations.utils.StringNumber
-
 import scala.annotation.tailrec
 
 /**
