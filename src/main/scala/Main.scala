@@ -1,7 +1,5 @@
-import fastExponentiation.FastExponentiation
 import stringOperations._
 import stringOperations.examples.StreamsExamples
-import stringOperations.operations.{FastExp, Sqrt}
 import stringOperations.utils._
 
 /**
@@ -17,8 +15,5 @@ object Main extends App with OperationFactory with StreamsExamples{
     result
   }
 
-  println(compute(Increment, Some(Neg("1"))))
-  //println(FastExponentiation.computePowers(2, FastExponentiation.toBits(100)))
-  //println(time(FastExp("2", "2000"), "Fast boiii"))
-  //println(time(compute(Some(Pos("2")), Pow, Some(Pos("2000"))), " Fasttt"))
+  println(compute(Decrement, Some(Pos())))
 }

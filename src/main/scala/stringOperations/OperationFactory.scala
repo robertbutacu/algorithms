@@ -1,6 +1,5 @@
 package stringOperations
 
-import stringOperations.operations.{Dec, Inc, Sq, Sqrt}
 import stringOperations.utils._
 
 /**
