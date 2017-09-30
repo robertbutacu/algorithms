@@ -19,10 +19,11 @@ object FastExp {
   }
 
   def toBits(input: String): List[Char] = {
-    generatePowersOf2("1", input, List("1")).foldRight("", input)((curr, acc) =>
-      if(isBigger(Sub(acc._2, curr), acc._2)) (acc._1 ++ "0", acc._2)
-      else (acc._1 ++ "1", Sub(acc._2, curr))
-    )._1.toList
+    generatePowersOf2("1", input, List("1"))
+      .foldRight("", input)((curr, acc) =>
+        if(isBigger(Sub(acc._2, curr), acc._2)) (acc._1 ++ "0", acc._2)
+        else (acc._1 ++ "1", Sub(acc._2, curr))
+      )._1.toList
   }
 
   def computePowers(base: String, power: List[Char]): List[String] = {
