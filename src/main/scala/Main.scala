@@ -14,6 +14,6 @@ object Main extends App with OperationFactory with StreamsExamples{
     println(s"Elapsed time on $sortingMethod: " + (t1 - t0) + "ms")
     result
   }
-  println(Math.pow(2.0, 10000.0))
-  println(compute(Some(Neg("2")), Pow, Some(Pos("1000"))))
+  println(compute(Decrement, Some(Neg("0"))))
+  //println(compute(Some(Neg("2")), Pow, Some(Pos("1000"))))
 }

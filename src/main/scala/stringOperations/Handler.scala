@@ -36,7 +36,9 @@ trait Handler{
   }
 
   def dec(x: StringNumber): Option[StringNumber] = x match{
-    case Pos(number) => Some(Pos(Sub(number, "1")))
+    case Pos(number) =>
+      if(number == "0") Some(Neg("1"))
+      else              Some(Pos(Sub(number, "1")))
     case Neg(number) => Some(Neg(Addi(number, "1")))
     case _           => None
   }
