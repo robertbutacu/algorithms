@@ -8,11 +8,12 @@ import scala.annotation.tailrec
 object Dijkstra {
   case class Distance(dist: Int)
   case class TentativeDistance(node: Node, dist: Option[Int] = None)
-  case class Node(name: String, neighbours: Option[Map[Node, Distance]] = None)
-  case class Graph(nodes: Set[Node])
+  case class Node(name: String)
+  case class Edge(from: Node, to: Node)
+  case class Graph(nodes: Map[Edge, Distance])
 
   def initialize(start: Node, graph: Graph): Set[TentativeDistance] = {
-    graph.nodes map {node: Node => if(node == start) TentativeDistance(node, Some(0)) else TentativeDistance(node, None)}
+    Set()
   }
 
   def shortest(start: Node,
@@ -40,4 +41,27 @@ object Dijkstra {
     tentNodes + newNode
   }
 
+
+  val bacau = Dijkstra.Node("Bacau")
+  val iasi = Dijkstra.Node("Iasi")
+  val roman = Dijkstra.Node("Roman")
+  val piatraNeamt = Dijkstra.Node("Piatra-Neamt")
+  val bucuresti = Dijkstra.Node("Bucuresti")
+  val brasov = Dijkstra.Node("Brasov")
+  val cluj = Dijkstra.Node("Cluj")
+  val timisoara = Dijkstra.Node("Timisoara")
+
+  val graph = Dijkstra.Graph(Map(
+    Edge(bacau, roman) -> Distance(60),
+    Edge(bacau, piatraNeamt) -> Distance(70),
+    Edge(roman, iasi) -> Distance(70),
+    Edge(piatraNeamt, iasi) -> Distance(80),
+    Edge(piatraNeamt, brasov) -> Distance(400),
+    Edge(piatraNeamt, cluj) -> Distance(450),
+    Edge(cluj, brasov) -> Distance(100),
+    Edge(cluj, timisoara) -> Distance(300),
+    Edge(brasov, timisoara) -> Distance(250),
+    Edge(brasov, bucuresti) -> Distance(450),
+    Edge(bacau, bucuresti) -> Distance(300)
+  ))
 }
