@@ -13,4 +13,7 @@ object Main extends App with OperationFactory with StreamsExamples{
     println(s"Elapsed time on $methodName: " + (t1 - t0) + "ms")
     result
   }
+
+  println(Dijkstra.graph)
+  println(Dijkstra.addOrUpdateEdge(Edge(Dijkstra.bacau, Dijkstra.roman), Distance(1000), Dijkstra.graph))
 }

@@ -9,7 +9,7 @@ object Dijkstra {
   case class Distance(dist: Int)
   case class TentativeDistance(node: Node, dist: Option[Int] = None)
   case class Node(name: String)
-  case class Edge(from: Node, to: Node)
+  case class Edge(connection: (Node, Node))
   case class Graph(nodes: Map[Edge, Distance])
 
   def initialize(start: Node, graph: Graph): Set[TentativeDistance] = {
@@ -18,10 +18,10 @@ object Dijkstra {
 
   def shortest(start: Node,
                goalNode: Node,
-               graph: Graph): Set[Node] = {
+               graph: Graph): Option[Set[Node]] = {
     //@tailrec
-    def go(curr: Node, goalNode: Node, tentDist: Set[TentativeDistance], visited: Set[Node], path: Set[Node]): Set[Node] = {
-      Set()
+    def go(curr: Node, goalNode: Node, tentDist: Set[TentativeDistance], visited: Set[Node], path: Set[Node]): Option[Set[Node]] = {
+      Some(Set())
     }
 
     go(
@@ -33,12 +33,28 @@ object Dijkstra {
     )
   }
 
+  def addOrUpdateEdge(newEdge: Edge, distance: Distance, graph: Graph): Option[Graph] = {
+    if(graph.nodes.exists(e =>
+        e._1.connection._1 == newEdge.connection._2 && e._1.connection._2 == newEdge.connection._1)
+      || distance.dist <= 0
+    ) None
+    else Some(Graph(graph.nodes + (newEdge -> distance)))
+  }
+
+  def removeEdge(edge: Edge, distance: Distance, graph: Graph): Graph = {
+    Graph(graph.nodes - edge)
+  }
+
   def removeTentativeNode(replacement: TentativeDistance, tentNodes: Set[TentativeDistance]): Set[TentativeDistance] = {
     tentNodes filter { _.node == replacement.node }
   }
 
   def addTentativeNode(newNode: TentativeDistance, tentNodes: Set[TentativeDistance]): Set[TentativeDistance] = {
     tentNodes + newNode
+  }
+
+  def isValidGraph(graph: Graph): Boolean = {
+    graph.nodes.values.forall( _.dist > 0)
   }
 
 
@@ -52,12 +68,12 @@ object Dijkstra {
   val timisoara = Dijkstra.Node("Timisoara")
 
   val graph = Dijkstra.Graph(Map(
-    Edge(bacau, roman) -> Distance(60),
-    Edge(bacau, piatraNeamt) -> Distance(70),
-    Edge(roman, iasi) -> Distance(70),
-    Edge(piatraNeamt, iasi) -> Distance(80),
-    Edge(piatraNeamt, brasov) -> Distance(400),
-    Edge(piatraNeamt, cluj) -> Distance(450),
+    Edge((bacau, roman)) -> Distance(60),
+    Edge((bacau, piatraNeamt)) -> Distance(70),
+    Edge((roman, iasi)) -> Distance(70),
+    Edge((piatraNeamt, iasi)) -> Distance(80),
+    Edge((piatraNeamt, brasov)) -> Distance(400),
+    Edge((piatraNeamt, cluj)) -> Distance(450),
     Edge(cluj, brasov) -> Distance(100),
     Edge(cluj, timisoara) -> Distance(300),
     Edge(brasov, timisoara) -> Distance(250),
