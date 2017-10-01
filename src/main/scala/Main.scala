@@ -1,3 +1,5 @@
+import shortestPath.Dijkstra
+import shortestPath.Dijkstra.TentativeDistance
 import stringOperations._
 import stringOperations.examples.StreamsExamples
 import stringOperations.utils._
@@ -15,5 +17,5 @@ object Main extends App with OperationFactory with StreamsExamples{
     result
   }
   //println(compute(Decrement, Some(Pos())))
-  time(compute(Some(Pos("2")), Pow, Some(Pos("1000"))),"Fast exp")
+  //time(compute(Some(Pos("2")), Pow, Some(Pos("1000"))),"Fast exp")
 }
