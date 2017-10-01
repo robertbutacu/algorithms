@@ -1,33 +1,36 @@
 package shortestPath
 
+import scala.annotation.tailrec
+
 /**
   * Created by Robert-PC on 9/21/2017.
   */
 object Dijkstra {
   case class Distance(dist: Int)
-  case class TentativeDistance(from: Node, to: Node, dist: Option[Int] = None)
-  case class Node(name: String, neighbours: List[Map[Node, Distance]])
+  case class TentativeDistance(node: Node, dist: Option[Int] = None)
+  case class Node(name: String, neighbours: Option[Map[Node, Distance]] = None)
   case class Graph(nodes: Set[Node])
 
-  def initialize(start: Node, graph: Graph): List[TentativeDistance] = {
-    List()
+  def initialize(start: Node, graph: Graph): Set[TentativeDistance] = {
+    graph.nodes map {node: Node => if(node == start) TentativeDistance(node, Some(0)) else TentativeDistance(node, None)}
   }
 
+  //@tailrec
   def shortest(curr: Node,
                goalNode: Node,
-               tentDist: List[TentativeDistance],
+               tentDist: Set[TentativeDistance],
                graph: Graph,
                visited: Set[Node],
-               path: List[Node]): List[Node] = {
-    Nil
+               path: Set[Node]): Set[Node] = {
+    Set()
   }
 
-  def removeTentativeNode(replacement: TentativeDistance, tentNodes: List[TentativeDistance]): List[TentativeDistance] = {
-    tentNodes filter { node => node.to == replacement.to && node.from == replacement.from }
+  def removeTentativeNode(replacement: TentativeDistance, tentNodes: Set[TentativeDistance]): Set[TentativeDistance] = {
+    tentNodes filter { _.node == replacement.node }
   }
 
-  def addTentativeNode(newNode: TentativeDistance, tentNodes: List[TentativeDistance]): List[TentativeDistance] = {
-    tentNodes :+ newNode
+  def addTentativeNode(newNode: TentativeDistance, tentNodes: Set[TentativeDistance]): Set[TentativeDistance] = {
+    tentNodes + newNode
   }
 
 }
