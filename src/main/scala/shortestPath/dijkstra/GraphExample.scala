@@ -12,7 +12,7 @@ trait GraphExample {
   val cluj = Dijkstra.Node("Cluj")
   val timisoara = Dijkstra.Node("Timisoara")
 
-  val graph = Dijkstra.Graph(List(
+  val graph = List(
     Edge((bacau, roman), 60),
     Edge((bacau, piatraNeamt), 70),
     Edge((roman, iasi), 70),
@@ -24,5 +24,5 @@ trait GraphExample {
     Edge((brasov, timisoara), 250),
     Edge((brasov, bucuresti), 450),
     Edge((bacau, bucuresti), 300)
-  ))
+  )
 }
