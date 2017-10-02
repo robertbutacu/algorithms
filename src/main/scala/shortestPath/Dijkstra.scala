@@ -7,27 +7,31 @@ import scala.annotation.tailrec
   */
 object Dijkstra {
   case class Distance(dist: Int)
-  case class TentativeDistance(node: Node, dist: Option[Int] = None)
-  case class Node(name: String)
+  case class Node(name: String, tentativeDistance: Option[Int] = None)
   case class Edge(connection: (Node, Node))
   case class Graph(nodes: Map[Edge, Distance])
 
-  def initialize(start: Node, graph: Graph): Set[TentativeDistance] = {
-    Set()
+  def initialize(start: Node, graph: Graph): Graph = {
+    Graph(Map.empty)
   }
 
   def shortest(start: Node,
                goalNode: Node,
                graph: Graph): Option[Set[Node]] = {
     //@tailrec
-    def go(curr: Node, goalNode: Node, tentDist: Set[TentativeDistance], visited: Set[Node], path: Set[Node]): Option[Set[Node]] = {
-      Some(Set())
+    def go(curr: Node, goalNode: Node, visited: Set[Node], path: Set[Node]): Option[Set[Node]] = {
+      /** 1. for the current node, compute the the tentative distance to all its neighbours as min((dist to curr node) + (dist to that node),(neighbor's tentative distance)
+          2. mark current node as visited
+          3. unvisited node with the smallest tentative distance as current node and repeat
+        */
+      graph.nodes.keys
+        .filter(conn => conn.connection._1 == curr || conn.connection._2 == curr)//currently a graph with only current nodes
+      None
     }
 
     go(
       start,
       goalNode,
-      Set.empty[TentativeDistance],
       Set.empty[Node],
       Set.empty[Node]
     )
@@ -43,14 +47,6 @@ object Dijkstra {
 
   def removeEdge(edge: Edge, distance: Distance, graph: Graph): Graph = {
     Graph(graph.nodes - edge)
-  }
-
-  def removeTentativeNode(replacement: TentativeDistance, tentNodes: Set[TentativeDistance]): Set[TentativeDistance] = {
-    tentNodes filter { _.node == replacement.node }
-  }
-
-  def addTentativeNode(newNode: TentativeDistance, tentNodes: Set[TentativeDistance]): Set[TentativeDistance] = {
-    tentNodes + newNode
   }
 
   def isValidGraph(graph: Graph): Boolean = {
