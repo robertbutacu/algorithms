@@ -11,6 +11,7 @@ object Dijkstra {
   case class Edge(connection: (Node, Node))
   case class Graph(nodes: Map[Edge, Distance])
 
+  //initialising all the tentative distances with None, except for the start node
   def initialize(start: Node, graph: Graph): Graph = {
     Graph(graph.nodes.map(node =>
       if(node._1.connection._1 == start) Edge(Node(node._1.connection._1.name, Some(0)), Node(node._1.connection._2.name, None)) -> node._2
@@ -54,7 +55,11 @@ object Dijkstra {
   }
 
   def isValidGraph(graph: Graph): Boolean = {
-    graph.nodes.values.forall( _.dist > 0)
+    graph.nodes.values.forall( _.dist > 0) &&
+    graph.nodes.keys
+      .map(edge => Edge(edge.connection._2, edge.connection._1))
+      .zip(graph.nodes.keys)
+      .forall(c => c._1 != c._2)
   }
 
 
