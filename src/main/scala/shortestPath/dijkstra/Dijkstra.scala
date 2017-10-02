@@ -81,9 +81,10 @@ object Dijkstra {
       .filter( _ != node)
   }
 
-  def addOrUpdateEdge(newEdge: Edge, graph: Graph): Option[Graph] = {
+  def addEdge(newEdge: Edge, graph: Graph): Option[Graph] = {
     if(graph.nodes.exists(e =>
-      e.edge._1 == newEdge.edge._2 && e.edge._2 == newEdge.edge._1)
+      (e.edge._1.name == newEdge.edge._2.name && e.edge._2.name == newEdge.edge._1.name)
+      || (e.edge._1.name == newEdge.edge._1.name && e.edge._2.name == newEdge.edge._2.name))
       || newEdge.distance <= 0
     ) None
     else Some(Graph(graph.nodes :+ newEdge))
