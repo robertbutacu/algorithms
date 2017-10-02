@@ -21,15 +21,15 @@ object Dijkstra {
                goalNode: Node,
                graph: Graph): Option[Int] = {
     //@tailrec
-    def go(curr: Node, goalNode: Node, visited: Set[Node], path: Set[Node]): Option[Int] = {
+    def go(curr: Node, goalNode: Node, graph: Graph, visited: Set[Node], path: Set[Node]): Option[Int] = {
       /** 1. for the current node, compute the the tentative distance to all its neighbours as min((dist to curr node) + (dist to that node),(neighbor's tentative distance)
           2. mark current node as visited
           3. unvisited node with the smallest tentative distance as current node and repeat
         */
       //var updatedGraph
       val updatedGraph = neighbors(curr, graph)
-        .filter(node =>isTentativeNodeSmaller(curr, node, graph))
-      println(graph)
+        //.filter(node => isTentativeNodeSmaller(curr, node, graph))
+      println(updatedGraph)
       None
     }
 
@@ -37,6 +37,7 @@ object Dijkstra {
       go(
         start,
         goalNode,
+        initialize(start, graph),
         Set.empty[Node],
         Set.empty[Node]
       )
@@ -56,7 +57,7 @@ object Dijkstra {
       case Some(t) => curr.tentativeDistance.get +
         graph.nodes
           .find(e => (e.edge._1 == curr && e.edge._2 == other) || (e.edge._2 == curr && e.edge._1 == other )).get.distance < t
-      case None => false
+      case None => true
     }
   }
 
@@ -75,7 +76,7 @@ object Dijkstra {
 
   def neighbors(node: Node, graph: Graph): List[Node] = {
     graph.nodes
-      .filter(edge => edge.edge._1 == node || edge.edge._2 == node)
+      .filter(edge => edge.edge._1.name == node.name || edge.edge._2.name == node.name)
       .flatMap(e => List(e.edge._1) ::: List(e.edge._2))
       .filter( _ != node)
   }
