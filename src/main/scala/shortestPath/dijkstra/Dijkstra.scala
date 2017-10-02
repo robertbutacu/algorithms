@@ -27,7 +27,8 @@ object Dijkstra {
           3. unvisited node with the smallest tentative distance as current node and repeat
         */
       //var updatedGraph
-      //neighbors(curr, graph).filter()
+      val updatedGraph = neighbors(curr, graph)
+        .filter(node =>isTentativeNodeSmaller(curr, node, graph))
       println(graph)
       None
     }
@@ -43,7 +44,23 @@ object Dijkstra {
       None
   }
 
-  def updateTentativeDistance(nodes: List[Node], graph: Graph): Graph = {
+  /**
+    *
+    * @param curr - current node
+    * @param other - node which it is tried to reach
+    * @param graph - graph on which the shortest path is to be found
+    * @return true IF distance to curr node + distance to other node is less than tentative distance of the other node
+    */
+  def isTentativeNodeSmaller(curr: Node, other:Node, graph: Graph): Boolean = {
+    other.tentativeDistance match {
+      case Some(t) => curr.tentativeDistance.get +
+        graph.nodes
+          .find(e => (e.edge._1 == curr && e.edge._2 == other) || (e.edge._2 == curr && e.edge._1 == other )).get.distance < t
+      case None => false
+    }
+  }
+
+  def updateTentativeDistance(nodes: Set[Node], graph: Graph): Graph = {
     Graph(graph.nodes
       .map(n =>
         if(nodes.exists(_.name == n.edge._1.name)) Edge((nodes.find(_.name == n.edge._1.name).get, n.edge._2), n.distance)

@@ -3,9 +3,9 @@ package shortestPath.dijkstra
 import shortestPath.dijkstra.Dijkstra.Edge
 
 trait GraphExample {
-  val bacau = Dijkstra.Node("Bacau")
+  val bacau = Dijkstra.Node("Bacau", Some(50))
   val iasi = Dijkstra.Node("Iasi")
-  val roman = Dijkstra.Node("Roman")
+  val roman = Dijkstra.Node("Roman", Some(111))
   val piatraNeamt = Dijkstra.Node("Piatra-Neamt")
   val bucuresti = Dijkstra.Node("Bucuresti")
   val brasov = Dijkstra.Node("Brasov")
