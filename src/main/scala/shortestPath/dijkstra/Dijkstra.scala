@@ -11,9 +11,9 @@ object Dijkstra extends GraphExample{
   //initialising all the tentative distances with None, except for the start node
   def initialize(start: Node, graph: Graph): Graph = {
     graph.map(node =>
-      if(node.edge._1.name == start.name) Edge((Node(node.edge._1.name, Some(0)),Node(node.edge._2.name, None)), node.distance)
+      if(node.edge._1.name == start.name) Edge((Node(node.edge._1.name, Some(0)),Node(node.edge._2.name)), node.distance)
       else if(node.edge._2.name == start.name) Edge((Node(node.edge._1.name), Node(node.edge._2.name, Some(0))), node.distance)
-           else Edge((Node(node.edge._1.name, None), Node(node.edge._2.name, None)), node.distance)
+           else Edge((Node(node.edge._1.name), Node(node.edge._2.name)), node.distance)
     )
   }
 
@@ -29,7 +29,7 @@ object Dijkstra extends GraphExample{
       //var updatedGraph
       val updatedGraph = neighbors(curr, currGraph)
         .filter(node => isTentativeNodeSmaller(curr, node, currGraph))
-        .map(node => Node(node.name, Some(curr.tentativeDistance.get + distanceBetween(curr, node, currGraph).getOrElse(0))))
+        .map(node => Node(node.name, Some(curr.tentativeDistance.getOrElse(0) + distanceBetween(curr, node, currGraph).getOrElse(0))))
       println(updatedGraph)
       None
     }
