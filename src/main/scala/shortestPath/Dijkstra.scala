@@ -22,9 +22,9 @@ object Dijkstra {
 
   def shortest(start: Node,
                goalNode: Node,
-               graph: Graph): Option[Set[Node]] = {
+               graph: Graph): Option[Int] = {
     //@tailrec
-    def go(curr: Node, goalNode: Node, visited: Set[Node], path: Set[Node]): Option[Set[Node]] = {
+    def go(curr: Node, goalNode: Node, visited: Set[Node], path: Set[Node]): Option[Int] = {
       /** 1. for the current node, compute the the tentative distance to all its neighbours as min((dist to curr node) + (dist to that node),(neighbor's tentative distance)
           2. mark current node as visited
           3. unvisited node with the smallest tentative distance as current node and repeat
@@ -34,12 +34,15 @@ object Dijkstra {
       None
     }
 
-    go(
-      start,
-      goalNode,
-      Set.empty[Node],
-      Set.empty[Node]
-    )
+    if(isValidGraph(graph))
+      go(
+        start,
+        goalNode,
+        Set.empty[Node],
+        Set.empty[Node]
+      )
+    else
+      None
   }
 
   def addOrUpdateEdge(newEdge: Edge, distance: Distance, graph: Graph): Option[Graph] = {
@@ -60,6 +63,12 @@ object Dijkstra {
       .map(edge => Edge(edge.connection._2, edge.connection._1))
       .zip(graph.nodes.keys)
       .forall(c => c._1 != c._2)
+  }
+
+  def neighbors(node: Node, graph: Graph): Graph = {
+    Graph(
+      graph.nodes.filter(edge => edge._1.connection._1 == node || edge._1.connection._2 == node)
+    )
   }
 
 
