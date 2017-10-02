@@ -18,8 +18,6 @@ object Main extends App with OperationFactory with StreamsExamples with GraphExa
   //println(Dijkstra.graph)
   //println(Dijkstra.addOrUpdateEdge(Edge(Dijkstra.bacau, Dijkstra.roman), Distance(1000), Dijkstra.graph))
   //println(Dijkstra.removeEdge(Edge((bacau, roman), 60), graph))
-  //Dijkstra.shortest(bacau, timisoara, graph)
+  Dijkstra.shortest(bacau, timisoara, graph)
   //println(Dijkstra.initialize(bacau, graph))
-  println(Dijkstra.addEdge(Edge((bacau, roman), 50),graph))
-  //println(Dijkstra.neighbors(bacau, Dijkstra.initialize(bacau, graph)))
 }

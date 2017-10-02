@@ -3,7 +3,7 @@ package shortestPath.dijkstra
 /**
   * Created by Robert-PC on 9/21/2017.
   */
-object Dijkstra {
+object Dijkstra extends GraphExample{
   case class Node(name: String, tentativeDistance: Option[Int] = None)
   case class Edge(edge: (Node, Node), distance: Int)
   case class Graph(nodes: List[Edge])
@@ -21,14 +21,14 @@ object Dijkstra {
                goalNode: Node,
                graph: Graph): Option[Int] = {
     //@tailrec
-    def go(curr: Node, goalNode: Node, graph: Graph, visited: Set[Node], path: Set[Node]): Option[Int] = {
+    def go(curr: Node, goalNode: Node, currGraph: Graph, visited: Set[Node], path: Set[Node]): Option[Int] = {
       /** 1. for the current node, compute the the tentative distance to all its neighbours as min((dist to curr node) + (dist to that node),(neighbor's tentative distance)
           2. mark current node as visited
           3. unvisited node with the smallest tentative distance as current node and repeat
         */
       //var updatedGraph
-      val updatedGraph = neighbors(curr, graph)
-        //.filter(node => isTentativeNodeSmaller(curr, node, graph))
+      val updatedGraph = neighbors(curr, currGraph)
+        //.filter(node => isTentativeNodeSmaller(curr, node, currGraph))
       println(updatedGraph)
       None
     }
@@ -56,7 +56,7 @@ object Dijkstra {
     other.tentativeDistance match {
       case Some(t) => curr.tentativeDistance.get +
         graph.nodes
-          .find(e => (e.edge._1 == curr && e.edge._2 == other) || (e.edge._2 == curr && e.edge._1 == other )).get.distance < t
+          .find(e => (e.edge._1.name == curr.name && e.edge._2.name == other.name) || (e.edge._2.name == curr.name && e.edge._1.name == other.name )).get.distance < t
       case None => true
     }
   }
@@ -78,7 +78,7 @@ object Dijkstra {
     graph.nodes
       .filter(edge => edge.edge._1.name == node.name || edge.edge._2.name == node.name)
       .flatMap(e => List(e.edge._1) ::: List(e.edge._2))
-      .filter( _ != node)
+      .filter( _.name != node.name)
   }
 
   def addEdge(newEdge: Edge, graph: Graph): Option[Graph] = {
