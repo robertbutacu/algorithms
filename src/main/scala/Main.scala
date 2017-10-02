@@ -1,5 +1,5 @@
 import shortestPath.Dijkstra
-import shortestPath.Dijkstra.{Distance, Edge}
+import shortestPath.Dijkstra.{Distance, Edge, Node}
 import stringOperations._
 import stringOperations.examples.StreamsExamples
 /**
@@ -14,6 +14,7 @@ object Main extends App with OperationFactory with StreamsExamples{
     result
   }
 
-  println(Dijkstra.graph)
-  println(Dijkstra.addOrUpdateEdge(Edge(Dijkstra.bacau, Dijkstra.roman), Distance(1000), Dijkstra.graph))
+  //println(Dijkstra.graph)
+  //println(Dijkstra.addOrUpdateEdge(Edge(Dijkstra.bacau, Dijkstra.roman), Distance(1000), Dijkstra.graph))
+  println(Dijkstra.initialize(Dijkstra.bacau, Dijkstra.graph))
 }

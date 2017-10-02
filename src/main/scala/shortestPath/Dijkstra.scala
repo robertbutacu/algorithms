@@ -12,7 +12,11 @@ object Dijkstra {
   case class Graph(nodes: Map[Edge, Distance])
 
   def initialize(start: Node, graph: Graph): Graph = {
-    Graph(Map.empty)
+    Graph(graph.nodes.map(node =>
+      if(node._1.connection._1 == start) Edge(Node(node._1.connection._1.name, Some(0)), Node(node._1.connection._2.name, None)) -> node._2
+      else if(node._1.connection._2 == start) Edge(Node(node._1.connection._1.name, None),Node(node._1.connection._2.name, Some(0))) -> node._2
+      else Edge(Node(node._1.connection._1.name, None), Node(node._1.connection._2.name, None)) -> node._2
+    ))
   }
 
   def shortest(start: Node,
