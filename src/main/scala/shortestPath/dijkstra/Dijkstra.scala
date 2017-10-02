@@ -27,9 +27,12 @@ object Dijkstra extends GraphExample{
           3. unvisited node with the smallest tentative distance as current node and repeat
         */
       //var updatedGraph
-      val updatedGraph = updateTentativeDistance(neighbors(curr, currGraph)
+      val updatedGraph = updateTentativeDistance(
+        neighbors(curr, currGraph)
         .filter(node => isTentativeNodeSmaller(curr, node, currGraph))
-        .map(node => Node(node.name, Some(curr.tentativeDistance.getOrElse(0) + distanceBetween(curr, node, currGraph).getOrElse(0)))).toSet, currGraph)
+        .map(node => Node(node.name, Some(curr.tentativeDistance.getOrElse(0) + distanceBetween(curr, node, currGraph).getOrElse(0))))
+        .toSet,
+        currGraph)
       println(updatedGraph)
       None
     }
