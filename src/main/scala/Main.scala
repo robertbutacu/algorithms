@@ -17,5 +17,6 @@ object Main extends App with OperationFactory with StreamsExamples with GraphExa
 
   //println(Dijkstra.graph)
   //println(Dijkstra.addOrUpdateEdge(Edge(Dijkstra.bacau, Dijkstra.roman), Distance(1000), Dijkstra.graph))
-  println(Dijkstra.removeEdge(Edge((bacau, roman), 60), graph))
+  //println(Dijkstra.removeEdge(Edge((bacau, roman), 60), graph))
+  println(Dijkstra.updateTentativeDistance(List(Dijkstra.Node("Bacau", Some(50)), iasi, roman), Dijkstra.initialize(bucuresti, graph)))
 }

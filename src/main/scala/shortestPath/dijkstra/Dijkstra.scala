@@ -26,8 +26,9 @@ object Dijkstra {
           2. mark current node as visited
           3. unvisited node with the smallest tentative distance as current node and repeat
         */
-      graph.nodes
-        .filter(conn => conn.edge._1 == curr || conn.edge._2 == curr)//currently a graph with only current nodes
+      //var updatedGraph
+      //neighbors(curr, graph).filter()
+      println(graph)
       None
     }
 
@@ -40,6 +41,15 @@ object Dijkstra {
       )
     else
       None
+  }
+
+  def updateTentativeDistance(nodes: List[Node], graph: Graph): Graph = {
+    Graph(graph.nodes
+      .map(n =>
+        if(nodes.exists(_.name == n.edge._1.name)) Edge((nodes.find(_.name == n.edge._1.name).get, n.edge._2), n.distance)
+        else if(nodes.exists(_.name == n.edge._2.name)) Edge((n.edge._1, nodes.find(_.name == n.edge._2.name).get), n.distance)
+        else n
+      ))
   }
 
   def isValidGraph(graph: Graph): Boolean = {
