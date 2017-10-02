@@ -45,18 +45,6 @@ object Dijkstra {
       None
   }
 
-  def addOrUpdateEdge(newEdge: Edge, distance: Distance, graph: Graph): Option[Graph] = {
-    if(graph.nodes.exists(e =>
-        e._1.connection._1 == newEdge.connection._2 && e._1.connection._2 == newEdge.connection._1)
-      || distance.dist <= 0
-    ) None
-    else Some(Graph(graph.nodes + (newEdge -> distance)))
-  }
-
-  def removeEdge(edge: Edge, distance: Distance, graph: Graph): Graph = {
-    Graph(graph.nodes - edge)
-  }
-
   def isValidGraph(graph: Graph): Boolean = {
     graph.nodes.values.forall( _.dist > 0) &&
     graph.nodes.keys
@@ -71,6 +59,17 @@ object Dijkstra {
     )
   }
 
+  def addOrUpdateEdge(newEdge: Edge, distance: Distance, graph: Graph): Option[Graph] = {
+    if(graph.nodes.exists(e =>
+      e._1.connection._1 == newEdge.connection._2 && e._1.connection._2 == newEdge.connection._1)
+      || distance.dist <= 0
+    ) None
+    else Some(Graph(graph.nodes + (newEdge -> distance)))
+  }
+
+  def removeEdge(edge: Edge, distance: Distance, graph: Graph): Graph = {
+    Graph(graph.nodes - edge)
+  }
 
   val bacau = Dijkstra.Node("Bacau")
   val iasi = Dijkstra.Node("Iasi")
