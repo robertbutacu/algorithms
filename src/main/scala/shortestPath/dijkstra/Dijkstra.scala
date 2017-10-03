@@ -49,6 +49,10 @@ object Dijkstra extends GraphExample{
       None
   }
 
+  def notVisitedNodes(nodes: List[Node], visited: Set[Node]): List[Node] = {
+    nodes.filterNot(e => visited.exists(e2 => e2.name == e.name))
+  }
+
   def next(neighbors: List[Node]): Node = {
     neighbors.minBy(_.tentativeDistance)
   }
