@@ -20,4 +20,5 @@ object Main extends App with OperationFactory with StreamsExamples with GraphExa
   //println(Dijkstra.removeEdge(Edge((bacau, roman), 60), graph))
   Dijkstra.shortest(bacau, timisoara, graph)
   //println(Dijkstra.initialize(bacau, graph))
+  //println(Dijkstra.next(Dijkstra.neighbors(bacau, graph)))
 }

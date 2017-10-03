@@ -33,7 +33,7 @@ object Dijkstra extends GraphExample{
         .map(node => Node(node.name, Some(curr.tentativeDistance.getOrElse(0) + distanceBetween(curr, node, currGraph).getOrElse(0))))
         .toSet,
         currGraph)
-      println(updatedGraph)
+      println(next(neighbors(curr, updatedGraph)))
       None
     }
 
@@ -47,6 +47,10 @@ object Dijkstra extends GraphExample{
       )
     else
       None
+  }
+
+  def next(neighbors: List[Node]): Node = {
+    neighbors.minBy(_.tentativeDistance)
   }
 
   /**
