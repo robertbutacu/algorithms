@@ -38,8 +38,8 @@ object Dijkstra extends GraphExample{
             .toSet,
           currGraph)
         val updatedVisited = visited + curr
-        println(updatedGraph)
-        println(next(neighbors(curr, graph)))
+        println("updated graph" + updatedGraph)
+        println("next" + next(notVisitedNodes(neighbors(curr, updatedGraph), updatedVisited)))
         go(next(notVisitedNodes(neighbors(curr, updatedGraph), updatedVisited)),
           goalNode,
           updatedGraph,
