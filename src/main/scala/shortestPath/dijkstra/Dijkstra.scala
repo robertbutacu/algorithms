@@ -1,5 +1,7 @@
 package shortestPath.dijkstra
 
+import scala.annotation.tailrec
+
 /**
   * Created by Robert-PC on 9/21/2017.
   */
@@ -20,21 +22,30 @@ object Dijkstra extends GraphExample{
   def shortest(start: Node,
                goalNode: Node,
                graph: Graph): Option[Int] = {
-    //@tailrec
+    @tailrec
     def go(curr: Node, goalNode: Node, currGraph: Graph, visited: Set[Node], path: Set[Node]): Option[Int] = {
       /** 1. for the current node, compute the the tentative distance to all its neighbours as min((dist to curr node) + (dist to that node),(neighbor's tentative distance)
           2. mark current node as visited
           3. unvisited node with the smallest tentative distance as current node and repeat
         */
-      //var updatedGraph
-      val updatedGraph = updateTentativeDistance(
-        neighbors(curr, currGraph)
-        .filter(node => isTentativeNodeSmaller(curr, node, currGraph))
-        .map(node => Node(node.name, Some(curr.tentativeDistance.getOrElse(0) + distanceBetween(curr, node, currGraph).getOrElse(0))))
-        .toSet,
-        currGraph)
-      println(next(neighbors(curr, updatedGraph)))
-      None
+      if(curr.name == goalNode.name)
+        Some(0)
+      else{
+        val updatedGraph = updateTentativeDistance(
+          neighbors(curr, currGraph)
+            .filter(node => isTentativeNodeSmaller(curr, node, currGraph))
+            .map(node => Node(node.name, Some(curr.tentativeDistance.getOrElse(0) + distanceBetween(curr, node, currGraph).getOrElse(0))))
+            .toSet,
+          currGraph)
+        val updatedVisited = visited + curr
+        println(updatedGraph)
+        println(next(neighbors(curr, graph)))
+        go(next(notVisitedNodes(neighbors(curr, updatedGraph), updatedVisited)),
+          goalNode,
+          updatedGraph,
+          updatedVisited,
+          path)
+      }
     }
 
     if(isValidGraph(graph))
