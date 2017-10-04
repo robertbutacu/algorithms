@@ -3,6 +3,8 @@ import shortestPath.dijkstra.{Dijkstra, GraphExample}
 import shortestPath.dijkstra.Dijkstra.Edge
 import stringOperations._
 import stringOperations.examples.StreamsExamples
+
+import scala.collection.mutable.PriorityQueue
 /**
   * Created by Robert-PC on 9/21/2017.
   */
@@ -15,9 +17,5 @@ object Main extends App with OperationFactory with StreamsExamples with GraphExa
     result
   }
 
-  //println(Dijkstra.graph)
-  //println(Dijkstra.addOrUpdateEdge(Edge(Dijkstra.bacau, Dijkstra.roman), Distance(1000), Dijkstra.graph))
-  //println(Dijkstra.removeEdge(Edge((bacau, roman), 60), graph))
   Dijkstra.shortest(bacau, timisoara, graph)
-  // println(Dijkstra.next(Dijkstra.neighbors(bacau, graph)))
 }
