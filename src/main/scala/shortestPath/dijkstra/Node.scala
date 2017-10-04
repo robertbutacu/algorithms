@@ -16,4 +16,8 @@ class Node(val name: String,
 
     neighbors
   }
+
+  def getNextNode(visited: List[Node]): Node = {
+    neighbors filterNot visited.contains minBy (_._1.tentativeDistance) _1
+  }
 }

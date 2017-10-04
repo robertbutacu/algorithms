@@ -19,5 +19,6 @@ object Main extends App with OperationFactory with StreamsExamples with GraphExa
 
   //bacau.neighbors.foreach(n => println(n._1.name))
 
-  bacau.updateNeighborsTentativeDistances(List(piatraNeamt)).foreach(n => println(n._1.name + " " + n._1.tentativeDistance))
+  bacau.updateNeighborsTentativeDistances(List(piatraNeamt))
+  println(bacau.getNextNode(List(piatraNeamt)).name)
 }
