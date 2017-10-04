@@ -35,5 +35,4 @@ object Main extends App with OperationFactory with StreamsExamples with GraphExa
   println("Head " + pq.head )
   */
 
-  //println(Set(bacau, iasi).contains(bacau))
 }

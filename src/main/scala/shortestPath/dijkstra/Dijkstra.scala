@@ -16,22 +16,30 @@ object Dijkstra extends GraphExample{
   def shortest(start: Node,
                goalNode: Node,
                graph: Graph): Int = {
+
+    //TODO nodes that aren't visited are put multiple times in the priority queue
     def go(curr: Node, goalNode: Node, priorityQueue: mutable.PriorityQueue[Node], visited: Set[Node]): Int = {
       if(curr.name == goalNode.name)
         100
       else{
         Thread.sleep(3000)
-        println("Current is " + curr.name)
+        //println("Current is " + curr.name)
         val visitedUpdated = visited ++ Set(curr)
 
         //updating tentative distances
         curr.updateNeighborsTentativeDistances(visitedUpdated)
 
         //update priority queueQ
-        curr.neighbors.map (_._1) filterNot visited.contains foreach (priorityQueue.enqueue(_))
+        curr.neighbors map (_._1) filterNot visited.contains foreach (priorityQueue.enqueue(_))
 
-        priorityQueue.dequeue()
-        println("Next is " + priorityQueue.head.name)
+        println("Visited")
+        visitedUpdated.foreach(v => println(v.name))
+
+        println("Queue")
+        priorityQueue.foreach(e => println(e.name))
+
+
+        //println("Next is " + priorityQueue.head.name)
         go(
           priorityQueue.head,
           goalNode,
