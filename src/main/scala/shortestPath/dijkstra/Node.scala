@@ -1,9 +1,9 @@
 package shortestPath.dijkstra
 
-import shortestPath.dijkstra.Dijkstra.{Distance, Graph}
+import shortestPath.dijkstra.Dijkstra.{Distance, Edges}
 
 class Node(val name: String,
-           var neighbors: List[(Node, Distance)] = List(),
+           var neighbors: Edges = List(),
            var tentativeDistance: Distance = Int.MaxValue) {
   def addNeighbors(newNeighbors: List[(Node, Distance)]): Unit = neighbors = neighbors ++ newNeighbors
 
@@ -17,7 +17,7 @@ class Node(val name: String,
     neighbors
   }
 
-  def getNextNode(visited: List[Node]): Node = {
+  /*def getNextNode(visited: List[Node]): Node = {
     neighbors filterNot visited.contains minBy (_._1.tentativeDistance) _1
-  }
+  }*/
 }

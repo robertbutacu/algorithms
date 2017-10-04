@@ -1,7 +1,9 @@
 
-import shortestPath.dijkstra.{Dijkstra, GraphExample}
+import shortestPath.dijkstra.{Dijkstra, GraphExample, Node}
 import stringOperations._
 import stringOperations.examples.StreamsExamples
+
+import scala.collection.mutable
 
 /**
   * Created by Robert-PC on 9/21/2017.
@@ -19,6 +21,11 @@ object Main extends App with OperationFactory with StreamsExamples with GraphExa
 
   //bacau.neighbors.foreach(n => println(n._1.name))
 
-  bacau.updateNeighborsTentativeDistances(List(piatraNeamt))
-  println(bacau.getNextNode(List(piatraNeamt)).name)
+  //bacau.updateNeighborsTentativeDistances(List(piatraNeamt))
+
+  var pq = mutable.PriorityQueue[Node]()(Ordering.by(_.tentativeDistance))
+
+  //pq.enqueue(bacau, bacau, bacau, bucuresti, iasi, bacau)
+  //pq.foreach(n => println(n.tentativeDistance))
+  //println(bacau.getNextNode(List(piatraNeamt)).name)
 }
