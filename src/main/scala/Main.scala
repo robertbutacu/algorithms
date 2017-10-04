@@ -1,6 +1,5 @@
 
 import shortestPath.dijkstra.{Dijkstra, GraphExample}
-import shortestPath.dijkstra.Dijkstra.Edge
 import stringOperations._
 import stringOperations.examples.StreamsExamples
 
@@ -16,6 +15,6 @@ object Main extends App with OperationFactory with StreamsExamples with GraphExa
     println(s"Elapsed time on $methodName: " + (t1 - t0) + "ms")
     result
   }
+  populate()
 
-  Dijkstra.shortest(bacau, timisoara, graph)
 }
