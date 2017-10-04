@@ -12,17 +12,18 @@ trait GraphExample {
 
 
   def populate(): Unit = {
-    bacau.addNeighbors(Set((roman, 50), (piatraNeamt, 60)))
-    roman.addNeighbors(Set((bacau, 50), (iasi, 100)))
-    piatraNeamt.addNeighbors(Set((iasi, 110), (bacau, 60)))
-    iasi.addNeighbors(Set((roman, 100), (piatraNeamt, 110)))
-    bucuresti.addNeighbors(Set((bacau, 300)))
-    brasov.addNeighbors(Set((cluj, 150), (timisoara, 250), (iasi, 400)))
-    cluj.addNeighbors(Set((bucuresti, 400), (brasov, 150), (iasi, 200)))
-    timisoara.addNeighbors(Set((brasov, 400), (cluj, 200), (iasi, 500)))
+    bacau.addNeighbors(List((roman, 50), (piatraNeamt, 60)))
+    roman.addNeighbors(List((bacau, 50), (iasi, 100)))
+    piatraNeamt.addNeighbors(List((iasi, 110), (bacau, 60)))
+    iasi.addNeighbors(List((roman, 100), (piatraNeamt, 110)))
+    bucuresti.addNeighbors(List((bacau, 300)))
+    brasov.addNeighbors(List((cluj, 150), (timisoara, 250), (iasi, 400)))
+    cluj.addNeighbors(List((bucuresti, 400), (brasov, 150), (iasi, 200)))
+    timisoara.addNeighbors(List((brasov, 400), (cluj, 200), (iasi, 500)))
 
     val graph = List(bacau, iasi, roman, piatraNeamt, bucuresti, brasov, cluj, timisoara)
-    graph.foreach(n => println( n.name + " " + n.neighbors.foreach(e => e._1.name + " " + e._2)))
+    graph.foreach(n => n.neighbors.foreach(nei => print(nei._1.name + " " + nei._2)))
+    println()
   }
 
 }
