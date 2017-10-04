@@ -20,18 +20,20 @@ object Dijkstra extends GraphExample{
       if(curr.name == goalNode.name)
         100
       else{
-        //updating tentative distances
         Thread.sleep(3000)
         println("Current is " + curr.name)
         val visitedUpdated = visited ++ Set(curr)
 
-        //update priority queue
+        //updating tentative distances
+        curr.updateNeighborsTentativeDistances(visitedUpdated)
+
+        //update priority queueQ
         curr.neighbors.map (_._1) filterNot visited.contains foreach (priorityQueue.enqueue(_))
 
-        priorityQueue.reverse.dequeue()
-        println("Next is " + priorityQueue.reverse.head.name)
+        priorityQueue.dequeue()
+        println("Next is " + priorityQueue.head.name)
         go(
-          priorityQueue.reverse.head,
+          priorityQueue.head,
           goalNode,
           priorityQueue,
           visitedUpdated

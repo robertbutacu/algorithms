@@ -17,7 +17,7 @@ object Main extends App with OperationFactory with StreamsExamples with GraphExa
     result
   }
 
-  println(Dijkstra.shortest(bacau, timisoara, getGraph))
+  println(Dijkstra.shortest(bacau, bucuresti, getGraph))
   //var pq = mutable.PriorityQueue[Int]()
 
   /*pq.enqueue(1)
