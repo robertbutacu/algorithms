@@ -1,7 +1,9 @@
 package shortestPath.dijkstra
 
+import shortestPath.dijkstra.Dijkstra.Graph
+
 trait GraphExample {
-  var bacau = new Node("bacau")
+  var bacau = new Node("bacau", List(), 100)
   var iasi = new Node("iasi")
   var roman = new Node("roman")
   var piatraNeamt = new Node("piatra neamt")
@@ -11,7 +13,7 @@ trait GraphExample {
   var timisoara = new Node("timisoara")
 
 
-  def populate(): Unit = {
+  def getGraph: Graph = {
     bacau.addNeighbors(List((roman, 50), (piatraNeamt, 60)))
     roman.addNeighbors(List((bacau, 50), (iasi, 100)))
     piatraNeamt.addNeighbors(List((iasi, 110), (bacau, 60)))
@@ -22,8 +24,6 @@ trait GraphExample {
     timisoara.addNeighbors(List((brasov, 400), (cluj, 200), (iasi, 500)))
 
     val graph = List(bacau, iasi, roman, piatraNeamt, bucuresti, brasov, cluj, timisoara)
-    graph.foreach(n => n.neighbors.foreach(nei => print(nei._1.name + " " + nei._2)))
-    println()
+    graph
   }
-
 }

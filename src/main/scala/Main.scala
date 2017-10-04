@@ -3,7 +3,6 @@ import shortestPath.dijkstra.{Dijkstra, GraphExample}
 import stringOperations._
 import stringOperations.examples.StreamsExamples
 
-import scala.collection.mutable.PriorityQueue
 /**
   * Created by Robert-PC on 9/21/2017.
   */
@@ -15,6 +14,10 @@ object Main extends App with OperationFactory with StreamsExamples with GraphExa
     println(s"Elapsed time on $methodName: " + (t1 - t0) + "ms")
     result
   }
-  populate()
 
+  var graph = getGraph
+
+  //bacau.neighbors.foreach(n => println(n._1.name))
+
+  bacau.updateNeighborsTentativeDistances(List(piatraNeamt)).foreach(n => println(n._1.name + " " + n._1.tentativeDistance))
 }
