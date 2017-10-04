@@ -10,40 +10,35 @@ object Dijkstra extends GraphExample{
   type Graph = List[Node]
   type Distance = Int
   type Edges = List[(Node, Distance)]
-  //initialising all the tentative distances with None, except for the start node
-
 
   def shortest(start: Node,
                goalNode: Node,
                graph: Graph): Int = {
 
     //TODO nodes that aren't visited are put multiple times in the priority queue
-    def go(curr: Node, goalNode: Node, priorityQueue: mutable.PriorityQueue[Node], visited: Set[Node]): Int = {
+    def go(curr: Node, goalNode: Node, priorityQueue: mutable.MutableList[Node], visited: Set[Node]): Int = {
       if(curr.name == goalNode.name)
         100
       else{
         Thread.sleep(3000)
-        //println("Current is " + curr.name)
+        println("Current " + curr.name)
         val visitedUpdated = visited ++ Set(curr)
 
         //updating tentative distances
         curr.updateNeighborsTentativeDistances(visitedUpdated)
 
         //update priority queueQ
-        curr.neighbors map (_._1) filterNot visited.contains foreach (priorityQueue.enqueue(_))
+        curr.neighbors map (_._1) filterNot visitedUpdated.contains foreach (node => if(!priorityQueue.contains(node)) priorityQueue += node)
 
-        println("Visited")
-        visitedUpdated.foreach(v => println(v.name))
+        //removing current from priority list
+        val updatedPq = priorityQueue filterNot (_ == curr)
 
-        println("Queue")
-        priorityQueue.foreach(e => println(e.name))
-
-
-        //println("Next is " + priorityQueue.head.name)
+        //re-sorting the queue
+        updatedPq sortWith (_.tentativeDistance < _.tentativeDistance)
         go(
-          priorityQueue.head,
+          updatedPq.head,
           goalNode,
-          priorityQueue,
+          updatedPq,
           visitedUpdated
         )
       }
@@ -52,7 +47,7 @@ object Dijkstra extends GraphExample{
     go(
       start,
       goalNode,
-      mutable.PriorityQueue[Node]()(Ordering.by(_.tentativeDistance)),
+      mutable.MutableList(start),
       Set()
     )
   }
