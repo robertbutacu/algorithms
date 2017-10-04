@@ -14,8 +14,6 @@ object Dijkstra extends GraphExample {
   def shortest(start: Node,
                goalNode: Node,
                graph: Graph): Int = {
-
-    //TODO nodes that aren't visited are put multiple times in the priority queue
     def go(curr: Node, goalNode: Node, priorityQueue: mutable.MutableList[Node], visited: Set[Node]): Int = {
       Thread.sleep(3000)
       println("Current " + curr.name)
@@ -24,7 +22,7 @@ object Dijkstra extends GraphExample {
       //updating tentative distances
       curr.updateNeighborsTentativeDistances(visitedUpdated)
 
-      //update priority queueQ
+      //update priority queue
       curr.neighbors map (_._1) filterNot visitedUpdated.contains foreach (node => if (!priorityQueue.contains(node)) priorityQueue += node)
 
       //removing current from priority list
@@ -33,7 +31,7 @@ object Dijkstra extends GraphExample {
       //re-sorting the queue
       updatedPq sortWith (_.tentativeDistance < _.tentativeDistance)
 
-      if (updatedPq.isEmpty)
+      if (updatedPq.isEmpty || curr == goalNode)
         goalNode.tentativeDistance
       else
         go(
