@@ -17,7 +17,7 @@ object Main extends App with OperationFactory with StreamsExamples with GraphExa
     result
   }
 
-  //println(Dijkstra.shortest(bacau, timisoara, getGraph))
+  println(Dijkstra.shortest(bacau, timisoara, getGraph))
   //var pq = mutable.PriorityQueue[Int]()
 
   /*pq.enqueue(1)
@@ -35,5 +35,5 @@ object Main extends App with OperationFactory with StreamsExamples with GraphExa
   println("Head " + pq.head )
   */
 
-  println(Set(bacau, iasi).contains(bacau))
+  //println(Set(bacau, iasi).contains(bacau))
 }

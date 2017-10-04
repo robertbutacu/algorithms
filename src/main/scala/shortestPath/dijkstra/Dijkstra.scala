@@ -23,9 +23,11 @@ object Dijkstra extends GraphExample{
         //updating tentative distances
         Thread.sleep(3000)
         println("Current is " + curr.name)
-        val visitedUpdated = updateVisited(curr, visited)
-        curr.updateNeighborsTentativeDistances(visitedUpdated)
-        updatePriorityQueue(curr.neighbors.map(_._1), priorityQueue, visitedUpdated)
+        val visitedUpdated = visited ++ Set(curr)
+
+        //update priority queue
+        curr.neighbors.map (_._1) filterNot visited.contains foreach (priorityQueue.enqueue(_))
+
         priorityQueue.reverse.dequeue()
         println("Next is " + priorityQueue.reverse.head.name)
         go(
@@ -43,16 +45,5 @@ object Dijkstra extends GraphExample{
       mutable.PriorityQueue[Node]()(Ordering.by(_.tentativeDistance)),
       Set()
     )
-  }
-
-  def updateVisited(visited: Node, nodes: Set[Node]): Set[Node] = {
-    //nodes.foreach(n => println("Visited " + n.name))
-    nodes ++ Set(visited)
-  }
-
-  def updatePriorityQueue(neighbors: List[Node],
-                          priorityQueue: mutable.PriorityQueue[Node],
-                          visited: Set[Node]): Unit = {
-    neighbors filterNot visited.contains foreach (priorityQueue.enqueue(_))
   }
 }
