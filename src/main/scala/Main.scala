@@ -17,15 +17,23 @@ object Main extends App with OperationFactory with StreamsExamples with GraphExa
     result
   }
 
-  var graph = getGraph
+  //println(Dijkstra.shortest(bacau, timisoara, getGraph))
+  //var pq = mutable.PriorityQueue[Int]()
 
-  //bacau.neighbors.foreach(n => println(n._1.name))
+  /*pq.enqueue(1)
+  pq.enqueue(2)
+  pq.enqueue(3)
+  pq.enqueue(4)
 
-  //bacau.updateNeighborsTentativeDistances(List(piatraNeamt))
+  pq.foreach(e => println(e))
 
-  var pq = mutable.PriorityQueue[Node]()(Ordering.by(_.tentativeDistance))
+  pq.dequeue()
 
-  //pq.enqueue(bacau, bacau, bacau, bucuresti, iasi, bacau)
-  //pq.foreach(n => println(n.tentativeDistance))
-  //println(bacau.getNextNode(List(piatraNeamt)).name)
+  println()
+  pq.foreach(e => println(e))
+
+  println("Head " + pq.head )
+  */
+
+  println(Set(bacau, iasi).contains(bacau))
 }

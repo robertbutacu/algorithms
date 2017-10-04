@@ -15,24 +15,44 @@ object Dijkstra extends GraphExample{
 
   def shortest(start: Node,
                goalNode: Node,
-               graph: Graph): Option[Int] = {
-    def go(curr: Node, goalNode: Node, priorityQueue: mutable.PriorityQueue[Node], visited: List[Node]): Int = {
-      if(curr == goalNode)
+               graph: Graph): Int = {
+    def go(curr: Node, goalNode: Node, priorityQueue: mutable.PriorityQueue[Node], visited: Set[Node]): Int = {
+      if(curr.name == goalNode.name)
         100
       else{
         //updating tentative distances
-        curr.updateNeighborsTentativeDistances(visited)
-        updatePriorityQueue(curr.neighbors.map(_._1), priorityQueue, visited)
-        10
+        Thread.sleep(3000)
+        println("Current is " + curr.name)
+        val visitedUpdated = updateVisited(curr, visited)
+        curr.updateNeighborsTentativeDistances(visitedUpdated)
+        updatePriorityQueue(curr.neighbors.map(_._1), priorityQueue, visitedUpdated)
+        priorityQueue.reverse.dequeue()
+        println("Next is " + priorityQueue.reverse.head.name)
+        go(
+          priorityQueue.reverse.head,
+          goalNode,
+          priorityQueue,
+          visitedUpdated
+        )
       }
     }
 
-    Some(0)
+    go(
+      start,
+      goalNode,
+      mutable.PriorityQueue[Node]()(Ordering.by(_.tentativeDistance)),
+      Set()
+    )
+  }
+
+  def updateVisited(visited: Node, nodes: Set[Node]): Set[Node] = {
+    //nodes.foreach(n => println("Visited " + n.name))
+    nodes ++ Set(visited)
   }
 
   def updatePriorityQueue(neighbors: List[Node],
                           priorityQueue: mutable.PriorityQueue[Node],
-                          visited: List[Node]): Unit = {
+                          visited: Set[Node]): Unit = {
     neighbors filterNot visited.contains foreach (priorityQueue.enqueue(_))
   }
 }
