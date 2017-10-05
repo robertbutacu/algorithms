@@ -10,13 +10,14 @@ object Dijkstra extends DijkstraGraph {
   type Graph = List[Node]
   type Distance = Int
   type Edges = List[(Node, Distance)]
+  type Path = List[Node]
 
   def shortest(start: Node,
                goalNode: Node,
-               graph: Graph): Int = {
-    def go(curr: Node, goalNode: Node, priorityQueue: mutable.MutableList[Node], visited: Set[Node]): Int = {
-      Thread.sleep(3000)
-      println("Current " + curr.name)
+               graph: Graph): Path = {
+    def go(curr: Node, goalNode: Node, priorityQueue: mutable.MutableList[Node], visited: Set[Node]): Path = {
+      Thread.sleep(2000)
+      println("Currently in: " + curr.name)
 
       val visitedUpdated = visited ++ Set(curr)
       //updating tentative distances
@@ -32,7 +33,7 @@ object Dijkstra extends DijkstraGraph {
       updatedPq sortWith (_.tentativeDistance < _.tentativeDistance)
 
       if (updatedPq.isEmpty || curr == goalNode)
-        goalNode.tentativeDistance
+        path(goalNode)
       else
         go(
           updatedPq.head,
@@ -42,11 +43,30 @@ object Dijkstra extends DijkstraGraph {
         )
     }
 
+    initialize(start, graph)
+
     go(
       start,
       goalNode,
       mutable.MutableList(start),
       Set()
     )
+  }
+
+  def initialize(start: Node, graph: Graph): Unit = {
+    graph foreach { node =>
+      if(node == start)
+        node.tentativeDistance = 0
+      else
+        node.tentativeDistance = Int.MaxValue
+      node.previous = None
+    }
+  }
+
+  def path(start: Node): List[Node] = {
+    start.previous match {
+      case Some(node) => path(node) ::: List(start)
+      case None => List(start)
+    }
   }
 }

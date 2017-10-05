@@ -1,6 +1,7 @@
 
 import shortestPath.dijkstra.Dijkstra
-import shortestPath.utils.DijkstraGraph
+import shortestPath.dijkstra.Dijkstra.Path
+import shortestPath.utils.{DijkstraGraph, Node}
 import stringOperations._
 import stringOperations.examples.StreamsExamples
 
@@ -18,28 +19,8 @@ object Main extends App with OperationFactory with StreamsExamples with Dijkstra
     result
   }
 
-  println(Dijkstra.shortest(bacau, bucuresti, getGraph))
-  //println( (1 to 10) filterNot ( _ % 2 == 0))
-  /*var pq = mutable.PriorityQueue[Int]()
-
-  pq.enqueue(1)
-  pq.enqueue(2)
-  pq.enqueue(3)
-  pq.enqueue(4)
-
-  pq.foreach(e => println(e))
-
-  pq.dequeue()
-
-  println()
-  pq.foreach(e => println(e))
-
-  if(pq.exists(_ == 2))
-    println("Exists!")
-  else
-    pq.enqueue(5)
-
-  println("Head " + pq.head )*/
-
-
+  println("The full path is " +
+    Dijkstra.shortest(bacau, bucuresti, getGraph).foldLeft("")((acc, curr) =>
+      acc + " -> " + curr.name + " " + curr.tentativeDistance
+    ))
 }
