@@ -1,7 +1,7 @@
 package shortestPath.utils
 
 trait DijkstraGraph extends NodesExample with Utils {
-  def getGraph: Graph = {
+  def getDjikGraph: Graph = {
     bacau.addNeighbors(List((roman, 50), (piatraNeamt, 60), (buzau, 300)))
     roman.addNeighbors(List((bacau, 50), (iasi, 100), (cluj, 300)))
     piatraNeamt.addNeighbors(List((iasi, 110), (bacau, 60), (brasov, 400)))

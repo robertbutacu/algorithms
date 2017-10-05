@@ -21,7 +21,7 @@ object Dijkstra extends DijkstraGraph {
       val visitedUpdated = visited ++ Set(curr)
 
       //updating tentative distances
-      curr.updateNeighborsTentativeDistances(visitedUpdated)
+      curr.updateNeighborsDijkstra(visitedUpdated)
 
       //update priority queue
       curr.neighbors map (_._1) filterNot visitedUpdated.contains foreach (node => if (!priorityQueue.contains(node)) priorityQueue += node)
@@ -33,7 +33,7 @@ object Dijkstra extends DijkstraGraph {
       updatedPq sortWith (_.tentativeDistance < _.tentativeDistance)
 
       if (updatedPq.isEmpty || curr == goalNode)
-        path(goalNode)
+        pathDijkstra(goalNode)
       else
         go(
           updatedPq.head,
@@ -51,22 +51,5 @@ object Dijkstra extends DijkstraGraph {
       mutable.MutableList(start),
       Set()
     )
-  }
-
-  def initialize(start: Node, graph: Graph): Unit = {
-    graph foreach { node =>
-      if (node == start)
-        node.tentativeDistance = 0
-      else
-        node.tentativeDistance = Int.MaxValue
-      node.previous = None
-    }
-  }
-
-  def path(start: Node): List[Node] = {
-    start.previous match {
-      case Some(node) => path(node) ::: List(start)
-      case None       => List(start)
-    }
   }
 }

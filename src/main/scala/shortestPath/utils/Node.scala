@@ -8,10 +8,22 @@ class Node(val name: String,
            var previous: Option[Node] = None) extends Utils {
   def addNeighbors(newNeighbors: List[(Node, Distance)]): Unit = neighbors = neighbors ++ newNeighbors
 
-  def updateNeighborsTentativeDistances(visited: Set[Node]): List[(Node, Distance)] = {
+  def updateNeighborsDijkstra(visited: Set[Node]): Edges = {
     neighbors foreach {
       n =>
-        if ((n._1.tentativeDistance > this.tentativeDistance + n._2) && !visited.contains(n._1)) {
+        if ((this.tentativeDistance + n._2 < n._1.tentativeDistance) && !visited.contains(n._1)) {
+          n._1.previous = Some(this)
+          n._1.tentativeDistance = this.tentativeDistance + n._2
+        }
+    }
+
+    neighbors
+  }
+
+  def updateNeighborsBellmanFord(start: Node): Edges = {
+    neighbors foreach {
+      n =>
+        if (this.tentativeDistance + n._2 < n._1.tentativeDistance && this.tentativeDistance != Int.MaxValue && start != n._1) {
           n._1.previous = Some(this)
           n._1.tentativeDistance = this.tentativeDistance + n._2
         }

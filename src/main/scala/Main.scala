@@ -1,7 +1,8 @@
 
+import shortestPath.bellmanford.BellmanFord
 import shortestPath.dijkstra.Dijkstra
 import shortestPath.dijkstra.Dijkstra.Path
-import shortestPath.utils.{DijkstraGraph, Node}
+import shortestPath.utils.{BellmanFordGraph, DijkstraGraph, Node}
 import stringOperations._
 import stringOperations.examples.StreamsExamples
 
@@ -10,7 +11,7 @@ import scala.collection.mutable
 /**
   * Created by Robert-PC on 9/21/2017.
   */
-object Main extends App with OperationFactory with StreamsExamples with DijkstraGraph{
+object Main extends App with OperationFactory with StreamsExamples with DijkstraGraph with BellmanFordGraph{
   def time[R](block: => R, methodName: String): R = {
     val t0 = System.currentTimeMillis()
     val result = block // call-by-name
@@ -19,8 +20,13 @@ object Main extends App with OperationFactory with StreamsExamples with Dijkstra
     result
   }
 
-  println("The full path is " +
+  /*println("The full path is " +
     Dijkstra.shortest(bacau, bucuresti, getGraph).foldLeft("")((acc, curr) =>
+      acc + " -> " + curr.name + " " + curr.tentativeDistance
+    ))*/
+
+  println("The full path is " +
+    BellmanFord.shortest(bacau, bucuresti, getBFGraph).foldLeft("")((acc, curr) =>
       acc + " -> " + curr.name + " " + curr.tentativeDistance
     ))
 }
