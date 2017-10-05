@@ -1,14 +1,12 @@
 package shortestPath.dijkstra
 
-import shortestPath.utils.{GraphExample, Node}
-
-import scala.annotation.tailrec
+import shortestPath.utils.{DijkstraGraph, Node}
 import scala.collection.mutable
 
 /**
   * Created by Robert-PC on 9/21/2017.
   */
-object Dijkstra extends GraphExample {
+object Dijkstra extends DijkstraGraph {
   type Graph = List[Node]
   type Distance = Int
   type Edges = List[(Node, Distance)]
@@ -19,8 +17,8 @@ object Dijkstra extends GraphExample {
     def go(curr: Node, goalNode: Node, priorityQueue: mutable.MutableList[Node], visited: Set[Node]): Int = {
       Thread.sleep(3000)
       println("Current " + curr.name)
-      val visitedUpdated = visited ++ Set(curr)
 
+      val visitedUpdated = visited ++ Set(curr)
       //updating tentative distances
       curr.updateNeighborsTentativeDistances(visitedUpdated)
 

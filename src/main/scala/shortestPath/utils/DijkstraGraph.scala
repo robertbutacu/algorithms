@@ -2,17 +2,7 @@ package shortestPath.utils
 
 import shortestPath.dijkstra.Dijkstra.Graph
 
-trait GraphExample {
-  var bacau = new Node("bacau", List(), 0)
-  var iasi = new Node("iasi")
-  var roman = new Node("roman")
-  var piatraNeamt = new Node("piatra neamt")
-  var bucuresti = new Node("bucuresti")
-  var brasov = new Node("brasov")
-  var cluj = new Node("cluj")
-  var timisoara = new Node("timisoara")
-
-
+trait DijkstraGraph extends NodesExample{
   def getGraph: Graph = {
     bacau.addNeighbors(List((roman, 50), (piatraNeamt, 60)))
     roman.addNeighbors(List((bacau, 50), (iasi, 100), (cluj, 300)))

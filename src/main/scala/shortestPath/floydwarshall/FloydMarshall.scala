@@ -1,4 +1,4 @@
-package shortestPath
+package shortestPath.floydwarshall
 
 /**
   * Created by Robert-PC on 9/21/2017.

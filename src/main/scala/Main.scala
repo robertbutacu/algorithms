@@ -1,6 +1,6 @@
 
 import shortestPath.dijkstra.Dijkstra
-import shortestPath.utils.GraphExample
+import shortestPath.utils.DijkstraGraph
 import stringOperations._
 import stringOperations.examples.StreamsExamples
 
@@ -9,7 +9,7 @@ import scala.collection.mutable
 /**
   * Created by Robert-PC on 9/21/2017.
   */
-object Main extends App with OperationFactory with StreamsExamples with GraphExample{
+object Main extends App with OperationFactory with StreamsExamples with DijkstraGraph{
   def time[R](block: => R, methodName: String): R = {
     val t0 = System.currentTimeMillis()
     val result = block // call-by-name
