@@ -24,6 +24,7 @@ class Node(val name: String,
     neighbors foreach {
       n =>
         if (this.tentativeDistance + n._2 < n._1.tentativeDistance && this.tentativeDistance != Int.MaxValue && start != n._1) {
+          println("Updating from " + this.name + " to " + n._1.name + " with " + this.tentativeDistance + " " + n._2 + " = " + (this.tentativeDistance + n._2))
           n._1.previous = Some(this)
           n._1.tentativeDistance = this.tentativeDistance + n._2
         }
