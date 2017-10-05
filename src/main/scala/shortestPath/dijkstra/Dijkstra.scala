@@ -17,7 +17,9 @@ object Dijkstra extends DijkstraGraph {
       Thread.sleep(2000)
       println("Currently in: " + curr.name)
 
+      //adding current node to visited
       val visitedUpdated = visited ++ Set(curr)
+
       //updating tentative distances
       curr.updateNeighborsTentativeDistances(visitedUpdated)
 
