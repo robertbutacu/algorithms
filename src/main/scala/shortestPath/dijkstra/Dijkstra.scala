@@ -1,5 +1,7 @@
 package shortestPath.dijkstra
 
+import shortestPath.utils.{GraphExample, Node}
+
 import scala.annotation.tailrec
 import scala.collection.mutable
 

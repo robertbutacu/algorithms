@@ -1,4 +1,4 @@
-package shortestPath.dijkstra
+package shortestPath.utils
 
 import shortestPath.dijkstra.Dijkstra.Graph
 

@@ -1,5 +1,6 @@
 
-import shortestPath.dijkstra.{Dijkstra, GraphExample, Node}
+import shortestPath.dijkstra.Dijkstra
+import shortestPath.utils.GraphExample
 import stringOperations._
 import stringOperations.examples.StreamsExamples
 
