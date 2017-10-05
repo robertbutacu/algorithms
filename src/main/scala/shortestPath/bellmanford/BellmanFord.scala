@@ -13,7 +13,7 @@ object BellmanFord extends BellmanFordGraph {
   def shortest(start: Node, goalNode: Node, graph: Graph): Path = {
     def go(iteration: Int, graph: Graph): Path = {
       if (iteration == graph.size)
-        List(goalNode)
+        pathDijkstra(goalNode)
       else {
         graph foreach (_.updateNeighborsBellmanFord(start))
         go(iteration + 1, graph)
