@@ -1,8 +1,6 @@
 package shortestPath.utils
 
-import shortestPath.dijkstra.Dijkstra.Graph
-
-trait DijkstraGraph extends NodesExample{
+trait DijkstraGraph extends NodesExample with Utils {
   def getGraph: Graph = {
     bacau.addNeighbors(List((roman, 50), (piatraNeamt, 60), (buzau, 300)))
     roman.addNeighbors(List((bacau, 50), (iasi, 100), (cluj, 300)))
