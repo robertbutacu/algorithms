@@ -5,6 +5,9 @@ import scala.collection.mutable
 
 /**
   * Created by Robert-PC on 9/21/2017.
+  *
+  * Dijkstra's algorithm is an algorithm for finding the shortest paths between nodes in a graph, which may represent, for example, road networks.
+  * It works only on graphs with positive weighted edges.
   */
 object Dijkstra extends DijkstraGraph {
   type Graph = List[Node]
