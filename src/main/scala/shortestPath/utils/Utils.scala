@@ -18,21 +18,10 @@ trait Utils {
     }
   }
 
-  def pathDijkstra(start: Node): List[Node] = {
+  def path(start: Node): List[Node] = {
     start.previous match {
-      case Some(node) => pathDijkstra(node) ::: List(start)
+      case Some(node) => path(node) ::: List(start)
       case None       => List(start)
-    }
-  }
-
-  def pathBellmanFord(end: Node, start: Node): List[Node] = {
-    if (end == start)
-      List(end)
-    else{
-      end.previous match {
-        case Some(node) => pathBellmanFord(node, start) ::: List(end)
-        case None       => List(end)
-      }
     }
   }
 }

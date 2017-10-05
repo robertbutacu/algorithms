@@ -33,7 +33,7 @@ object Dijkstra extends DijkstraGraph {
       updatedPq sortWith (_.tentativeDistance < _.tentativeDistance)
 
       if (updatedPq.isEmpty || curr == goalNode)
-        pathDijkstra(goalNode)
+        path(goalNode)
       else
         go(
           updatedPq.head,
