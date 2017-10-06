@@ -2,7 +2,7 @@ package shortestPath.dijkstra.functional
 
 import scala.annotation.tailrec
 
-object Dijkstra {
+object DijkstraFunc {
   type CityName      = String
   type Distance      = Int
   type Graph         = Map[Edge, Distance]
@@ -14,8 +14,7 @@ object Dijkstra {
 
   def shortest(from: Node, to: Node, graph: Graph): Path = {
     //@tailrec
-    def go(curr: Node, pq: PriorityQueue, vn: VisitedNodes): Path = {
-      (List(), 0)
+    def go(curr: Node, currGraph: Graph, pq: PriorityQueue, vn: VisitedNodes): Path = {
       /**
         * add curr to visited list
         *
@@ -25,12 +24,23 @@ object Dijkstra {
         *
         * recursive call to go until curr is equal to to
         */
-      val updatedPq = pq :+ curr
-      (List(), 0)
+      val updatedVn = pq :+ curr
+
+      val updatedGraph = transformNeighbors(currGraph)
+
+      val updatedPq = transformPriorityQueue(
+        updatedGraph filterKeys(e => e.from.name == curr.name) map (r => r._1.to) toList,
+        updatedVn,
+        pq
+      )
+      if(curr.name == to.name) (List(), curr.tentativeDistance)
+      else go(updatedPq.head, updatedGraph, updatedPq, updatedVn)
     }
 
-    go(from, List(), List())
+    go(from, graph, List(), List())
   }
+
+  //def path(goal: Node, graph: Graph)
 
   def transformNeighbors(graph: Graph): Graph = {
     graph.map(r => (transformEdge(r._1, r._2), r._2))
