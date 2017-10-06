@@ -29,7 +29,7 @@ object DijkstraFunc {
       val updatedGraph = transformNeighbors(currGraph)
 
       val updatedPq = transformPriorityQueue(
-        updatedGraph filterKeys(e => e.from.name == curr.name) map (r => r._1.to) toList,
+        (updatedGraph filterKeys(e => e.from.name == curr.name) map (r => r._1.to)).toList,
         updatedVn,
         pq
       )
