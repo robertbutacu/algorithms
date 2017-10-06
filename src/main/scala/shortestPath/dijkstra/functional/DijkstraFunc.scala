@@ -47,7 +47,9 @@ object DijkstraFunc {
   }
 
   def transformEdge(edge: Edge, distance: Distance): Edge = {
-    Edge(edge.from, Node(edge.to.name, Math.min(edge.from.tentativeDistance + distance, edge.to.tentativeDistance), Some(edge.from)))
+    val tentDist = edge.from.tentativeDistance + distance
+    if(tentDist < edge.to.tentativeDistance) Edge(edge.from, Node(edge.to.name, tentDist, Some(edge.from)))
+    else                                     edge
   }
 
   def orderPriorityQueue(priorityQueue: PriorityQueue): PriorityQueue = {
