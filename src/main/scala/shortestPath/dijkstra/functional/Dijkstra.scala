@@ -9,7 +9,7 @@ object Dijkstra {
   type Path          = (List[Edge], Distance)
   type VisitedNodes  = List[Node]
   type PriorityQueue = List[Node]
-  case class Node(name: CityName, tentativeDistance : Option[Distance] = None, previous: Option[Node] = None)
+  case class Node(name: CityName, tentativeDistance : Distance = Int.MaxValue, previous: Option[Node] = None)
   case class Edge(from: Node, to: Node)
 
   def shortest(from: Node, to: Node, graph: Graph): Path = {
@@ -25,10 +25,23 @@ object Dijkstra {
         *
         * recursive call to go until curr is equal to to
         */
+      val updatedPq = pq :+ curr
+      (List(), 0)
     }
 
     go(from, List(), List())
   }
 
+  def transformNeighbors(graph: Graph): Graph = {
+    Map[Edge, Distance]().empty
+  }
+
+  def transformEdge(edge: Edge, distance: Distance): Edge = {
+    Edge(edge.from, Node(edge.to.name, Math.min(edge.from.tentativeDistance + distance, edge.to.tentativeDistance)))
+  }
+
+  def transformPriorityQueue(priorityQueue: PriorityQueue): PriorityQueue = {
+    priorityQueue sortWith (_.tentativeDistance < _.tentativeDistance)
+  }
 
 }
