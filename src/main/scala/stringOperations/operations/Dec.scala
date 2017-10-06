@@ -5,5 +5,4 @@ package stringOperations.operations
   */
 object Dec {
   private[stringOperations]def apply(x: String) = Sub(x, "1")
-
 }

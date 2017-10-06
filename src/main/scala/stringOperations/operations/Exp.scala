@@ -15,7 +15,7 @@ object Exp extends OperationFactory{
       y match {
         case "0" => "1"
         case "1" => Mul(x, product)
-        case _ => computeExponentiation(
+        case _   => computeExponentiation(
           x,
           Sub(y, "1"),
           Mul(x, product)

@@ -11,8 +11,7 @@ case class ProductTotal(product: String = "0", traillingZeroes: Int = 0)
 object Mul {
   private[stringOperations] def apply(x: String, y: String): String = {
     x.map(digit =>
-      multiplyByDigit(y, digit)
-    )
+      multiplyByDigit(y, digit))
       .foldRight(ProductTotal())((curr, acc) =>
         ProductTotal(
           Addi(curr ++ ("0" * acc.traillingZeroes), acc.product),

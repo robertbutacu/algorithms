@@ -35,7 +35,7 @@ object Sub {
         ).total
     }
 
-    if(x == y)
+    if (x == y)
       "0"
     else
       compute(Utils.equalizeLength(x, y), Utils.equalizeLength(y, x)).dropWhile(_ == '0')

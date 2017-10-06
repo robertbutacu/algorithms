@@ -11,16 +11,15 @@ object Mod {
     def mod(x: String, y: String): String = {
       val x1 = Sub(x, y)
 
-      if(isSmaller(x1, y))
+      if (isSmaller(x1, y))
         x1
       else
         mod(x1, y)
     }
 
-    if(y.equals("1"))
+    if (y.equals("1"))
       x
-    else
-    if(isSmaller(x, y))
+    else if (isSmaller(x, y))
       "0"
     else
       mod(x, y)

@@ -7,7 +7,7 @@ import stringOperations.utils._
   * Created by Robert-PC on 9/25/2017.
   */
 
-trait StreamsExamples extends OperationFactory{
+trait StreamsExamples extends OperationFactory {
   //TODO
   lazy val squares: Stream[StringNumber] = Stream.empty
 
@@ -33,7 +33,7 @@ trait StreamsExamples extends OperationFactory{
           compute(Some(start), Add, Some(Pos("1"))).get, end
         )
       )
-    }
+  }
 
   lazy val fibsString: Stream[StringNumber] = Pos() #::
     Pos("1") #::

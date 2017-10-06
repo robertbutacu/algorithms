@@ -5,6 +5,7 @@ import shortestPath.dijkstra.Dijkstra.Path
 import shortestPath.utils.{BellmanFordGraph, DijkstraGraph, Node}
 import stringOperations._
 import stringOperations.examples.StreamsExamples
+import stringOperations.utils.{Multiply, Pos, Pow}
 
 import scala.collection.mutable
 
@@ -19,14 +20,4 @@ object Main extends App with OperationFactory with StreamsExamples with Dijkstra
     println(s"Elapsed time on $methodName: " + (t1 - t0) + "ms")
     result
   }
-
-  /*println("The full path is " +
-    Dijkstra.shortest(bacau, bucuresti, getGraph).foldLeft("")((acc, curr) =>
-      acc + " -> " + curr.name + " " + curr.tentativeDistance
-    ))*/
-
-  println("The full path is " +
-    BellmanFord.shortest(bacau, bucuresti, getBFGraph).foldLeft("")((acc, curr) =>
-      acc + " -> " + curr.name + " " + curr.tentativeDistance
-    ))
 }

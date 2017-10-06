@@ -21,7 +21,7 @@ trait Utils {
   def path(start: Node): List[Node] = {
     start.previous match {
       case Some(node) => path(node) ::: List(start)
-      case None       => List(start)
+      case None => List(start)
     }
   }
 }

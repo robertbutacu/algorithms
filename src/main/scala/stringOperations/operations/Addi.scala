@@ -35,7 +35,6 @@ object Addi {
       x._1.asDigit + x._2.asDigit
     }
 
-    //println(("Curr " + (getCurrent(curr) + acc.carry) % 10) + " " + acc.carry)
     ((getCurrent(curr) + acc.carry) % 10).toString ++ acc.total
   }
 
@@ -46,7 +45,6 @@ object Addi {
       x._1.asDigit + x._2.asDigit
     }
 
-    //println("Carry " + (getCarry(curr) + acc.carry) + " for " + curr + " " + acc)
     (getCarry(curr) + acc.carry) / 10
   }
 }

@@ -26,5 +26,6 @@ object Div {
       else
         divide(x, y, "0")
   }
+
   private def isSmaller(x: String,y : String): Boolean = x.length < y.length || (x.length == y.length && x < y)
 }
