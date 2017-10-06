@@ -20,4 +20,6 @@ object Main extends App with OperationFactory with StreamsExamples with Dijkstra
   println("The path is: ")
   shortest._1.foreach(e => println(e.name))
   println(shortest._2)
+
+  getDjikGraph.foreach(n => println(n.tentativeDistance))
 }

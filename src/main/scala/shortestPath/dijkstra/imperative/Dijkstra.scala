@@ -15,7 +15,6 @@ object Dijkstra extends DijkstraGraph {
                goalNode: Node,
                graph: Graph): Path = {
     def go(curr: Node, goalNode: Node, priorityQueue: mutable.MutableList[Node], visited: Set[Node]): Path = {
-      Thread.sleep(2000)
       println("Currently in: " + curr.name)
 
       //adding current node to visited
