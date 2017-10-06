@@ -37,7 +37,7 @@ object Dijkstra {
   }
 
   def transformEdge(edge: Edge, distance: Distance): Edge = {
-    Edge(edge.from, Node(edge.to.name, Math.min(edge.from.tentativeDistance + distance, edge.to.tentativeDistance)))
+    Edge(edge.from, Node(edge.to.name, Math.min(edge.from.tentativeDistance + distance, edge.to.tentativeDistance), Some(edge.from)))
   }
 
   def orderPriorityQueue(priorityQueue: PriorityQueue): PriorityQueue = {
