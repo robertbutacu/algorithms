@@ -13,7 +13,7 @@ object DijkstraFunc {
   case class Edge(from: Node, to: Node)
 
   def shortest(from: Node, to: Node, graph: Graph): Path = {
-    //@tailrec
+    @tailrec
     def go(curr: Node, currGraph: Graph, pq: PriorityQueue, vn: VisitedNodes): Path = {
       /**
         * add curr to visited list
@@ -31,8 +31,8 @@ object DijkstraFunc {
       val updatedPq = transformPriorityQueue(
         (updatedGraph filterKeys(e => e.from.name == curr.name) map (r => r._1.to)).toList,
         updatedVn,
-        pq
-      )
+        pq)
+
       if(curr.name == to.name) (List(), curr.tentativeDistance)
       else go(updatedPq.head, updatedGraph, updatedPq, updatedVn)
     }
