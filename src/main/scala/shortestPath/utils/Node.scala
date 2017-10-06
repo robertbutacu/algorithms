@@ -1,6 +1,6 @@
 package shortestPath.utils
 
-import shortestPath.dijkstra.Dijkstra.{Distance, Edges}
+import shortestPath.dijkstra.imperative.Dijkstra.{Distance, Edges}
 
 class Node(val name: String,
            var neighbors: Edges = List(),

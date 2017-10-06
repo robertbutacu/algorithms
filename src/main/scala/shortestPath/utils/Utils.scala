@@ -1,12 +1,12 @@
 package shortestPath.utils
 
-import shortestPath.dijkstra.Dijkstra.Graph
+import shortestPath.dijkstra.imperative.Dijkstra.Graph
 
 trait Utils {
   type Graph = List[Node]
   type Distance = Int
   type Edges = List[(Node, Distance)]
-  type Path = List[Node]
+  type Path = (Graph, Distance)
 
   def initialize(start: Node, graph: Graph): Unit = {
     graph foreach { node =>

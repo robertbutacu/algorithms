@@ -1,6 +1,7 @@
-package shortestPath.dijkstra
+package shortestPath.dijkstra.imperative
 
 import shortestPath.utils.{DijkstraGraph, Node}
+
 import scala.collection.mutable
 
 /**
@@ -33,7 +34,7 @@ object Dijkstra extends DijkstraGraph {
       updatedPq sortWith (_.tentativeDistance < _.tentativeDistance)
 
       if (updatedPq.isEmpty || curr == goalNode)
-        path(goalNode)
+        (path(goalNode), goalNode.tentativeDistance)
       else
         go(
           updatedPq.head,
