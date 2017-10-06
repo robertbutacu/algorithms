@@ -33,15 +33,18 @@ object Dijkstra {
   }
 
   def transformNeighbors(graph: Graph): Graph = {
-    Map[Edge, Distance]().empty
+    graph.map(r => (transformEdge(r._1, r._2), r._2))
   }
 
   def transformEdge(edge: Edge, distance: Distance): Edge = {
     Edge(edge.from, Node(edge.to.name, Math.min(edge.from.tentativeDistance + distance, edge.to.tentativeDistance)))
   }
 
-  def transformPriorityQueue(priorityQueue: PriorityQueue): PriorityQueue = {
+  def orderPriorityQueue(priorityQueue: PriorityQueue): PriorityQueue = {
     priorityQueue sortWith (_.tentativeDistance < _.tentativeDistance)
   }
 
+  def transformPriorityQueue(nodes: List[Node], visitedNodes: VisitedNodes, priorityQueue: PriorityQueue): PriorityQueue = {
+    orderPriorityQueue(priorityQueue ++ nodes filterNot visitedNodes.contains filterNot priorityQueue.contains)
+  }
 }
