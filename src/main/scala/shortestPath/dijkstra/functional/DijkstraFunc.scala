@@ -43,8 +43,8 @@ object DijkstraFunc {
     Map[Edge, Distance]().empty
   }
 
-  def getNeighbors(node: Node, graph: Graph): List[NodeId] = {
-    (graph filterKeys(e => e.from == node.id) map(c => c._1.to)).toList
+  def getNeighbors(node: Node, graph: Graph): List[(NodeId, Distance)] = {
+    (graph filterKeys(e => e.from == node.id) map(c => (c._1.to, c._2))).toList
   }
 
   def orderPriorityQueue(priorityQueue: PriorityQueue): PriorityQueue = {
