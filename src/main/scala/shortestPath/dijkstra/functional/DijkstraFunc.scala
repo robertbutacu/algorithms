@@ -11,10 +11,12 @@ object DijkstraFunc {
   type VisitedNodes  = Nodes
   type PriorityQueue = Nodes
   type Nodes         = List[Node]
+
   case class Node(id: NodeId,
                   name: CityName,
                   tentativeDistance : Distance = Int.MaxValue,
                   previous: Option[Node] = None)
+
   case class Edge(from: NodeId, to: NodeId)
 
   def shortest(from: Node, to: Node, nodes: Nodes, graph: Graph): Path = {
@@ -31,7 +33,10 @@ object DijkstraFunc {
 
         val updatedNodes = transformNeighbors(curr, neighbors, nodes)
 
-        val updatedPq = transformPriorityQueue(updatedNodes.filter(n => neighbors.keys.toList.contains(n.id)), updatedVn, pq filterNot(_.name == curr.name))
+        val updatedPq = transformPriorityQueue(
+          updatedNodes.filter(n => neighbors.keys.toList.contains(n.id)),
+          updatedVn,
+          pq filterNot(_.name == curr.name))
 
         go(updatedPq.head,
           updatedNodes,
