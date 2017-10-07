@@ -3,7 +3,7 @@ package shortestPath.dijkstra.functional
 import shortestPath.dijkstra.functional.DijkstraFunc.Node
 
 trait NodesExample {
-  val bacau = Node(1, "Bacau")
+  val bacau = Node(1, "Bacau", 0)
   val roman = Node(2, "Roman")
   val piatraNeamt = Node(3, "Piatra Neamt")
   val iasi = Node(4, "Iasi")

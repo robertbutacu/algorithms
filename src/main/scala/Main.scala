@@ -1,4 +1,5 @@
 
+import shortestPath.dijkstra.functional.{DijkstraFunc, GraphExample}
 import shortestPath.dijkstra.imperative.Dijkstra
 import shortestPath.utils.{BellmanFordGraph, DijkstraGraph}
 import stringOperations._
@@ -7,7 +8,9 @@ import stringOperations.examples.StreamsExamples
 /**
   * Created by Robert-PC on 9/21/2017.
   */
-object Main extends App with OperationFactory with StreamsExamples with DijkstraGraph with BellmanFordGraph{
+object Main extends App with OperationFactory
+  with StreamsExamples
+  with GraphExample{
   def time[R](block: => R, methodName: String): R = {
     val t0 = System.currentTimeMillis()
     val result = block // call-by-name
@@ -16,10 +19,12 @@ object Main extends App with OperationFactory with StreamsExamples with Dijkstra
     result
   }
 
-  val shortest = Dijkstra.shortest(bacau, timisoara, getDjikGraph)
+  /*val shortest = Dijkstra.shortest(bacau, timisoara, getDjikGraph)
   println("The path is: ")
   shortest._1.foreach(e => println(e.name))
   println(shortest._2)
 
-  getDjikGraph.foreach(n => println(n.tentativeDistance))
+  getDjikGraph.foreach(n => println(n.tentativeDistance))*/
+
+  println(DijkstraFunc.shortest(bacau, timisoara, getNodes, getImmDijGraph)._2)
 }

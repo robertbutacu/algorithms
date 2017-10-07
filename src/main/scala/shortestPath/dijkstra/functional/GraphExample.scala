@@ -1,8 +1,8 @@
 package shortestPath.dijkstra.functional
 
-import shortestPath.dijkstra.functional.DijkstraFunc.{Distance, Edge, Graph}
+import shortestPath.dijkstra.functional.DijkstraFunc.{Distance, Edge, Graph, Node}
 
-trait GraphExample {
+trait GraphExample extends NodesExample{
   /*
   val bacau = Node(1, "Bacau")
   val roman = Node(2, "Roman")
@@ -29,5 +29,9 @@ trait GraphExample {
     )
 
     graph
+  }
+
+  def getNodes: List[Node] = {
+    List(bacau, roman, piatraNeamt, iasi, cluj, bucuresti, buzau, timisoara)
   }
 }
