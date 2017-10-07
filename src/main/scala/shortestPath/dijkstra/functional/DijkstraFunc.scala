@@ -39,19 +39,15 @@ object DijkstraFunc {
 
   //def path(goal: Node, graph: Graph)
 
-  def transformNeighbors(graph: Graph, nodes: Nodes): Graph = {
+  def transformNeighbors(node: Node, graph: Graph, nodes: Nodes): Graph = {
     Map[Edge, Distance]().empty
   }
 
-  def transformEdge(edge: Edge, distance: Distance): Edge = {
-    Edge(0 , 0)
-  }
-
   def orderPriorityQueue(priorityQueue: PriorityQueue): PriorityQueue = {
-    List()
+    priorityQueue sortWith (_.tentativeDistance < _.tentativeDistance)
   }
 
   def transformPriorityQueue(nodes: List[Node], visitedNodes: VisitedNodes, priorityQueue: PriorityQueue): PriorityQueue = {
-    List()
+    orderPriorityQueue(priorityQueue ++ nodes filterNot visitedNodes.contains filterNot priorityQueue.contains)
   }
 }
