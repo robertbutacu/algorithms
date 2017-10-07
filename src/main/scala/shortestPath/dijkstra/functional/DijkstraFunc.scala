@@ -34,7 +34,7 @@ object DijkstraFunc {
       if(curr.name == to.name)
         (List(), curr.tentativeDistance)
       else{
-        //println("Currently in " + curr.name)
+        println("Currently in " + curr.name + " " + curr.tentativeDistance)
 
         val neighbors = getNeighbors(curr, graph)
 
@@ -42,11 +42,8 @@ object DijkstraFunc {
 
         val updatedNodes = transformNeighbors(curr, neighbors, nodes)
 
-        val updatedPq = transformPriorityQueue(nodes.filter(n => neighbors.keys.toList.contains(n.id)), updatedVn, pq filterNot(_.name == curr.name))
+        val updatedPq = transformPriorityQueue(updatedNodes.filter(n => neighbors.keys.toList.contains(n.id)), updatedVn, pq filterNot(_.name == curr.name))
 
-        updatedNodes.foreach(n => println(n.name + " " + n.tentativeDistance))
-
-        println()
         go(updatedPq.head,
           updatedNodes,
           updatedPq,
@@ -59,11 +56,9 @@ object DijkstraFunc {
 
   def transformNeighbors(curr: Node, neighbors: Map[NodeId, Distance], nodes: Nodes): Nodes = {
     nodes.map(n =>
-      if (neighbors.keys.toList.contains(n.id) && (neighbors(n.id) + curr.tentativeDistance < n.tentativeDistance)){
-        //println("In " + curr.name + " to " + n.name + " adding " + curr.tentativeDistance + " " + neighbors(n.id))
+      if (neighbors.keys.toList.contains(n.id) && (neighbors(n.id) + curr.tentativeDistance < n.tentativeDistance))
         Node(n.id, n.name, neighbors(n.id) + curr.tentativeDistance, Some(curr))
-      }
-        else
+      else
         n
     )
   }
