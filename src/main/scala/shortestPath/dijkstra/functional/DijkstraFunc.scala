@@ -2,6 +2,19 @@ package shortestPath.dijkstra.functional
 
 import scala.annotation.tailrec
 
+/**
+  * Created by Robert-PC on 9/21/2017.
+  *
+  *   Dijkstra's algorithm is an algorithm for finding the shortest paths between nodes in a graph, which may represent, for example, road networks.
+  * It works only on graphs with positive weighted edges.
+  *
+  *   In order to assure immutability as easy as possible, the graph itself is represented as a list of Edges represented by 2 IDs of nodes,
+  * instead of the nodes itself, and the nodes are stored in a list.
+  *   This way, if a tentative distance is to be updated, it will updated in a single place, not for every appearance of the node in the graph.
+  *   -> true for prevNode also.
+  *   Thus, it is easier to keep track of the state of the nodes, and also to output the final path to the destination node.
+  */
+
 object DijkstraFunc {
   type CityName      = String
   type Distance      = Int
@@ -9,8 +22,8 @@ object DijkstraFunc {
   type Graph         = Map[Edge, Distance]
   type Path          = (Nodes, Distance)
   type VisitedNodes  = Nodes
-  type PriorityQueue = Nodes
-  type Nodes         = List[Node]
+  type PriorityQueue = List[Node]
+  type Nodes         = Set[Node]
 
   case class Node(id: NodeId,
                   name: CityName,
@@ -23,13 +36,13 @@ object DijkstraFunc {
     @tailrec
     def go(curr: Node, nodes: Nodes, pq: PriorityQueue, vn: VisitedNodes): Path = {
       if(curr.name == to.name)
-        (path(curr) :+ curr, curr.tentativeDistance)
+        (path(curr) + curr, curr.tentativeDistance)
       else{
         println("Currently in " + curr.name + " " + curr.tentativeDistance)
 
         val neighbors = getNeighbors(curr, graph)
 
-        val updatedVn = vn :+ curr
+        val updatedVn = vn + curr
 
         val updatedNodes = transformNeighbors(curr, neighbors, nodes)
 
@@ -45,13 +58,13 @@ object DijkstraFunc {
       }
     }
 
-    go(from, nodes, List(from), List())
+    go(from, nodes, List(from), Set())
   }
 
   def path(curr: Node): Nodes = {
     curr.previous match {
-      case None       => List()
-      case Some(node) => path(node) :+ node
+      case None       => Set()
+      case Some(node) => path(node) + node
     }
   }
 
@@ -72,7 +85,7 @@ object DijkstraFunc {
     priorityQueue sortWith (_.tentativeDistance < _.tentativeDistance)
   }
 
-  def transformPriorityQueue(nodes: List[Node], visitedNodes: VisitedNodes, priorityQueue: PriorityQueue): PriorityQueue = {
-    orderPriorityQueue(priorityQueue ++ (nodes filterNot visitedNodes.contains filterNot priorityQueue.contains))
+  def transformPriorityQueue(nodes: Set[Node], visitedNodes: VisitedNodes, priorityQueue: PriorityQueue): PriorityQueue = {
+    orderPriorityQueue(priorityQueue ++ (nodes diff visitedNodes filterNot priorityQueue.contains))
   }
 }

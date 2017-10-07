@@ -1,6 +1,6 @@
 package shortestPath.dijkstra.functional
 
-import shortestPath.dijkstra.functional.DijkstraFunc.{Distance, Edge, Graph, Node}
+import shortestPath.dijkstra.functional.DijkstraFunc._
 
 trait GraphExample extends NodesExample{
   /*
@@ -31,7 +31,7 @@ trait GraphExample extends NodesExample{
     graph
   }
 
-  def getNodes: List[Node] = {
-    List(bacau, roman, piatraNeamt, iasi, cluj, bucuresti, buzau, timisoara)
+  def getNodes: Nodes = {
+    Set(bacau, roman, piatraNeamt, iasi, cluj, bucuresti, buzau, timisoara)
   }
 }
