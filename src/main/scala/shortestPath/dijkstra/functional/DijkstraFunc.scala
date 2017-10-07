@@ -1,7 +1,5 @@
 package shortestPath.dijkstra.functional
 
-import java.util.UUID
-
 import scala.annotation.tailrec
 
 object DijkstraFunc {
@@ -20,17 +18,8 @@ object DijkstraFunc {
   case class Edge(from: NodeId, to: NodeId)
 
   def shortest(from: Node, to: Node, nodes: Nodes, graph: Graph): Path = {
-    //@tailrec
+    @tailrec
     def go(curr: Node, nodes: Nodes, pq: PriorityQueue, vn: VisitedNodes): Path = {
-      /**
-        * add curr to visited list
-        *
-        * updated current node's neighbors
-        *
-        * update priority queue
-        *
-        * recursive call to go until curr is equal to to
-        */
       if(curr.name == to.name)
         (path(curr) :+ curr, curr.tentativeDistance)
       else{
