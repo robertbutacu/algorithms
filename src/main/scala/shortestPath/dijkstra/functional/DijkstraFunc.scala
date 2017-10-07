@@ -8,12 +8,12 @@ object DijkstraFunc {
   type CityName      = String
   type Distance      = Int
   type NodeId        = Int
-  type Graph         = Map[NodeId, Distance]
-  type Path          = (List[Edge], Distance)
-  type VisitedNodes  = List[NodeId]
+  type Graph         = Map[Edge, Distance]
+  type Path          = (Nodes, Distance)
+  type VisitedNodes  = Nodes
   type PriorityQueue = Nodes
   type Nodes         = List[Node]
-  case class Node(id: NodeId = UUID.randomUUID().toString.toInt,
+  case class Node(id: NodeId,
                   name: CityName,
                   tentativeDistance : Distance = Int.MaxValue,
                   previous: Option[Node] = None)
@@ -40,7 +40,7 @@ object DijkstraFunc {
   //def path(goal: Node, graph: Graph)
 
   def transformNeighbors(graph: Graph, nodes: Nodes): Graph = {
-    Map[NodeId, Distance]().empty
+    Map[Edge, Distance]().empty
   }
 
   def transformEdge(edge: Edge, distance: Distance): Edge = {
