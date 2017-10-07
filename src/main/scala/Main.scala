@@ -26,5 +26,9 @@ object Main extends App with OperationFactory
 
   getDjikGraph.foreach(n => println(n.tentativeDistance))*/
 
-  println(DijkstraFunc.shortest(bacau, timisoara, getNodes, getImmDijGraph)._2)
+  val shortest = DijkstraFunc.shortest(bacau, bucuresti, getNodes, getImmDijGraph)
+  println("The path is: ")
+  shortest._1.foreach(e => println(e.name))
+  println(shortest._2)
+
 }

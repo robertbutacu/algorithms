@@ -32,7 +32,7 @@ object DijkstraFunc {
         * recursive call to go until curr is equal to to
         */
       if(curr.name == to.name)
-        (List(), curr.tentativeDistance)
+        (path(curr) :+ curr, curr.tentativeDistance)
       else{
         println("Currently in " + curr.name + " " + curr.tentativeDistance)
 
@@ -51,7 +51,14 @@ object DijkstraFunc {
       }
     }
 
-    go(from, nodes, List(), List())
+    go(from, nodes, List(from), List())
+  }
+
+  def path(curr: Node): Nodes = {
+    curr.previous match {
+      case None       => List()
+      case Some(node) => path(node) :+ node
+    }
   }
 
   def transformNeighbors(curr: Node, neighbors: Map[NodeId, Distance], nodes: Nodes): Nodes = {
