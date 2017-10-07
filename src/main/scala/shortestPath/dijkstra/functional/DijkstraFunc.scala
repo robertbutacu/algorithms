@@ -8,9 +8,9 @@ import scala.annotation.tailrec
   *   Dijkstra's algorithm is an algorithm for finding the shortest paths between nodes in a graph, which may represent, for example, road networks.
   * It works only on graphs with positive weighted edges.
   *
-  *   In order to assure immutability as easy as possible, the graph itself is represented as a list of Edges represented by 2 IDs of nodes,
-  * instead of the nodes itself, and the nodes are stored in a list.
-  *   This way, if a tentative distance is to be updated, it will updated in a single place, not for every appearance of the node in the graph.
+  *   In order to assure immutability as easy as possible, the graph itself is represented as a list of Edges composed of 2 IDs of nodes,
+  * instead of the nodes themselves, which are being stored in a list.
+  *   This way, if a tentative distance is to be updated, it will be updated in a single place, not for every appearance of the node in the graph.
   *   -> true for prevNode also.
   *   Thus, it is easier to keep track of the state of the nodes, and also to output the final path to the destination node.
   */
