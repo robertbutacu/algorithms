@@ -6,4 +6,5 @@ Includes:
   - Dijkstra's Algorithm for Shortest Path in a Graph
     - functional approach
     - imperative approach
+  - Bellman-Ford's Algorithm for Shortest Path in a Graph with negative costs
   - a mini-library that executes operations on Strings ( add, sub, mul, div, pow, etc ).
