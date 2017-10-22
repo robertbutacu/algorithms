@@ -37,7 +37,7 @@ trait OperationFactory extends Handler{
       1. both operands are defined
       2. both operands contain digits only, disregarding "-"
       3. the "-" operand is currently placed ( first position )
-   */
+  */
 
   private def isValid(x: Option[StringNumber], y: Option[StringNumber], op: Operation): Option[(StringNumber, StringNumber)] = {
     (x, y) match {

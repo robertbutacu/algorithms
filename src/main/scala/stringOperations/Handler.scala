@@ -148,10 +148,10 @@ trait Handler{
   private def isDivisorZero(x: StringNumber): Boolean = x().dropWhile(_.equals('0')).isEmpty
 
   /*
-  x is bigger than y in 2 cases:
-    1. longer size
-    2. same size, but, character for character, x is the first one to contain a bigger one.
- */
+    x is bigger than y in 2 cases:
+      1. longer size
+      2. same size, but, character for character, x is the first one to contain a bigger one.
+  */
 
   private def isBigger(x: StringNumber, y: StringNumber): Boolean = {
     if (x().length > y().length || (x().length == y().length && x() > y()))

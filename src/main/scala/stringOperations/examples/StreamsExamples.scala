@@ -7,7 +7,7 @@ import stringOperations.utils._
   * Created by Robert-PC on 9/25/2017.
   */
 
-trait StreamsExamples extends OperationFactory {
+object StreamsExamples extends OperationFactory {
   //TODO
   lazy val squares: Stream[StringNumber] = Stream.empty
 
