@@ -4,12 +4,13 @@ import shortestPath.dijkstra.imperative.Dijkstra
 import shortestPath.utils.{BellmanFordGraph, DijkstraGraph}
 import stringOperations._
 import stringOperations.examples.StreamsExamples
+import towerOfHanoi.backtracking.Backtracking
+import towerOfHanoi.utils.First
 
 /**
   * Created by Robert-PC on 9/21/2017.
   */
 object Main extends App with OperationFactory
-  with StreamsExamples
   with GraphExample{
   def time[R](block: => R, methodName: String): R = {
     val t0 = System.currentTimeMillis()
@@ -18,17 +19,6 @@ object Main extends App with OperationFactory
     println(s"Elapsed time on $methodName: " + (t1 - t0) + "ms")
     result
   }
-
-  /*val shortest = Dijkstra.shortest(bacau, timisoara, getDjikGraph)
-  println("The path is: ")
-  shortest._1.foreach(e => println(e.name))
-  println(shortest._2)
-
-  getDjikGraph.foreach(n => println(n.tentativeDistance))*/
-
-  val shortest = DijkstraFunc.shortest(bacau, bucuresti, getNodes, getImmDijGraph)
-  println("The path is: ")
-  shortest._1.foreach(e => println(e.name))
-  println(shortest._2)
+  println(Backtracking.solveHanoi(3, 3, First))
 
 }
