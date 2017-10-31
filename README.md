@@ -2,7 +2,7 @@
 Implementation for some of the more advanced algorithms.
 
 Includes:
-  - fast exponentiation
+  - Fast Exponentiation
   - Dijkstra's Algorithm for Shortest Path in a Graph
     - functional approach
     - imperative approach
