@@ -1,5 +1,5 @@
 # AdvancedAlgorithms
-Implementation for some of the more advanced algorithms.
+Implementation for some of the more interesting(subjective) algorithms.
 
 Includes:
   - Fast Exponentiation
